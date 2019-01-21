@@ -6,11 +6,9 @@ class TestGetStatement(TestCase):
 
     TRANSACTIONS_DICT = [
         {
-            'account_id': 1,
             'amount': 1
         },
         {
-            'account_id': 1,
             'amount': 2
         }
     ]
@@ -22,10 +20,13 @@ class TestGetStatement(TestCase):
     def create_transactions(self):
         import copy
         from wallet.models import Transaction
+        from wallet.models import Account
+
+        account = Account.get_account(customer_id=self.customer_id)
 
         for item in copy.deepcopy(self.TRANSACTIONS_DICT):
             Transaction.create_transaction_for_account_id(
-                account_id=item['account_id'],
+                account_id=account.id,
                 amount=item['amount']
             )
 
@@ -41,5 +42,22 @@ class TestGetStatement(TestCase):
         self.create_account()
         self.create_transactions()
 
+        transactions = Transaction.get_statement(customer_id=self.customer_id)
+        self.assertEqual(len(transactions), 2)
+
+    def test_get_statement_in_multiple_users_transactions(self):
+        from wallet.models import Transaction
+
+        self.create_account()
+        self.create_transactions()
+
+        self.customer_id = 'customer2'
+        self.create_account()
+        self.create_transactions()
+
+        transactions = Transaction.get_statement(customer_id=self.customer_id)
+        self.assertEqual(len(transactions), 2)
+
+        self.customer_id = 'customer1'
         transactions = Transaction.get_statement(customer_id=self.customer_id)
         self.assertEqual(len(transactions), 2)
