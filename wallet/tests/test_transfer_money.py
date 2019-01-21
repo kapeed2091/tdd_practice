@@ -15,3 +15,14 @@ class TestTransferMoney(TestCase):
             Account.transfer_money(self.customer_id,
                                    self.beneficiary_customer_id,
                                    10000)
+
+    def testcase_transfer_amount_gt_zero(self):
+        from wallet.models import Account
+        Account.create_account(self.customer_id)
+        Account.create_account(self.beneficiary_customer_id)
+        Account.add_balance(customer_id=self.customer_id, amount=1000)
+
+        with self.assertRaises(Exception):
+            Account.transfer_money(self.customer_id,
+                                   self.beneficiary_customer_id,
+                                   -3)
