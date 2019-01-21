@@ -59,3 +59,7 @@ class Account(models.Model):
     @classmethod
     def get_account(cls, customer_id):
         return cls.objects.get(customer_id=customer_id)
+
+    @classmethod
+    def transfer_money(cls, payee_customer_id, beneficiary_customer_id, amount):
+        pass
