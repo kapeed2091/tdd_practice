@@ -16,4 +16,4 @@ class Transaction(models.Model):
     def get_statement(cls, customer_id):
         return cls.objects.filter(
             account__customer_id=customer_id
-        ).order_by('-transaction_datetime')
+        ).order_by('-transaction_datetime', '-id')
