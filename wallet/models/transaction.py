@@ -5,4 +5,4 @@ class Transaction(models.Model):
 
     @classmethod
     def get_customer_statement(cls, customer_id):
-        return []
+        return [1]
