@@ -28,10 +28,13 @@ class TestTransferBalance(TestCase):
         self.assertEquals(receiver_old_balance, receiver_new_balance-10)
 
     def testcase_transfer_more_than_sender_balance(self):
-        sender_old_balance = Account.get_balance(self.sender_customer_id)
-        receiver_old_balance = Account.get_balance(self.receiver_customer_id)
-
         with self.assertRaises(Exception):
             Account.transfer_balance(
                 self.sender_customer_id, self.receiver_customer_id, 60)
+
+    def testcase_transfer_balance_is_negative(self):
+        with self.assertRaises(Exception):
+            Account.transfer_balance(
+                self.sender_customer_id, self.receiver_customer_id, -10)
+
 
