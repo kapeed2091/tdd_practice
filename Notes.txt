@@ -21,6 +21,7 @@ TDD TODO List (Functionality Layer):
         - account already exists
         
     - Transfer Money
+        - insufficient amount
     - Add Money
     - Get Balance
     - Get Statement

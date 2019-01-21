@@ -61,7 +61,14 @@ class Account(models.Model):
         return cls.objects.get(customer_id=customer_id)
 
     def transfer_amount(self, amount, customer_id):
-        self.balance -= amount
-        self.save()
-
+        Account.deduct_balance(customer_id=self.customer_id, amount=amount)
         Account.add_balance(customer_id=customer_id, amount=amount)
+
+    @classmethod
+    def deduct_balance(cls, customer_id, amount):
+        if cls.is_negative_amount(amount):
+            raise Exception
+
+        account = cls.get_account(customer_id)
+        account.balance -= amount
+        account.save()
