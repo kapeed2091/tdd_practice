@@ -62,12 +62,15 @@ class Account(models.Model):
 
     @classmethod
     def transfer_money(cls, from_customer_id, to_customer_id, money):
-        pass
+        from_customer = cls.get_account(from_customer_id)
+        to_customer = cls.get_account(to_customer_id)
+        from_customer._debit_money(money=money)
+        to_customer._credit_money(money=money)
 
-    @classmethod
-    def _credit_money(cls, customer_id, money):
-        pass
+    def _credit_money(self, money):
+        self.balance += money
+        self.save()
 
-    @classmethod
-    def _debit_money(cls, customer_id, money):
-        pass
+    def _debit_money(self, money):
+        self.balance -= money
+        self.save()

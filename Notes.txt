@@ -25,6 +25,7 @@ TDD TODO List (Functionality Layer):
     - Transfer Money
     	- [ success ]
     	- balance insufficient
+    	- balance negative
     - Get Statement
     
     Done:
