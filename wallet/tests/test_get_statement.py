@@ -31,7 +31,10 @@ class TestTransferMoney(TestCase):
         customer_1_statements = Transaction.get_statement(
             customer_id=self.customer_id_1)
 
+        self.assertEqual(2, len(customer_1_statements))
+
         add_balance_statement_for_customer_1 = customer_1_statements[0]
+        from wallet.constants.general import TransactionType
         self.assertEqual(
             add_balance_statement_for_customer_1['transaction_type'],
             TransactionType.ADD_BALANCE.value)
@@ -49,6 +52,8 @@ class TestTransferMoney(TestCase):
 
         customer_2_statements = Transaction.get_statement(
             customer_id=self.customer_id_2)
+
+        self.assertEqual(2, len(customer_2_statements))
 
         add_balance_statement_for_customer_2 = customer_2_statements[0]
         self.assertEqual(

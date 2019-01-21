@@ -17,20 +17,28 @@ TDD TODO List (Functionality Layer):
     TDD TODO List (Functionality Layer):
 
     - Create Account
+
         - account_id, customer_id lengths
+
     - Get Balance
+
         - When user has non-zero balance
+
     - Add balance
+
         - float balance
         - negative balance
         - remove duplication in add balance and _credit_money
+
     - Transfer Money
 
     	- in a single transaction
+    	- custom exception
+    	- transfer to wrong account
 
     - Get Statement
 
-        - success - credit balance and debit balance
+        - [ success - credit balance and debit balance ]
         - no transactions
     
     Done:
