@@ -23,7 +23,14 @@ TDD TODO List (Functionality Layer):
     - Transfer Money
     - Add Money
     - Get Balance
-    - Get Statement
+    - [Get Statement]
+        - Fetching for customer without any transactions(should result empty list) [Done]
+        - Fetching for customer with some transactions [Done]
+        - Fetching transactions of a customer shouldn't return other customer's statement [Done]
+        - Order of statements (latest transactions first) [Done]
+        - Handling same transaction_datetime case [Done]
+
+
     
     Done:
        
