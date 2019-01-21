@@ -40,3 +40,22 @@ class Account(models.Model):
     def get_balance(cls, customer_id):
         account = cls.objects.get(customer_id=customer_id)
         return account.balance
+
+    @classmethod
+    def add_balance(cls, customer_id, amount):
+        if cls.is_negative_amount(amount):
+            raise Exception
+
+        account = cls.get_account(customer_id)
+        account.balance += amount
+        account.save()
+
+    @staticmethod
+    def is_negative_amount(amount):
+        if amount < 0:
+            return True
+        return False
+
+    @classmethod
+    def get_account(cls, customer_id):
+        return cls.objects.get(customer_id=customer_id)
