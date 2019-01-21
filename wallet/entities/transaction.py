@@ -9,7 +9,7 @@ class Transaction(object):
     @classmethod
     def create_credit_transaction(cls, amount):
         return cls(
-            transaction_type=None,
+            transaction_type=constants.TransactionType.CREDIT.value,
             transfer_type=constants.TransferType.EXTERNAL.value,
             amount=amount
         )
