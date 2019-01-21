@@ -39,3 +39,9 @@ class TestTransferAmount(TestCase):
             Account.transfer_amount(
                 amount=1000, transferee_customer_id=self.customer_id_1,
                 transferred_customer_id=self.customer_id_2)
+
+    def test_case_negative_amount(self):
+        with self.assertRaises(Exception):
+            Account.transfer_amount(
+                amount=-100, transferee_customer_id=self.customer_id_1,
+                transferred_customer_id=self.customer_id_2)
