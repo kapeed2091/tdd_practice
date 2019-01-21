@@ -25,9 +25,11 @@ class TestTransferAmount(TestCase):
             customer_id=self.customer_id_1)
         prev_balance_of_customer_2 = Account.get_balance(
             customer_id=self.customer_id_2)
+
         Account.transfer_amount(
             amount=10, transferee_customer_id=self.customer_id_1,
             transferred_customer_id=self.customer_id_2)
+
         post_balance_of_customer_1 = Account.get_balance(
             customer_id=self.customer_id_1)
         post_balance_of_customer_2 = Account.get_balance(
