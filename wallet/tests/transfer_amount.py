@@ -9,7 +9,10 @@ class TestTransferAmount(TestCase):
         from wallet.models import Account
 
         Account.create_account(customer_id=self.customer_id_1)
+        Account.add_balance(customer_id=self.customer_id_1, amount=100)
+
         Account.create_account(customer_id=self.customer_id_2)
+        Account.add_balance(customer_id=self.customer_id_2, amount=100)
 
     def test_case_successful_transfer(self):
         from wallet.models import Account
