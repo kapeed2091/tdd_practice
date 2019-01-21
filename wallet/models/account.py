@@ -46,6 +46,9 @@ class Account(models.Model):
         if cls.is_negative_amount(amount):
             raise Exception
 
+        if cls.is_non_int_type(amount):
+            raise Exception
+
         account = cls.get_account(customer_id)
         account.balance += amount
         account.save()
@@ -53,6 +56,12 @@ class Account(models.Model):
     @staticmethod
     def is_negative_amount(amount):
         if amount < 0:
+            return True
+        return False
+
+    @staticmethod
+    def is_non_int_type(amount):
+        if type(amount) != int:
             return True
         return False
 
