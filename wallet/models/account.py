@@ -87,6 +87,9 @@ class Account(models.Model):
     def transfer_amount(cls, source_customer_id, destination_customer_id,
                         transfer_amount):
 
+        if cls.is_negative_amount(transfer_amount):
+            raise Exception('Invalid amount')
+
         cls.add_balance(customer_id=destination_customer_id,
                         amount=transfer_amount)
 
