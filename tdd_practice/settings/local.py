@@ -1,7 +1,7 @@
 import os
 
-from ib_gamification_backend.settings.base import *
-from ib_gamification_backend.settings.base_swagger_utils import *
+from tdd_practice.settings.base import *
+from tdd_practice.settings.base_swagger_utils import *
 
 
 # SECURITY WARNING: keep the secret key used in production secret!

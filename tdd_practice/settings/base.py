@@ -18,21 +18,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 
 
 ALLOWED_HOSTS = [
-    "ib-gamification-backend-prod.apigateway.in",
-    "ib-gamification-backend-alpha.apigateway.in",
-    "ib-gamification-backend-beta.apigateway.in",
-    "ib-gamification-backend-gamma.apigateway.in",
-    "ib-gamification-backend-cognito.apigateway.in",
     "127.0.0.1",
     "localhost",
-    "192.168.1.87",
 ]
 
-ROOT_URLCONF = 'ib_gamification_backend.urls'
+ROOT_URLCONF = 'tdd_practice.urls'
 
 CSRF_COOKIE_SECURE = False
 
-WSGI_APPLICATION = 'ib_gamification_backend.wsgi.application'
+WSGI_APPLICATION = 'tdd_practice.wsgi.application'
 
 SCRIPT_NAME = "/" + os.environ.get("STAGE", "alpha")
 
@@ -369,7 +363,7 @@ AWS_CLOUDFRONT_DOMAIN = os.environ.get("AWS_CLOUDFRONT_DOMAIN", "")
 WHITELISTED_PHONE_NUMBERS = str(
     os.environ.get("WHITELISTED_PHONE_NUMBERS", "+918437479642"))
 
-FOO_USER_TO_HEADERS_CONVERTER = 'ib_gamification_backend.common.foo_user_to_headers_converter.foo_user_to_headers_converter'
+FOO_USER_TO_HEADERS_CONVERTER = 'tdd_practice.common.foo_user_to_headers_converter.foo_user_to_headers_converter'
 
 CREATE_USER_ON_API_KEY_HEADER = True
 
@@ -387,68 +381,6 @@ CACHEOPS_DEFAULTS = {
 }
 
 CACHEOPS = {
-    'ib_resource.Resource': {'ops': 'all'},
-    'ib_resource.ResourceVernacularDetails': {'ops': 'all'},
-    'ib_resource.ResourceConfig': {'ops': 'all'},
-    'ib_resource.ResourceConfigVernacularDetails': {'ops': 'all'},
-    'ib_resource.ResourceHolder': {'ops': 'all'},
-    'ib_resource.ResourceHolderVernacularDetails': {'ops': 'all'},
-    'ib_resource.ResourceInResourceHolder': {'ops': 'all'},
-
-    'ib_game_object.BuyGOConfig': {'ops': 'all'},
-    'ib_game_object.BuyGOConfigMap': {'ops': 'all'},
-    'ib_game_object.ChildGameObjectMap': {'ops': 'all'},
-    'ib_game_object.Deck': {'ops': 'all'},
-    'ib_game_object.DeckCriteria': {'ops': 'all'},
-    'ib_game_object.DeckCriteriaMap': {'ops': 'all'},
-    'ib_game_object.GameObject': {'ops': 'all'},
-    'ib_game_object.GameObjectAttribute': {'ops': 'all'},
-    'ib_game_object.GameObjectConfig': {'ops': 'all'},
-    'ib_game_object.GameObjectVernacularDetails': {'ops': 'all'},
-    'ib_game_object.GOLevelUpgradeDetails': {'ops': 'all'},
-    'ib_game_object.GOProperty': {'ops': 'all'},
-    'ib_game_object.GOPropertyMap': {'ops': 'all'},
-    'ib_game_object.GOPropertyMapLevelDetails': {'ops': 'all'},
-    'ib_game_object.GOPropertyMapLevelDetailsMap': {'ops': 'all'},
-    'ib_game_object.GOPropertyVernacularDetails': {'ops': 'all'},
-    'ib_game_object.GORarityConfig': {'ops': 'all'},
-    'ib_game_object.GOTypeCategory': {'ops': 'all'},
-
-    'ib_score_board.HallOfFame': {'ops': 'all'},
-    'ib_score_board.HallOfFameVernacularDetails': {'ops': 'all'},
-
-    'ib_treasure.PeriodicTreasureConfig': {'ops': 'all'},
-    'ib_treasure.PeriodicTreasureConfigMap': {'ops': 'all'},
-    'ib_treasure.SlotTreasureConfig': {'ops': 'all'},
-    'ib_treasure.SlotTreasureConfigMap': {'ops': 'all'},
-    'ib_treasure.TreasureUnlockConfig': {'ops': 'all'},
-
-    'ib_gamification.Entity': {'ops': 'all'},
-    'ib_gamification.Attribute': {'ops': 'all'},
-    'ib_gamification.Level': {'ops': 'all'},
-    'ib_gamification.LevelResourceCondition': {'ops': 'all'},
-    'ib_gamification.LevelUnlockEntity': {'ops': 'all'},
-    'ib_gamification.LevelUnlockGO': {'ops': 'all'},
-    'ib_gamification.LevelVernacularDetails': {'ops': 'all'},
-    'ib_gamification.Rarity': {'ops': 'all'},
-    'ib_gamification.RarityVernacularDetails': {'ops': 'all'},
-    'ib_gamification.XPLevelUpgradeDetails': {'ops': 'all'},
-
-    'ib_game_env.ChildMSMap': {'ops': 'all'},
-    'ib_game_env.GameMode': {'ops': 'all'},
-    'ib_game_env.GameModeVernacularDetails': {'ops': 'all'},
-    'ib_game_env.MicroStadium': {'ops': 'all'},
-    'ib_game_env.MicroStadiumVernacularDetails': {'ops': 'all'},
-    'ib_game_env.Stadium': {'ops': 'all'},
-    'ib_game_env.StadiumVernacularDetails': {'ops': 'all'},
-
-    'ib_shop.Shop': {'ops': 'all'},
-    'ib_shop.ShopVernacularDetails': {'ops': 'all'},
-
-    'ib_tournament.Tournament': {'ops': 'all'},
-    'ib_tournament.TournamentVernacularDetails': {'ops': 'all'},
-
-    'gas_profile.UserDetails': {'ops': 'all'},
 }
 
 CUSTOM_SCOPES_CHECK_FUNCTION = 'gas_auth_backend.common.check_custom_scopes.check_custom_scopes'

@@ -1,7 +1,7 @@
 import os
 
 
-from ib_gamification_backend.settings.base import *
+from tdd_practice.settings.base import *
 
 # swagger utils #
 
@@ -15,29 +15,6 @@ THIRD_PARTY_APPS = [
 ]
 
 APPS = [
-    # "ib_gamification",
-    # "ib_game_object",
-    # "ib_resource",
-    # "ib_treasure",
-    # "ib_content_portal",
-    # "ib_shop",
-    # "ib_club",
-    # "ib_sponsorship",
-    # "ib_game_env",
-    # "ib_tournament",
-    # "ib_score_board",
-    # "ib_digital_ads",
-    # "ib_mini_games",
-    # "ib_match",
-    # "ib_team",
-    # "ib_challenge",
-    # "ib_power_ups",
-    # "ib_consistency_reward",
-    # "ib_alarms",
-    # "ib_badges",
-    # "ib_bookings",
-    # "ib_bet",
-    # "ib_mini_games_public",
     "tdd_wallet",
 ]
 
@@ -102,10 +79,6 @@ SWAGGER_UTILS = {
 }
 
 THIRD_PARTY_SWAGGER_APPS = [
-    "ib_groups",
-    # "ib_action",
-    "ib_notifications",
-    "leaderboards",
     "gas_profile",
 
 ]

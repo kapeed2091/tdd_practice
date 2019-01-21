@@ -19,7 +19,7 @@ def get_version(*file_paths):
         return version_match.group(1)
     raise RuntimeError('Unable to find version string.')
 
-version = get_version('ib_gamification_backend', '__init__.py')
+version = get_version('tdd_practice', '__init__.py')
 
 if sys.argv[-1] == 'publish':
     try:
@@ -55,34 +55,9 @@ setup(
     long_description=readme + '\n\n' + history,
     author='iB Hubs',
     author_email='devops@ibtspl.com',
-    url='https://bitbucket.org/rahulsccl/ib_gamification_backend-django',
+    url='https://github.com/kapeed2091/tdd_practice',
     packages=[
-        'ib_club',
-        'ib_content_portal',
-        'ib_digital_ads',
-        'ib_game_env',
-        'ib_game_object',
-        'ib_gamification',
-        'ib_gamification_backend',
-        'ib_gamification_common',
-        'ib_gamification_validation',
-        'ib_match',
-        'ib_mini_games',
-        'ib_resource',
-        'ib_score_board',
-        'ib_shop',
-        'ib_sponsorship',
-        'ib_team',
-        'ib_tournament',
-        'ib_treasure',
-        'ib_challenge',
-        'ib_power_ups',
-        'ib_consistency_reward',
-        'ib_alarms',
-        'ib_bookings',
-        'ib_badges',
-        'ib_bet',
-        'ib_mini_games_public',
+        'tdd_practice'
     ],
     include_package_data=True,
     install_requires=required_list,
