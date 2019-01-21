@@ -58,8 +58,20 @@ class Account(models.Model):
 
     @classmethod
     def get_account(cls, customer_id):
-        return cls.objects.get(customer_id=customer_id)
+        try:
+            return cls.objects.get(customer_id=customer_id)
+        except cls.DoesNotExist:
+            raise Exception
 
     @classmethod
     def transfer_money(cls, payee_customer_id, beneficiary_customer_id, amount):
-        pass
+        payee_account = cls.get_account(payee_customer_id)
+        beneficiary_account = cls.get_account(beneficiary_customer_id)
+
+        payee_account.balance -= amount
+        payee_account.save()
+
+        beneficiary_account.balance += amount
+        beneficiary_account.save()
+
+        return

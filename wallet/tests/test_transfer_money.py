@@ -9,6 +9,7 @@ class TestTransferMoney(TestCase):
         from wallet.models import Account
         Account.create_account(self.payee_customer_id)
         Account.create_account(self.beneficiary_customer_id)
+        Account.add_balance(self.payee_customer_id, 1000)
 
         pre_transfer_payee_balance = Account.get_balance(self.payee_customer_id)
         pre_transfer_beneficiary_balance = Account.get_balance(
@@ -23,8 +24,8 @@ class TestTransferMoney(TestCase):
             self.beneficiary_customer_id)
 
         self.assertEqual(
-            post_transfer_payee_balance - pre_transfer_payee_balance, 0,
+            pre_transfer_payee_balance - post_transfer_payee_balance, 100,
             "Incorrect balance for payee")
         self.assertEqual(
             post_transfer_beneficiary_balance - pre_transfer_beneficiary_balance,
-            0, "Incorrect balance for payee")
+            100, "Incorrect balance for beneficiary")
