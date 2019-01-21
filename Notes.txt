@@ -23,7 +23,11 @@ TDD TODO List (Functionality Layer):
     - Transfer Money
     - Add Money
     - Get Balance
-    - Get Statement
+    - [Get Statement]
+        - Fetching for user without any transactions(should result empty list)
+        - Fetching for user with some transactions
+
+
     
     Done:
        
