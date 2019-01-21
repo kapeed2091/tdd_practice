@@ -22,12 +22,16 @@ TDD TODO List (Functionality Layer):
         - When user has non-zero balance
     - Add balance
         - float balance
+        - negative balance
+        - remove duplication in add balance and _credit_money
     - Transfer Money
 
-    	- [ transfer money zero ]
     	- in a single transaction
 
     - Get Statement
+
+        - success - credit balance and debit balance
+        - no transactions
     
     Done:
 
@@ -36,6 +40,7 @@ TDD TODO List (Functionality Layer):
             - success
             - balance insufficient
             - transfer money negative
+            - transfer money zero
        
        
 // Notes       
