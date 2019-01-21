@@ -90,12 +90,15 @@ class TestGetStatement(TestCase):
         first_transaction = transactions[0]
         second_transaction = transactions[1]
 
+        first_txn_dict = first_transaction.convert_to_dict()
+        second_txn_dict = second_transaction.convert_to_dict()
+
         self.assertEqual(
-            first_transaction.transaction_datetime,
-            second_transaction.transaction_datetime
+            first_txn_dict['transaction_datetime'],
+            second_txn_dict['transaction_datetime']
         )
 
         self.assertGreater(
-            first_transaction.id,
-            second_transaction.id
+            first_txn_dict['transaction_id'],
+            second_txn_dict['transaction_id']
         )

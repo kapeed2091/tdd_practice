@@ -17,3 +17,11 @@ class Transaction(models.Model):
         return cls.objects.filter(
             account__customer_id=customer_id
         ).order_by('-transaction_datetime', '-id')
+
+    def convert_to_dict(self):
+        return {
+            'transaction_id': self.id,
+            'transaction_datetime': self.transaction_datetime,
+            'amount': self.amount,
+            'account_id': self.account_id
+        }
