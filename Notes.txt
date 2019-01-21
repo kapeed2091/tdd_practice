@@ -14,15 +14,17 @@ Architecture/Design: Should we fix the architechture? - task division/teams - to
             - Account.
 
 TDD TODO List (Functionality Layer):
+    TDD TODO List (Functionality Layer):
+
     - Create Account
-        - [2 users should get different account numbers]
         - account_id, customer_id lengths
-        - each customer has only 1 account - no joint accounts
-        - account already exists
-        
-    - Transfer Money
-    - Add Money
     - Get Balance
+        - When user has non-zero balance
+    - Add balance
+        - float balance
+    - Transfer Money
+    	- [ success ]
+    	- balance insufficient
     - Get Statement
     
     Done:
