@@ -1,4 +1,5 @@
 from django.test import TestCase
+from freezegun import freeze_time
 
 
 class TestGetStatement(TestCase):
@@ -76,3 +77,25 @@ class TestGetStatement(TestCase):
 
         self.assertGreater(first_transaction.transaction_datetime, second_transaction.transaction_datetime)
 
+    @freeze_time("01-01-2019 00:00:00")
+    def test_get_statement_order_with_same_transaction_datetime(self):
+        from wallet.models import Transaction
+
+        self.create_account()
+        self.create_transactions()
+
+        transactions = Transaction.get_statement(customer_id=self.customer_id)
+
+        self.assertEqual(len(transactions), 2)
+        first_transaction = transactions[0]
+        second_transaction = transactions[1]
+
+        self.assertEqual(
+            first_transaction.transaction_datetime,
+            second_transaction.transaction_datetime
+        )
+
+        self.assertGreater(
+            first_transaction.id,
+            second_transaction.id
+        )
