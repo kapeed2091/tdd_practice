@@ -6,14 +6,21 @@ class TestTransferAmount(TestCase):
     customer_id_1 = 'customer1'
     customer_id_2 = 'customer2'
 
-    def setUp(self):
+    def setup_both_customers(self):
+        self.setup_customer_1()
+        self.setup_customer_2()
+
+    def setup_customer_1(self):
         Account.create_account(customer_id=self.customer_id_1)
         Account.add_balance(customer_id=self.customer_id_1, amount=100)
 
+    def setup_customer_2(self):
         Account.create_account(customer_id=self.customer_id_2)
         Account.add_balance(customer_id=self.customer_id_2, amount=100)
 
     def test_case_successful_transfer(self):
+        self.setup_both_customers()
+
         prev_balance_of_customer_1 = Account.get_balance(
             customer_id=self.customer_id_1)
         prev_balance_of_customer_2 = Account.get_balance(
@@ -35,13 +42,25 @@ class TestTransferAmount(TestCase):
         self.assertEqual(amount_added_for_customer_2, 10)
 
     def test_case_insufficient_funds(self):
+        self.setup_both_customers()
+
         with self.assertRaises(Exception):
             Account.transfer_amount(
                 amount=1000, transferee_customer_id=self.customer_id_1,
                 transferred_customer_id=self.customer_id_2)
 
     def test_case_negative_amount(self):
+        self.setup_both_customers()
+
         with self.assertRaises(Exception):
+            Account.transfer_amount(
+                amount=-100, transferee_customer_id=self.customer_id_1,
+                transferred_customer_id=self.customer_id_2)
+
+    def test_case_no_transferee_account(self):
+        self.setup_customer_2()
+
+        with self.assertRaises(Account.DoesNotExist):
             Account.transfer_amount(
                 amount=-100, transferee_customer_id=self.customer_id_1,
                 transferred_customer_id=self.customer_id_2)
