@@ -21,6 +21,7 @@ TDD TODO List (Functionality Layer):
     - Get Balance
         - When user has non-zero balance
     - Transfer Money
+        - Check if user has sufficient balance
     - Get Statement
 
     Done:
