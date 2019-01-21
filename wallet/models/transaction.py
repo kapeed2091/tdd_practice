@@ -4,6 +4,7 @@ from django.db import models
 class Transaction(models.Model):
     account = models.ForeignKey('wallet.Account')
     amount = models.IntegerField()
+    transaction_datetime = models.DateTimeField(auto_now_add=True)
 
     @classmethod
     def create_transaction_for_account_id(cls, account_id, amount):

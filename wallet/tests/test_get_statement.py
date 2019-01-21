@@ -61,3 +61,18 @@ class TestGetStatement(TestCase):
         self.customer_id = 'customer1'
         transactions = Transaction.get_statement(customer_id=self.customer_id)
         self.assertEqual(len(transactions), 2)
+
+    def test_get_statement_order(self):
+        from wallet.models import Transaction
+
+        self.create_account()
+        self.create_transactions()
+
+        transactions = Transaction.get_statement(customer_id=self.customer_id)
+
+        self.assertEqual(len(transactions), 2)
+        first_transaction = transactions[0]
+        second_transaction = transactions[1]
+
+        self.assertGreater(first_transaction.transaction_datetime, second_transaction.transaction_datetime)
+
