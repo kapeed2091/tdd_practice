@@ -60,9 +60,11 @@ class Account(models.Model):
     def get_account(cls, customer_id):
         return cls.objects.get(customer_id=customer_id)
 
-    def transfer_amount(self, amount, customer_id):
-        Account.deduct_balance(customer_id=self.customer_id, amount=amount)
-        Account.add_balance(customer_id=customer_id, amount=amount)
+    @classmethod
+    def transfer_amount(cls, amount, transferee_customer_id,
+                        transferred_customer_id):
+        cls.deduct_balance(customer_id=transferee_customer_id, amount=amount)
+        cls.add_balance(customer_id=transferred_customer_id, amount=amount)
 
     @classmethod
     def deduct_balance(cls, customer_id, amount):

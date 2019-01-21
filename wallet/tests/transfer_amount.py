@@ -1,4 +1,5 @@
 from django.test import TestCase
+from wallet.models import Account
 
 
 class TestTransferAmount(TestCase):
@@ -6,8 +7,6 @@ class TestTransferAmount(TestCase):
     customer_id_2 = 'customer2'
 
     def setUp(self):
-        from wallet.models import Account
-
         Account.create_account(customer_id=self.customer_id_1)
         Account.add_balance(customer_id=self.customer_id_1, amount=100)
 
@@ -15,14 +14,13 @@ class TestTransferAmount(TestCase):
         Account.add_balance(customer_id=self.customer_id_2, amount=100)
 
     def test_case_successful_transfer(self):
-        from wallet.models import Account
-
-        account_1 = Account.get_account(customer_id=self.customer_id_1)
         prev_balance_of_customer_1 = Account.get_balance(
             customer_id=self.customer_id_1)
         prev_balance_of_customer_2 = Account.get_balance(
             customer_id=self.customer_id_2)
-        account_1.transfer_amount(amount=10, customer_id=self.customer_id_2)
+        Account.transfer_amount(
+            amount=10, transferee_customer_id=self.customer_id_1,
+            transferred_customer_id=self.customer_id_2)
         post_balance_of_customer_1 = Account.get_balance(
             customer_id=self.customer_id_1)
         post_balance_of_customer_2 = Account.get_balance(
