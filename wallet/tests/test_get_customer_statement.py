@@ -28,3 +28,10 @@ class TestGetCustomerStatement(test.TestCase):
             self.transactions[0].transfer_type,
             constants.TransferType.EXTERNAL.value
         )
+
+    def test_check_transaction_type(self):
+        from wallet import constants
+        self.assertEqual(
+            self.transactions[0].transaction_type,
+            constants.TransactionType.CREDIT.value
+        )
