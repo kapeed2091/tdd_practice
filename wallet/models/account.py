@@ -66,6 +66,10 @@ class Account(models.Model):
         transferee_balance = cls.get_balance(
             customer_id=transferee_customer_id)
 
+        if not isinstance(amount, int):
+            from wallet.exceptions.exceptions import InvalidAmountType
+            raise InvalidAmountType("Amount is not of INT format")
+
         if transferee_balance < amount:
             raise Exception
         cls.deduct_balance(customer_id=transferee_customer_id, amount=amount)
