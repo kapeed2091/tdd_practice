@@ -1,0 +1,407 @@
+{
+  "swagger": "2.0",
+  "host": "127.0.0.1:8000",
+  "basePath": "/api/tdd_wallet/",
+  "info": {
+    "version": "1.0.0",
+    "title": "Simple API",
+    "description": "A simple API to learn how to write OpenAPI Specification"
+  },
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "JWTToken": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "JWTToken": []
+    }
+  ],
+  "definitions": {
+    "Offset": {
+      "type": "object",
+      "properties": {
+        "offset": {
+          "type": "integer"
+        }
+      }
+    },
+    "Limit": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer"
+        }
+      }
+    },
+    "CustomerId": {
+      "type": "object",
+      "properties": {
+        "customer_id": {
+          "type": "string"
+        }
+      }
+    },
+    "CustomerIds": {
+      "type": "object",
+      "properties": {
+        "customer_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "CashOutAmount": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "Balance": {
+      "type": "object",
+      "properties": {
+        "balance": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "TransactionDescription": {
+      "type": "object",
+      "properties": {
+        "transaction_description": {
+          "type": "string"
+        }
+      }
+    },
+    "TransactionType": {
+      "type": "object",
+      "properties": {
+        "transaction_type": {
+          "type": "string",
+          "enum": [
+            "DEBIT",
+            "CREDIT"
+          ]
+        }
+      }
+    },
+    "TransactionDateTime": {
+      "type": "object",
+      "properties": {
+        "transaction_datetime": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "ClientTransactionId": {
+      "type": "object",
+      "properties": {
+        "client_transaction_id": {
+          "type": "string"
+        }
+      }
+    },
+    "ClientInfo": {
+      "type": "object",
+      "properties": {
+        "client_info": {
+          "type": "string"
+        }
+      }
+    },
+    "TransactionResult": {
+      "type": "object",
+      "properties": {
+        "client_transaction_id": {
+          "type": "string"
+        },
+        "transaction_id": {
+          "type": "string"
+        },
+        "transaction_status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "transaction_id",
+        "transaction_status"
+      ]
+    },
+    "CustomersBalanceDefinition": {
+      "type": "object",
+      "properties": {
+        "customers_balance": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/definitions/CustomerId"
+              },
+              {
+                "$ref": "#/definitions/Balance"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "TransactionDetails": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/TransactionDescription"
+        },
+        {
+          "$ref": "#/definitions/TransactionType"
+        },
+        {
+          "$ref": "#/definitions/TransactionDateTime"
+        },
+        {
+          "$ref": "#/definitions/CashOutAmount"
+        }
+      ]
+    }
+  },
+  "parameters": {
+    "GetWalletTransactionsParameter": {
+      "name": "GetWalletTransactionsParameter",
+      "description": "Request to fetch wallet transactions",
+      "in": "body",
+      "required": true,
+      "schema": {
+        "allOf": [
+          {
+            "$ref": "#/definitions/Offset"
+          },
+          {
+            "$ref": "#/definitions/Limit"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id_token": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id_token"
+            ]
+          }
+        ]
+      }
+    },
+    "GetWalletBalanceParameter": {
+      "name": "GetWalletBalanceParameter",
+      "description": "Request for get_wallet_balance",
+      "in": "body",
+      "required": true,
+      "schema": {
+        "allOf": [
+          {
+            "$ref": "#/definitions/CustomerIds"
+          }
+        ]
+      }
+    },
+    "DebitAmountParameter": {
+      "name": "DebitAmountParameter",
+      "description": "Request for debit_amount",
+      "in": "body",
+      "required": true,
+      "schema": {
+        "type": "object",
+        "properties": {
+          "debits": {
+            "type": "array",
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/CustomerId"
+                },
+                {
+                  "$ref": "#/definitions/CashOutAmount"
+                },
+                {
+                  "$ref": "#/definitions/ClientTransactionId"
+                },
+                {
+                  "$ref": "#/definitions/ClientInfo"
+                },
+                {
+                  "$ref": "#/definitions/TransactionDescription"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "CreditAmountParameter": {
+      "name": "CreditAmountParameters",
+      "description": "Request for credit_amount",
+      "in": "body",
+      "required": true,
+      "schema": {
+        "type": "object",
+        "properties": {
+          "credits": {
+            "type": "array",
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/CustomerId"
+                },
+                {
+                  "$ref": "#/definitions/CashOutAmount"
+                },
+                {
+                  "$ref": "#/definitions/ClientTransactionId"
+                },
+                {
+                  "$ref": "#/definitions/ClientInfo"
+                },
+                {
+                  "$ref": "#/definitions/TransactionDescription"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "responses": {
+    "SuccessResponse": {
+      "description": "success response"
+    },
+    "TransactionSuccess": {
+      "description": "TransactionResponse",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "transactions": {
+            "type": "array",
+            "items":{
+              "$ref": "#/definitions/TransactionResult"
+            }
+          }
+        },
+        "required": [
+          "transactions"
+        ]
+      }
+    },
+    "GetWalletTransactionsResponse": {
+      "description": "Response to get wallet transactions",
+      "schema": {
+        "allOf": [
+          {
+            "$ref": "#/definitions/Balance"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "past_transactions": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/TransactionDetails"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "GetWalletBalanceResponse": {
+      "description": "Response for debit_amount api",
+      "schema": {
+        "$ref": "#/definitions/CustomersBalanceDefinition"
+      }
+    }
+  },
+  "paths": {
+    "/credit/v1/": {
+      "post": {
+        "summary": "Credit amount to user wallet",
+        "operationId": "credit_amount",
+        "parameters": [
+          {
+            "$ref": "#/parameters/CreditAmountParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SuccessResponse"
+          }
+        }
+      }
+    },
+    "/debit/v1/": {
+      "post": {
+        "summary": "Debit amount from user wallet",
+        "operationId": "debit_amount",
+        "parameters": [
+          {
+            "$ref": "#/parameters/DebitAmountParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/TransactionSuccess"
+          }
+        }
+      }
+    },
+    "/balance/v1/": {
+      "post": {
+        "summary": "Get wallet balance",
+        "operationId": "get_wallet_balance",
+        "parameters": [
+          {
+            "$ref": "#/parameters/GetWalletBalanceParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GetWalletBalanceResponse"
+          }
+        }
+      }
+    },
+    "/wallets/transactions/v1/": {
+      "post": {
+        "summary": "Get wallet transactions",
+        "operationId": "get_wallet_transactions",
+        "parameters": [
+          {
+            "$ref": "#/parameters/GetWalletTransactionsParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GetWalletTransactionsResponse"
+          }
+        }
+      }
+    }
+  }
+}
+    

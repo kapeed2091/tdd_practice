@@ -1,0 +1,32 @@
+include HISTORY.rst
+include README.md
+include requirement*.txt
+recursive-include ib_bet *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_mini_games_public *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_club *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_team *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_content_portal *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_game_env *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_game_object *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_gamification *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_gamification_validation *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_resource *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_shop *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_treasure *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_sponsorship *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_tournament *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_score_board *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_digital_ads *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_mini_games *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_match *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_challenge *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_power_ups *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_consistency_reward *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_alarms *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_bookings *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_badges *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_gamification_common *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_gamification_backend/service_adapters *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_gamification_backend/common *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_gamification_backend/constants *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
+recursive-include ib_gamification_backend/utilities *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *json
