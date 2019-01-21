@@ -27,7 +27,7 @@ class TestTransferMoney(TestCase):
                                    self.beneficiary_customer_id,
                                    -3)
 
-    def testcase_user_should_have_account(self):
+    def testcase_payee_should_have_account(self):
         from wallet.models import Account
         Account.create_account(self.beneficiary_customer_id)
 
@@ -35,3 +35,13 @@ class TestTransferMoney(TestCase):
             Account.transfer_money(self.customer_id,
                                    self.beneficiary_customer_id,
                                    10000)
+
+    def testcase_beneficiary_should_have_account(self):
+        from wallet.models import Account
+        Account.create_account(self.customer_id)
+        Account.add_balance(self.customer_id, 1000)
+
+        with self.assertRaises(Exception):
+            Account.transfer_money(self.customer_id,
+                                   self.beneficiary_customer_id,
+                                   100)

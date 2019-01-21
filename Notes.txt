@@ -27,7 +27,8 @@ TDD TODO List (Functionality Layer):
         - amount to be transferred should be gt 0
         - user should have account to transfer
         - beneficiary should have account
-        - after money transferred, beneficiary's account should be credited
+        - after money transferred, beneficiary's account should be credited,
+        payee should be debited
 
     - Get Statement
 
