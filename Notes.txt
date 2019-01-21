@@ -21,7 +21,6 @@ TDD TODO List (Functionality Layer):
     - Get Balance
         - When user has non-zero balance
     - Transfer Money
-        - [transfer amount]
         - can not transfer negative amount
         - check balance before transfer
         - check other account valid
@@ -40,6 +39,8 @@ TDD TODO List (Functionality Layer):
            - add 10 balance
            - negative balance add?
            - float balance
+       - Transfer Money
+           - transfer amount
 
 #######################################
 // Notes
