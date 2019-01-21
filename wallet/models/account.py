@@ -71,8 +71,10 @@ class Account(models.Model):
 
     @classmethod
     def transfer_balance(cls, sender_customer_id, receiver_customer_id, amount):
-        sender_account = cls.get_account(sender_customer_id)
+        if cls.is_negative_amount(amount):
+            raise Exception
 
+        sender_account = cls.get_account(sender_customer_id)
         if sender_account.balance < amount:
             raise Exception
 
