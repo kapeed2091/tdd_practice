@@ -29,19 +29,19 @@ class TestTransferBalance(TestCase):
     def testcase_transfer_more_than_sender_balance(self):
         with self.assertRaisesMessage(Exception, expected_message=
             'Sender Balance should be more than transfer amount'):
-            Account.transfer_balance(
-                self.sender_customer_id, self.receiver_customer_id, 60)
+                Account.transfer_balance(
+                    self.sender_customer_id, self.receiver_customer_id, 60)
 
     def testcase_transfer_balance_is_negative(self):
         with self.assertRaisesMessage(Exception, expected_message=
             'Transfer balance cannot be zero or negative'):
-            Account.transfer_balance(
-                self.sender_customer_id, self.receiver_customer_id, -10)
+                Account.transfer_balance(
+                    self.sender_customer_id, self.receiver_customer_id, -10)
 
         with self.assertRaisesMessage(Exception, expected_message=
             'Transfer balance cannot be zero or negative'):
-            Account.transfer_balance(
-                self.sender_customer_id, self.receiver_customer_id, 0)
+                Account.transfer_balance(
+                    self.sender_customer_id, self.receiver_customer_id, 0)
 
     def testcase_transfer_float_balance(self):
         with self.assertRaisesMessage(Exception, expected_message=
@@ -68,5 +68,5 @@ class TestTransferBalance(TestCase):
     def testcase_transfer_balance_between_same_account(self):
         with self.assertRaisesMessage(Exception, expected_message=
             'Cannot transfer balance between same account'):
-            Account.transfer_balance(
-                self.sender_customer_id, self.sender_customer_id, 10)
+                Account.transfer_balance(
+                    self.sender_customer_id, self.sender_customer_id, 10)
