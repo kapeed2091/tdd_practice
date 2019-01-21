@@ -66,10 +66,8 @@ class Account(models.Model):
         beneficiary_account = cls.get_account(beneficiary_customer_id)
 
         if account.is_sufficient_balance_to_transfer(transfer_amount=amount):
-            account.balance -= amount
-            account.save()
-            beneficiary_account.balance += amount
-            beneficiary_account.save()
+            cls.debit_balance(account, amount)
+            cls.credit_balance(beneficiary_account, amount)
         else:
             raise Exception
         return
@@ -79,3 +77,11 @@ class Account(models.Model):
             return False
         else:
             return True
+
+    def credit_balance(self, amount):
+        self.balance += amount
+        self.save()
+
+    def debit_balance(self, amount):
+        self.balance -= amount
+        self.save()
