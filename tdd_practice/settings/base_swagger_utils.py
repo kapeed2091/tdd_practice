@@ -81,7 +81,7 @@ SWAGGER_UTILS = {
 }
 
 THIRD_PARTY_SWAGGER_APPS = [
-    "gas_profile",
+    # "gas_profile",
 
 ]
 INSTALLED_APPS += THIRD_PARTY_SWAGGER_APPS
