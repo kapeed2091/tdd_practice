@@ -13,24 +13,39 @@ Architecture/Design: Should we fix the architechture? - task division/teams - to
             - Transactions.
             - Account.
 
+#######################################
+
 TDD TODO List (Functionality Layer):
     - Create Account
-        - [2 users should get different account numbers]
         - account_id, customer_id lengths
-        - each customer has only 1 account - no joint accounts
-        - account already exists
-        
-    - Transfer Money
-    - Add Money
     - Get Balance
+        - When user has non-zero balance
+    - Add balance
+        - float balance
+    - Transfer Money
+        - user should have sufficient balance to transfer
+        - amount to be transferred should be gt 0
+        - user should have account to transfer
+        - user, to whom money is to be transferred should have account
+
     - Get Statement
-    
+
     Done:
-       
-       
-       
-// Notes       
-       
+       - Create Account
+            - 2 users should get different account numbers
+            - account already exists
+            - each customer has only 1 account :Refactoring
+            - no joint accounts
+       - Get Balance
+            - 0 balance for new user
+            - if customer doesn't exist
+       - Add Balance
+           - add 10 balance
+           - negative balance add?
+
+#######################################
+// Notes
+
 Steps:
     - Create app
     - Create Tests Folder and test file
@@ -40,13 +55,19 @@ Steps:
     - Gives Red State
     - Fake implementation
     - Get Green State
-    
+
     - Triangulation
         - Add another test case
-        - Got to Red state   
+        - Got to Red state
     - Refactoring code
     - Get Green state
-    
+
+    - Pickup new from scratch pad - []
+    - Refactor "function name" - do it in testcases as well
+    - Run tests - Green
+    - Add new test case
+    - Red state
+    - obvious implementation
 
 
 Developers should also think about business usecases and should ask business team if there are any suggestions, doubts, improvements
@@ -57,9 +78,9 @@ Checklist for business usecases: should evolve this over a period of time
     - unique,
     - field lengths,
     - etc.
-  
 
-Have regular archtechtural reviews, for design refinements - 2 hrs in each sprint?    
+
+Have regular archtechtural reviews, for design refinements - 2 hrs in each sprint?
 
 Test cases shouldn't depend on implementation
 
@@ -70,3 +91,14 @@ Test cases shouldn't depend on implementation
 2. Checking DB state checks in TDD?
 3. Test case - for use_case OR function. ex: Create account - should it just check funtion. should it also check db state etc. to see if the account is created
 4. Do we get comprehensive test cases with TDD? If not, how do we get confidence
+5. Should we handle concurrency testcases in TDD?
+6.
+
+// Doubt
+1. DB objects vs Data structures - how do we maintain?
+2. How to write testcase for joint accounts [unique constraints]?
+        - Assign account_id to customer
+3. Are DB level constraints required? If DB level constraints required, then how do we ensure them?
+4. Writing testable code - Mocking UUID vs Refactoring Code
+5. If customer doesn't exist - wrote test case - which already has implementation: shoud we do this?
+6.
