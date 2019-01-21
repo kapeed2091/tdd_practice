@@ -24,7 +24,7 @@ TDD TODO List (Functionality Layer):
     - Add Money
     - Get Balance
     - [Get Statement]
-        - Fetching for user without any transactions(should result empty list)
+        - Fetching for user without any transactions(should result empty list) [Done]
         - Fetching for user with some transactions
 
 
