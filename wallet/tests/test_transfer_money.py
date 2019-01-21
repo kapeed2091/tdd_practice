@@ -26,3 +26,12 @@ class TestTransferMoney(TestCase):
             Account.transfer_money(self.customer_id,
                                    self.beneficiary_customer_id,
                                    -3)
+
+    def testcase_user_should_have_account(self):
+        from wallet.models import Account
+        Account.create_account(self.beneficiary_customer_id)
+
+        with self.assertRaises(Exception):
+            Account.transfer_money(self.customer_id,
+                                   self.beneficiary_customer_id,
+                                   10000)
