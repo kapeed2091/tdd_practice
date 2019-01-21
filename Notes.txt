@@ -24,8 +24,9 @@ TDD TODO List (Functionality Layer):
         - float balance
     - Transfer Money
 
-    	- [ balance insufficient ]
-    	- balance negative
+    	- transfer money zero
+    	- in a single transaction
+
     - Get Statement
     
     Done:
@@ -33,6 +34,8 @@ TDD TODO List (Functionality Layer):
        - Transfer Money
 
             - success
+            - balance insufficient
+            - transfer money negative
        
        
 // Notes       
