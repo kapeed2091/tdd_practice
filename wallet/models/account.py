@@ -63,6 +63,11 @@ class Account(models.Model):
     @classmethod
     def transfer_amount(cls, amount, transferee_customer_id,
                         transferred_customer_id):
+        transferee_balance = cls.get_balance(
+            customer_id=transferee_customer_id)
+
+        if transferee_balance < amount:
+            raise Exception
         cls.deduct_balance(customer_id=transferee_customer_id, amount=amount)
         cls.add_balance(customer_id=transferred_customer_id, amount=amount)
 
