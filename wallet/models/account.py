@@ -76,6 +76,23 @@ class Account(models.Model):
         return False
 
     @staticmethod
+    def is_zero_amount(amount):
+        if amount == 0:
+            return True
+        return False
+
+    @staticmethod
+    def is_invalid_transfer_amount(amount):
+
+        if Account.is_negative_amount(amount=amount):
+            return True
+        if Account.is_zero_amount(amount=amount):
+            return True
+        if Account.is_amount_type_int(amount=amount):
+            return True
+        return False
+
+    @staticmethod
     def is_amount_type_int(amount):
         return type(amount) == int
 
@@ -87,8 +104,8 @@ class Account(models.Model):
     def transfer_amount(cls, source_customer_id, destination_customer_id,
                         transfer_amount):
 
-        if cls.is_negative_amount(transfer_amount):
-            raise Exception('Invalid amount')
+        if cls.is_invalid_transfer_amount(transfer_amount):
+            raise Exception('Invalid amount {}'.format(transfer_amount))
 
         cls.add_balance(customer_id=destination_customer_id,
                         amount=transfer_amount)
