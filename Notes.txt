@@ -21,7 +21,6 @@ TDD TODO List (Functionality Layer):
     - Get Balance
         - When user has non-zero balance
     - Transfer Money
-        - Transfer amount should be int type
         - Concurrent Transfer of money (Double spending attack)
         - transfer account ids should exist
         - transfer account ids should be unique
@@ -44,6 +43,7 @@ TDD TODO List (Functionality Layer):
            - Customer should be able to transfer balance
            - Check if user has sufficient balance
            - Transfer amount should be positive
+           - Transfer amount should be int type
 
 #######################################
 // Notes
@@ -103,4 +103,4 @@ Test cases shouldn't depend on implementation
 3. Are DB level constraints required? If DB level constraints required, then how do we ensure them?
 4. Writing testable code - Mocking UUID vs Refactoring Code
 5. If customer doesn't exist - wrote test case - which already has implementation: shoud we do this?
-6.
+6.Testcase_transfer_balance passed because get_Account raised the error

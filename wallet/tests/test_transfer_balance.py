@@ -42,4 +42,18 @@ class TestTransferBalance(TestCase):
             Account.transfer_balance(
                 self.sender_customer_id, self.receiver_customer_id, 10.5)
 
+    def testcase_transfer_balance_for_non_existing_accounts(self):
+        non_existent_sender_id = 'no_sender'
+        non_existent_receiver_id = 'no_receiver'
 
+        with self.assertRaises(Exception):
+            Account.transfer_balance(
+                non_existent_sender_id, non_existent_receiver_id, 10)
+
+        with self.assertRaises(Exception):
+            Account.transfer_balance(
+                self.sender_customer_id, non_existent_receiver_id, 10)
+
+        with self.assertRaises(Exception):
+            Account.transfer_balance(
+                non_existent_sender_id, self.receiver_customer_id, 10)
