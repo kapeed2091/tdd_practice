@@ -23,3 +23,8 @@ class TestAddBalance(TestCase):
         from wallet.models import Account
         with self.assertRaises(Exception):
             Account.add_balance(self.customer_id, -10)
+
+    def testcase_add_float_balance(self):
+        from wallet.models import Account
+        with self.assertRaises(Exception):
+            Account.add_balance(self.customer_id, 10.5)
