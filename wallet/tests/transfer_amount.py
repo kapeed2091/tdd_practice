@@ -62,5 +62,13 @@ class TestTransferAmount(TestCase):
 
         with self.assertRaises(Account.DoesNotExist):
             Account.transfer_amount(
-                amount=-100, transferee_customer_id=self.customer_id_1,
+                amount=100, transferee_customer_id=self.customer_id_1,
+                transferred_customer_id=self.customer_id_2)
+
+    def test_case_no_transferred_account(self):
+        self.setup_customer_1()
+
+        with self.assertRaises(Account.DoesNotExist):
+            Account.transfer_amount(
+                amount=100, transferee_customer_id=self.customer_id_1,
                 transferred_customer_id=self.customer_id_2)
