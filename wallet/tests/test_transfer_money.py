@@ -42,3 +42,29 @@ class TestTransferMoney(TestCase):
 
         self.assertEquals(amount_debited_for_customer_1, amount_to_transfer)
         self.assertEquals(amount_credited_for_customer_2, amount_to_transfer)
+
+    def testcase_transfer_in_sufficient_money(self):
+        from wallet.models import Account
+        prev_balance_of_customer_1 = Account.get_balance(
+            customer_id=self.customer_id_1)
+        prev_balance_of_customer_2 = Account.get_balance(
+            customer_id=self.customer_id_2)
+
+        amount_to_transfer = 20
+
+        self.assertRaises(Exception, lambda: Account.transfer_money(
+            from_customer_id=self.customer_id_1,
+            to_customer_id=self.customer_id_2,
+            money=amount_to_transfer
+        ))
+
+        current_balance_of_customer_1 = Account.get_balance(
+            customer_id=self.customer_id_1)
+        current_balance_of_customer_2 = Account.get_balance(
+            customer_id=self.customer_id_2)
+
+        amount_debited_for_customer_1 = prev_balance_of_customer_1 - current_balance_of_customer_1
+        amount_credited_for_customer_2 = current_balance_of_customer_2 - prev_balance_of_customer_2
+
+        self.assertEquals(amount_debited_for_customer_1, 0)
+        self.assertEquals(amount_credited_for_customer_2, 0)

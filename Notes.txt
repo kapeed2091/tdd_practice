@@ -23,13 +23,16 @@ TDD TODO List (Functionality Layer):
     - Add balance
         - float balance
     - Transfer Money
-    	- [ success ]
-    	- balance insufficient
+
+    	- [ balance insufficient ]
     	- balance negative
     - Get Statement
     
     Done:
-       
+
+       - Transfer Money
+
+            - success
        
        
 // Notes       

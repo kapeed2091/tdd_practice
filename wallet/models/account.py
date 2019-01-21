@@ -71,6 +71,11 @@ class Account(models.Model):
         self.balance += money
         self.save()
 
+    def _check_insufficient_money(self, money):
+        if self.balance < money:
+            raise Exception("Insufficient balance")
+
     def _debit_money(self, money):
+        self._check_insufficient_money(money)
         self.balance -= money
         self.save()
