@@ -33,3 +33,9 @@ class TestTransferAmount(TestCase):
 
         self.assertEqual(amount_deducted_for_customer_1, 10)
         self.assertEqual(amount_added_for_customer_2, 10)
+
+    def test_case_insufficient_funds(self):
+        with self.assertRaises(Exception):
+            Account.transfer_amount(
+                amount=1000, transferee_customer_id=self.customer_id_1,
+                transferred_customer_id=self.customer_id_2)
