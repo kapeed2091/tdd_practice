@@ -37,4 +37,9 @@ class TestTransferBalance(TestCase):
             Account.transfer_balance(
                 self.sender_customer_id, self.receiver_customer_id, -10)
 
+    def testcase_transfer_float_balance(self):
+        with self.assertRaises(Exception):
+            Account.transfer_balance(
+                self.sender_customer_id, self.receiver_customer_id, 10.5)
+
 
