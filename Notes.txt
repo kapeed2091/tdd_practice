@@ -25,7 +25,7 @@ TDD TODO List (Functionality Layer):
     - Get Balance
     - [Get Statement]
         - Fetching for customer without any transactions(should result empty list) [Done]
-        - Fetching for customer with some transactions
+        - Fetching for customer with some transactions [Done]
         - Fetching transactions of a customer shouldn't return other customer's statement
 
 
