@@ -46,6 +46,11 @@ class Account(models.Model):
         if cls.is_negative_amount(amount):
             raise Exception
 
+        if cls.is_amount_type_int(amount):
+            pass
+        else:
+            raise Exception
+
         account = cls.get_account(customer_id)
         account.balance += amount
         account.save()
@@ -55,6 +60,10 @@ class Account(models.Model):
         if amount < 0:
             return True
         return False
+
+    @staticmethod
+    def is_amount_type_int(amount):
+        return type(amount) == int
 
     @classmethod
     def get_account(cls, customer_id):
