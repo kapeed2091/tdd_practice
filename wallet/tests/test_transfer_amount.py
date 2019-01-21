@@ -37,7 +37,7 @@ class TestTransferAmount(TestCase):
         self.assertEquals(customer_id2_balance,
                           prev_customer_id2_balance + transfer_amount)
 
-    def test_case_transfer_negative_balance(self):
+    def test_case_transfer_negative_amount(self):
         from wallet.models import Account
 
         transfer_amount = -10
