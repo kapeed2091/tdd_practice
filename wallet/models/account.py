@@ -74,6 +74,9 @@ class Account(models.Model):
         if cls.is_negative_amount(amount):
             raise Exception
 
+        if cls.is_non_int_type(amount):
+            raise Exception
+
         sender_account = cls.get_account(sender_customer_id)
         if sender_account.balance < amount:
             raise Exception
