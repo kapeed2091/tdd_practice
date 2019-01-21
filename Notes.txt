@@ -22,7 +22,6 @@ TDD TODO List (Functionality Layer):
         - When user has non-zero balance
     - Transfer Money
         - Concurrent Transfer of money (Double spending attack)
-        - transfer account ids should be unique
     - Get Statement
 
     Done:
@@ -44,6 +43,7 @@ TDD TODO List (Functionality Layer):
            - Transfer amount should be positive
            - Transfer amount should be int type
            - transfer account ids should exist
+           - transfer account ids should be unique
 
 #######################################
 // Notes
