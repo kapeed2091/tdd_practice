@@ -64,13 +64,13 @@ class Account(models.Model):
             raise Exception
 
     @classmethod
-    def transfer_money(cls, customer_id, beneficiary_customer_id, amount):
-        account = cls.get_account(customer_id)
+    def transfer_money(cls, payee_customer_id, beneficiary_customer_id, amount):
+        payee_account = cls.get_account(payee_customer_id)
         beneficiary_account = cls.get_account(beneficiary_customer_id)
 
-        cls.validate_amount_to_transfer(amount=amount)
-        if account.is_sufficient_balance_to_transfer(transfer_amount=amount):
-            cls.debit_balance(account, amount)
+        cls.validate_amount_to_transfer(amount)
+        if payee_account.is_sufficient_balance_to_transfer(amount):
+            cls.debit_balance(payee_account, amount)
             cls.credit_balance(beneficiary_account, amount)
         else:
             raise Exception
