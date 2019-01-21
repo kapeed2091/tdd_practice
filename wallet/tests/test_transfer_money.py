@@ -65,8 +65,8 @@ class TestTransferMoney(TestCase):
             self.beneficiary_customer_id)
 
         self.assertEquals(
-            pre_transfer_payee_balance - post_transfer_payee_balance, 10,
+            pre_transfer_payee_balance - post_transfer_payee_balance, 100,
             'Incorrect balance for payee')
         self.assertEquals(
             post_transfer_beneficiary_balance - pre_transfer_beneficiary_balance,
-            10, 'Incorrect balance for beneficiary')
+            100, 'Incorrect balance for beneficiary')
