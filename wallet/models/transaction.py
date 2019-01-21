@@ -5,4 +5,5 @@ class Transaction(models.Model):
 
     @classmethod
     def get_customer_statement(cls, customer_id):
-        return [1]
+        from wallet import entities
+        return [entities.Transaction.create_credit_transaction(10)]
