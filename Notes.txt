@@ -27,7 +27,8 @@ TDD TODO List (Functionality Layer):
         - Fetching for customer without any transactions(should result empty list) [Done]
         - Fetching for customer with some transactions [Done]
         - Fetching transactions of a customer shouldn't return other customer's statement [Done]
-        - Order of statements (latest transactions first)
+        - Order of statements (latest transactions first) [Done]
+        - Handling same transaction_datetime case
 
 
     
