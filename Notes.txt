@@ -1,0 +1,72 @@
+USE CASES:
+    - User can create an account in wallet.
+    - User can check his balance.
+    - User can add money to his account in wallet.
+    - User can see transactions statement.
+    - User can transfer money from his wallet to another user wallet.
+
+Architecture/Design: Should we fix the architechture? - task division/teams - to divide different apps?
+    - API Layer, Functionality Layer.
+    - Apps: Users (Third Party), Wallet.
+    - Models:
+        Wallet:
+            - Transactions.
+            - Account.
+
+TDD TODO List (Functionality Layer):
+    - Create Account
+        - [2 users should get different account numbers]
+        - account_id, customer_id lengths
+        - each customer has only 1 account - no joint accounts
+        - account already exists
+        
+    - Transfer Money
+    - Add Money
+    - Get Balance
+    - Get Statement
+    
+    Done:
+       
+       
+       
+// Notes       
+       
+Steps:
+    - Create app
+    - Create Tests Folder and test file
+    - Write test: Create Account
+    - Run test case - gives compile errors
+    - Fix compile errors - create Account Model
+    - Gives Red State
+    - Fake implementation
+    - Get Green State
+    
+    - Triangulation
+        - Add another test case
+        - Got to Red state   
+    - Refactoring code
+    - Get Green state
+    
+
+
+Developers should also think about business usecases and should ask business team if there are any suggestions, doubts, improvements
+
+Architecture checklist
+
+Checklist for business usecases: should evolve this over a period of time
+    - unique,
+    - field lengths,
+    - etc.
+  
+
+Have regular archtechtural reviews, for design refinements - 2 hrs in each sprint?    
+
+Test cases shouldn't depend on implementation
+
+
+// Have to decide
+
+1. Design vs Development
+2. Checking DB state checks in TDD?
+3. Test case - for use_case OR function. ex: Create account - should it just check funtion. should it also check db state etc. to see if the account is created
+4. Do we get comprehensive test cases with TDD? If not, how do we get confidence
