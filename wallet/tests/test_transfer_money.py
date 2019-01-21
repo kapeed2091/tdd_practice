@@ -8,5 +8,10 @@ class TestTransferMoney(TestCase):
     def testcase_insufficient_balance_to_transfer(self):
         from wallet.models import Account
         Account.create_account(self.customer_id)
+        Account.create_account(self.beneficiary_customer_id)
         Account.add_balance(customer_id=self.customer_id, amount=1000)
-        Account.transfer_money(self.customer_id, self.beneficiary_customer_id)
+
+        with self.assertRaises(Exception):
+            Account.transfer_money(self.customer_id,
+                                   self.beneficiary_customer_id,
+                                   10000)

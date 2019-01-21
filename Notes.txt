@@ -26,7 +26,8 @@ TDD TODO List (Functionality Layer):
         - user should have sufficient balance to transfer
         - amount to be transferred should be gt 0
         - user should have account to transfer
-        - user, to whom money is to be transferred should have account
+        - beneficiary should have account
+        - after money transferred, beneficiary's account should be credited
 
     - Get Statement
 

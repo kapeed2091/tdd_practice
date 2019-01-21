@@ -59,3 +59,23 @@ class Account(models.Model):
     @classmethod
     def get_account(cls, customer_id):
         return cls.objects.get(customer_id=customer_id)
+
+    @classmethod
+    def transfer_money(cls, customer_id, beneficiary_customer_id, amount):
+        account = cls.get_account(customer_id)
+        beneficiary_account = cls.get_account(beneficiary_customer_id)
+
+        if account.is_sufficient_balance_to_transfer(transfer_amount=amount):
+            account.balance -= amount
+            account.save()
+            beneficiary_account.balance += amount
+            beneficiary_account.save()
+        else:
+            raise Exception
+        return
+
+    def is_sufficient_balance_to_transfer(self, transfer_amount):
+        if self.balance < transfer_amount:
+            return False
+        else:
+            return True
