@@ -395,12 +395,12 @@ AWS_KEY_STORAGE_BUCKET_NAME = os.environ.get(
     'AWS_KEY_STORAGE_BUCKET_NAME',
     'keystore-s3-bucket'
 )
-from redisco import connection_setup
-connection_setup(
-    host=os.environ.get('KEY_STORE_REDIS_HOST', REDIS_HOST),
-    port=os.environ.get('KEY_STORE_REDIS_PORT', REDIS_PORT),
-    db=os.environ.get('KEY_STORE_REDIS_DB', 4)
-)
+# from redisco import connection_setup
+# connection_setup(
+#     host=os.environ.get('KEY_STORE_REDIS_HOST', REDIS_HOST),
+#     port=os.environ.get('KEY_STORE_REDIS_PORT', REDIS_PORT),
+#     db=os.environ.get('KEY_STORE_REDIS_DB', 4)
+# )
 KEY_STORE_VALUE_MAX_LENGTH = 50000
 STORE_CONFIG = {
     'KeyStore': {
