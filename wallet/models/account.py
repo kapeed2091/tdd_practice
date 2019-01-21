@@ -61,4 +61,7 @@ class Account(models.Model):
         return cls.objects.get(customer_id=customer_id)
 
     def transfer_amount(self, amount, customer_id):
-        pass
+        self.balance -= amount
+        self.save()
+
+        Account.add_balance(customer_id=customer_id, amount=amount)
