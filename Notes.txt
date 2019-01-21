@@ -24,7 +24,7 @@ TDD TODO List (Functionality Layer):
         - float balance
     - Transfer Money
 
-    	- transfer money zero
+    	- [ transfer money zero ]
     	- in a single transaction
 
     - Get Statement

@@ -66,13 +66,20 @@ class Account(models.Model):
         to_customer = cls.get_account(to_customer_id)
 
         cls._check_non_positive_money(money)
+        cls._check_zero_money(money)
+
         from_customer._debit_money(money=money)
         to_customer._credit_money(money=money)
 
     @classmethod
     def _check_non_positive_money(cls, money):
-        if money <= 0:
+        if money < 0:
             raise Exception("Non positive money")
+
+    @classmethod
+    def _check_zero_money(cls, money):
+        if money == 0:
+            raise Exception("Zero amount transfer not possible")
 
     def _credit_money(self, money):
         self.balance += money
