@@ -82,6 +82,7 @@ class Account(models.Model):
             raise Exception
 
         receiver_account = cls.get_account(receiver_customer_id)
+
         sender_account.balance = sender_account.balance - amount
         receiver_account.balance = receiver_account.balance + amount
 

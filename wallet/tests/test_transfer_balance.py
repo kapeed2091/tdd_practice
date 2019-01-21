@@ -57,3 +57,8 @@ class TestTransferBalance(TestCase):
         with self.assertRaises(Exception):
             Account.transfer_balance(
                 non_existent_sender_id, self.receiver_customer_id, 10)
+
+    def testcase_transfer_balance_between_same_account(self):
+        with self.assertRaises(Exception):
+            Account.transfer_balance(
+                self.sender_customer_id, self.sender_customer_id, 10)
