@@ -25,6 +25,7 @@ TDD TODO List (Functionality Layer):
         - negative amount
         - no transferee customer_id
         - no transferred customer_id
+        - non integer amount
     - Add Money
     - Get Balance
     - Get Statement

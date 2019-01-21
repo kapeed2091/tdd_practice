@@ -74,3 +74,12 @@ class TestTransferAmount(TestCase):
             Account.transfer_amount(
                 amount=100, transferee_customer_id=self.customer_id_1,
                 transferred_customer_id=self.customer_id_2)
+
+    def test_case_invalid_amount(self):
+        self.setup_both_customers()
+
+        from wallet.exceptions.exceptions import InvalidAmountType
+        with self.assertRaises(InvalidAmountType) as exp:
+            Account.transfer_amount(
+                amount=100.13, transferee_customer_id=self.customer_id_1,
+                transferred_customer_id=self.customer_id_2)
