@@ -65,12 +65,18 @@ class Account(models.Model):
         account = cls.get_account(customer_id)
         beneficiary_account = cls.get_account(beneficiary_customer_id)
 
+        cls.validate_amount_to_transfer(amount=amount)
         if account.is_sufficient_balance_to_transfer(transfer_amount=amount):
             cls.debit_balance(account, amount)
             cls.credit_balance(beneficiary_account, amount)
         else:
             raise Exception
         return
+
+    @staticmethod
+    def validate_amount_to_transfer(amount):
+        if amount <= 0:
+            raise Exception
 
     def is_sufficient_balance_to_transfer(self, transfer_amount):
         if self.balance < transfer_amount:
