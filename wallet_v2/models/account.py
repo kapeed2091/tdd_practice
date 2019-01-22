@@ -5,7 +5,7 @@ class Account(models.Model):
     CUSTOMER_ID_LENGTH = 20
     ACCOUNT_ID_LENGTH = 20
     customer_id = models.CharField(max_length=CUSTOMER_ID_LENGTH, unique=True)
-    account_id = models.CharField(max_length=ACCOUNT_ID_LENGTH)
+    account_id = models.CharField(max_length=ACCOUNT_ID_LENGTH, unique=True)
 
     @classmethod
     def create_account(cls, customer_id):
