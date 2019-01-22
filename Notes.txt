@@ -23,6 +23,7 @@ TDD TODO List (Functionality Layer):
     - Transfer Money
         - Concurrent Transfer of money (Double spending attack)
     - Get Statement
+        - Transaction Date, Id
 
     Done:
        - Create Account

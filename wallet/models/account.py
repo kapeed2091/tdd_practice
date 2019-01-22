@@ -95,16 +95,16 @@ class Account(models.Model):
         if sender_account.account_id == receiver_account.account_id:
             raise Exception('Cannot transfer balance between same account')
 
-        cls.deduct_balance(account=sender_account, amount=amount)
-        cls.add_positive_non_zero_balance(account=receiver_account,
+        cls._deduct_balance(account=sender_account, amount=amount)
+        cls._add_positive_non_zero_balance(account=receiver_account,
                                           amount=amount)
 
     @classmethod
-    def deduct_balance(cls, account, amount):
+    def _deduct_balance(cls, account, amount):
         account.balance -= amount
         account.save()
 
     @classmethod
-    def add_positive_non_zero_balance(cls, account, amount):
+    def _add_positive_non_zero_balance(cls, account, amount):
         account.balance += amount
         account.save()
