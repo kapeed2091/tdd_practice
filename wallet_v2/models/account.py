@@ -6,6 +6,7 @@ class Account(models.Model):
     ACCOUNT_ID_LENGTH = 20
     customer_id = models.CharField(max_length=CUSTOMER_ID_LENGTH, unique=True)
     account_id = models.CharField(max_length=ACCOUNT_ID_LENGTH, unique=True)
+    balance = models.IntegerField()
 
     @classmethod
     def create_account(cls, customer_id):
@@ -26,12 +27,17 @@ class Account(models.Model):
     @classmethod
     def assign_account(cls, customer_id, account_id):
         return cls.objects.create(customer_id=customer_id,
-                                  account_id=account_id)
+                                  account_id=account_id,
+                                  balance=0)
 
     @classmethod
     def get_balance(cls, customer_id):
-        return 0
+        account = cls.objects.get(customer_id=customer_id)
+        return account.balance
 
     @classmethod
     def add_balance(cls, customer_id, amount):
+        account = cls.objects.get(customer_id=customer_id)
+        account.balance += amount
+        account.save()
         return
