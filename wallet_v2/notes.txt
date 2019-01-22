@@ -18,3 +18,9 @@ TDD TODO:
         - different account numbers for different users
         - one user should have only one account
         - account number should not be same for two users
+
+    - Add Money
+        - add balance to user
+        - add negative balance to user
+        - user should have account
+        - balance should be zero for new user
