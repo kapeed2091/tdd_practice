@@ -12,3 +12,7 @@ class NegativeAmountException(Exception):
 
 class NegativeAmountTransferException(Exception):
     pass
+
+
+class InvalidSenderCustomerIdException(Exception):
+    pass
