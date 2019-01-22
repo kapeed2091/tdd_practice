@@ -23,7 +23,8 @@ TDD TODO List (Functionality Layer):
     - Transfer Money
         - Concurrent Transfer of money (Double spending attack)
     - Get Statement
-        - Transaction Date, Id
+        - Transaction Date, Id, balance, amount, transaction_type
+        - Transactions should be given in which order?
 
     Done:
        - Create Account
