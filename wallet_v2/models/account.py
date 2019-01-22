@@ -9,9 +9,13 @@ class Account(models.Model):
 
     @classmethod
     def create_account(cls, customer_id):
-        import uuid
-        account_id = str(uuid.uuid4())[: cls.ACCOUNT_ID_LENGTH]
+        account_id = cls.generate_account_id(cls.ACCOUNT_ID_LENGTH)
         account = cls.objects.create(customer_id=customer_id,
                                      account_id=account_id)
         return {'customer_id': account.customer_id,
                 'account_id': account.account_id}
+
+    @staticmethod
+    def generate_account_id(length):
+        import uuid
+        return str(uuid.uuid4())[: length]
