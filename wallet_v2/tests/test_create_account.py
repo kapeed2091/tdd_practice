@@ -24,3 +24,12 @@ class TestCreateAccount(TestCase):
         Account.create_account(customer_id=customer_id)
         with self.assertRaises(Exception):
             Account.create_account(customer_id)
+
+    def testcase_account_number_is_unique_for_two_accounts(self):
+        customer_id_1 = 'customer1'
+        customer_id_2 = 'customer2'
+        from wallet_v2.models import Account
+        account_id_1 = Account.create_account(customer_id_1)['account_id']
+
+        with self.assertRaises(Exception):
+            Account.assign_account(customer_id_2, account_id_1)

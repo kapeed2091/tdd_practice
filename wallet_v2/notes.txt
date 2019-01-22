@@ -17,4 +17,4 @@ TDD TODO:
         - create account for a user
         - different account numbers for different users
         - one user should have only one account
-        - account number should not be same for two accounts
+        - account number should not be same for two users
