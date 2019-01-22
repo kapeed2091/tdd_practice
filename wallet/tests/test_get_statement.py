@@ -11,6 +11,7 @@ class TestGetStatement(TestCase):
         Account.create_account(self.receiver_customer_id)
 
     def testcase_get_statement(self):
-        transactions_list = Transaction.get_statement(sender_customer_id)
+        from wallet.models.transaction import Transaction
+        transactions_list = Transaction.get_statement(self.sender_customer_id)
 
         self.assertEquals(transactions_list, [])
