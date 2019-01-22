@@ -43,19 +43,38 @@ class Account(models.Model):
 
     @classmethod
     def add_balance(cls, customer_id, amount):
-        if cls.is_negative_amount(amount):
+        if cls.invalid_amount(amount):
             raise Exception
 
         account = cls.get_account(customer_id)
         account.balance += amount
         account.save()
 
+    @classmethod
+    def _remove_balance(cls, customer_id, amount):
+        if cls.invalid_amount(amount):
+            raise Exception
+
+        account = cls.get_account(customer_id)
+        balance = account.balance
+        if amount > balance:
+            raise Exception
+
+        account.balance = balance - amount
+        account.save()
+
     @staticmethod
-    def is_negative_amount(amount):
-        if amount < 0:
+    def invalid_amount(amount):
+        if amount <= 0:
             return True
         return False
 
     @classmethod
     def get_account(cls, customer_id):
         return cls.objects.get(customer_id=customer_id)
+
+    @classmethod
+    def transfer_amount(cls, sender_id, receiver_id, amount):
+        cls._remove_balance(customer_id=sender_id, amount=amount)
+        cls.add_balance(customer_id=receiver_id, amount=amount)
+
