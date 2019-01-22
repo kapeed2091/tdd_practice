@@ -5,3 +5,6 @@ INVALID_AMOUNT_TO_TRANSFER = \
 INSUFFICIENT_BALANCE_TO_MAKE_TRANSFER = \
     ('Insufficient balance to make transfer',
      'INSUFFICIENT_BALANCE_TO_MAKE_TRANSFER')
+
+INVALID_CUSTOMER_ID = ('No account exists with the given customer id',
+                       'INVALID_CUSTOMER_ID')
