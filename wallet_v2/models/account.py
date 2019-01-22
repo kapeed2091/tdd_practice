@@ -14,8 +14,7 @@ class Account(models.Model):
             raise Exception
         except cls.DoesNotExist:
             account_id = cls.generate_account_id(cls.ACCOUNT_ID_LENGTH)
-            account = cls.objects.create(customer_id=customer_id,
-                                         account_id=account_id)
+            account = cls.assign_account(customer_id, account_id)
         return {'customer_id': account.customer_id,
                 'account_id': account.account_id}
 
@@ -23,3 +22,8 @@ class Account(models.Model):
     def generate_account_id(length):
         import uuid
         return str(uuid.uuid4())[: length]
+
+    @classmethod
+    def assign_account(cls, customer_id, account_id):
+        return cls.objects.create(customer_id=customer_id,
+                                  account_id=account_id)
