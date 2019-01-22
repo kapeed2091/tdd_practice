@@ -22,3 +22,12 @@ class TestCreateAccount(TestCase):
         self.assertNotEqual(
             customer_1_details['account_id'], customer_2_details['account_id'],
             "same account numbers for different accounts")
+
+    def testcase_multipler_accounts_for_same_user(self):
+        customer_id = 'customer1'
+
+        from wallet.models import Account
+        Account.create_account(customer_id)
+
+        with self.assertRaises(Exception):
+            Account.create_account(customer_id)
