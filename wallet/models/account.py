@@ -14,14 +14,17 @@ class Account(models.Model):
     def create_account(cls, customer_id):
         try:
             cls.objects.get(customer_id=customer_id)
-            return Exception
+            raise Exception
         except cls.DoesNotExist:
-
             account_id = cls.generate_account_id(cls.ACCOUNT_ID_LENGTH)
-            account = cls.objects.create(
-                customer_id=customer_id, account_id=account_id)
+            account = cls.assign_account(customer_id, account_id)
         return {'account_id': account.account_id,
                 'customer_id': account.customer_id}
+
+    @classmethod
+    def assign_account(cls, customer_id, account_id):
+        return cls.objects.create(
+                customer_id=customer_id, account_id=account_id)
 
     @staticmethod
     def generate_account_id(length):
