@@ -79,9 +79,9 @@ class TestTransferAmount(TestCase):
         self.setup_both_customers()
 
         from wallet.exceptions.exceptions import InvalidAmountType
-
-        with self.assertRaisesMessage(InvalidAmountType,
-                                      'Amount is not of INT format'):
+        from wallet.constants.exception_constants import \
+            INVALID_AMOUNT_TYPE
+        with self.assertRaisesMessage(InvalidAmountType, INVALID_AMOUNT_TYPE):
             Account.transfer_amount(
                 amount=100.13, transferee_customer_id=self.customer_id_1,
                 transferred_customer_id=self.customer_id_2)

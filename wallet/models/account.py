@@ -68,7 +68,9 @@ class Account(models.Model):
 
         if not isinstance(amount, int):
             from wallet.exceptions.exceptions import InvalidAmountType
-            raise InvalidAmountType("Amount is not of INT format")
+            from wallet.constants.exception_constants import \
+                INVALID_AMOUNT_TYPE
+            raise InvalidAmountType(INVALID_AMOUNT_TYPE)
 
         if transferee_balance < amount:
             raise Exception

@@ -29,6 +29,7 @@ TDD TODO List (Functionality Layer):
     - Add Money
     - Get Balance
     - Get Statement
+    - add transaction
     
     Done:
        
