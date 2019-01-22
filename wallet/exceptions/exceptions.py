@@ -4,3 +4,7 @@ class InvalidAmountType(Exception):
 
 class InsufficientFund(Exception):
     pass
+
+
+class NegativeAmountException(Exception):
+    pass
