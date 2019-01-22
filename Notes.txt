@@ -15,6 +15,7 @@ Architecture/Design: Should we fix the architechture? - task division/teams - to
 
 TDD TODO List (Functionality Layer):
     - Create Account
+        - create account
         - [2 users should get different account numbers]
         - account_id, customer_id lengths
         - each customer has only 1 account - no joint accounts
