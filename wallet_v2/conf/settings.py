@@ -1,0 +1,1 @@
+# write your wallet_v2 settings

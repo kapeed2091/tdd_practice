@@ -1,0 +1,20 @@
+USE CASES:
+    - User can create an account in wallet.
+    - User can check his balance.
+    - User can add money to his account in wallet.
+    - User can see transactions statement.
+    - User can transfer money from his wallet to another user wallet.
+
+Architecture/Design: Should we fix the architecture? - task division/teams - to divide different apps?
+    - API Layer, Functionality Layer.
+    - Apps: Users (Third Party), Wallet.
+    - Models:
+        Account
+
+
+TDD TODO:
+    - Create Account
+        - create account for a user
+        - different account numbers for different users
+        - one user should have only one account
+        - account number should not be same for two accounts

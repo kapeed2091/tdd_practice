@@ -16,7 +16,8 @@ THIRD_PARTY_APPS = [
 
 APPS = [
     # "tdd_wallet",
-    "wallet"
+    "wallet",
+    "wallet_v2"
 ]
 
 INSTALLED_APPS += THIRD_PARTY_APPS
@@ -76,6 +77,7 @@ SWAGGER_UTILS = {
         # "ib_mini_games_public": {},
         # "tdd_wallet": {},
         "wallet": {},
+        "wallet_v2": {},
     },
     "HOST": os.environ.get('APIGATEWAY_ENDPOINT', '127.0.0.1:8000'),
 }
