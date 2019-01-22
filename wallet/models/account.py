@@ -79,5 +79,10 @@ class Account(models.Model):
         except cls.DoesNotExist:
             raise Exception('Invalid sender id')
 
+        try:
+            cls.get_account(receiver_id)
+        except cls.DoesNotExist:
+            raise Exception('Invalid receiver id')
+
         cls._remove_balance(account=sender_account, amount=amount)
         cls.add_balance(customer_id=receiver_id, amount=amount)
