@@ -27,3 +27,11 @@ class Account(models.Model):
     def assign_account(cls, customer_id, account_id):
         return cls.objects.create(customer_id=customer_id,
                                   account_id=account_id)
+
+    @classmethod
+    def get_balance(cls, customer_id):
+        return 0
+
+    @classmethod
+    def add_balance(cls, customer_id, amount):
+        return
