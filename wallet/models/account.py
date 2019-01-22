@@ -63,8 +63,16 @@ class Account(models.Model):
     @classmethod
     def transfer_amount(cls, amount, transferee_customer_id,
                         transferred_customer_id):
-        transferee_balance = cls.get_balance(
-            customer_id=transferee_customer_id)
+
+        try:
+            transferee_balance = cls.get_balance(
+                customer_id=transferee_customer_id)
+        except cls.DoesNotExist:
+            from wallet.exceptions.exceptions import \
+                InvalidSenderCustomerIdException
+            from wallet.constants.exception_constants import \
+                CUSTOMER_DOES_NOT_EXIST
+            raise InvalidSenderCustomerIdException(CUSTOMER_DOES_NOT_EXIST)
 
         if not isinstance(amount, int):
             from wallet.exceptions.exceptions import InvalidAmountType
@@ -83,11 +91,12 @@ class Account(models.Model):
         try:
             cls.deduct_balance(customer_id=transferee_customer_id,
                                amount=amount)
-            cls.add_balance(customer_id=transferred_customer_id, amount=amount)
         except NegativeAmountException:
             from wallet.constants.exception_constants import \
                 NEGATIVE_AMOUNT_TRANSFER
             raise NegativeAmountTransferException(NEGATIVE_AMOUNT_TRANSFER)
+
+        cls.add_balance(customer_id=transferred_customer_id, amount=amount)
 
     @classmethod
     def deduct_balance(cls, customer_id, amount):
