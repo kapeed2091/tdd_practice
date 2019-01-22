@@ -20,8 +20,6 @@ TDD TODO List (Functionality Layer):
         - account_id, customer_id lengths
     - Get Balance
         - When user has non-zero balance
-    - Transfer Money
-        - [check other account valid]
     - Get Statement
 
     Done:
@@ -43,6 +41,7 @@ TDD TODO List (Functionality Layer):
            - can not transfer 0 amount
            - can not transfer float amount
            - check balance before transfer
+           - check receiver account valid
 
 #######################################
 // Notes
