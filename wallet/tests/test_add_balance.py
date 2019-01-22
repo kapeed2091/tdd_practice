@@ -25,12 +25,12 @@ class TestAddBalance(TestCase):
             account = Account.get_account(self.customer_id)
             Account.add_balance(account=account, amount=-10)
 
-    def testcase_add_balance_and_check_transaction_entry(self):
-        from wallet.models import Account, Transaction
-        account = Account.get_account(self.customer_id)
-        Account.add_balance(account=account, amount=10)
-        transactions = Transaction.get_transactions(self.customer_id)
-        self.assertEqual(len(transactions), 1)
-
-        transaction = transactions[0]
-        self.assertEqual(transaction.amount, 10)
+    # def testcase_add_balance_and_check_transaction_entry(self):
+    #     from wallet.models import Account, Transaction
+    #     account = Account.get_account(self.customer_id)
+    #     Account.add_balance(account=account, amount=10)
+    #     transactions = Transaction.get_transactions(self.customer_id)
+    #     self.assertEqual(len(transactions), 1)
+    #
+    #     transaction = transactions[0]
+    #     self.assertEqual(transaction.amount, 10)
