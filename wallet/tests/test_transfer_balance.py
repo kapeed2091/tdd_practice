@@ -58,7 +58,7 @@ class TestTransferBalance(TestCase):
     def testcase_invalid_sender_id(self):
         from wallet.models import Account
 
-        with self.assertRaisesMessage(Exception, expected_message='Invalid sender_id'):
+        with self.assertRaisesMessage(Exception, expected_message='Invalid sender id'):
             Account.transfer_amount(sender_id=self.invalid_customer_id,
                                     receiver_id=self.customer_id_2, amount=50)
         customer_1_balance = Account.get_balance(self.customer_id_1)

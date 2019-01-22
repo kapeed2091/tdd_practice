@@ -51,11 +51,10 @@ class Account(models.Model):
         account.save()
 
     @classmethod
-    def _remove_balance(cls, customer_id, amount):
+    def _remove_balance(cls, account, amount):
         if cls.invalid_amount(amount):
             raise Exception('Invalid amount')
 
-        account = cls.get_account(customer_id)
         balance = account.balance
         if amount > balance:
             raise Exception('Insufficient balance')
@@ -75,6 +74,10 @@ class Account(models.Model):
 
     @classmethod
     def transfer_amount(cls, sender_id, receiver_id, amount):
-        cls._remove_balance(customer_id=sender_id, amount=amount)
-        cls.add_balance(customer_id=receiver_id, amount=amount)
+        try:
+            sender_account = cls.get_account(sender_id)
+        except cls.DoesNotExist:
+            raise Exception('Invalid sender id')
 
+        cls._remove_balance(account=sender_account, amount=amount)
+        cls.add_balance(customer_id=receiver_id, amount=amount)
