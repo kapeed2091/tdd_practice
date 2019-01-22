@@ -46,7 +46,10 @@ class TestTransferAmount(TestCase):
     def test_case_insufficient_funds(self):
         self.setup_both_customers()
 
-        with self.assertRaises(Exception):
+        from wallet.exceptions.exceptions import InsufficientFund
+        from wallet.constants.exception_constants import \
+            INSUFFICIENT_FUND
+        with self.assertRaisesMessage(InsufficientFund, INSUFFICIENT_FUND):
             Account.transfer_amount(
                 amount=1000, transferee_customer_id=self.customer_id_1,
                 transferred_customer_id=self.customer_id_2)

@@ -73,7 +73,11 @@ class Account(models.Model):
             raise InvalidAmountType(INVALID_AMOUNT_TYPE)
 
         if transferee_balance < amount:
-            raise Exception
+            from wallet.exceptions.exceptions import InsufficientFund
+            from wallet.constants.exception_constants import \
+                INSUFFICIENT_FUND
+            raise InsufficientFund(INSUFFICIENT_FUND)
+
         cls.deduct_balance(customer_id=transferee_customer_id, amount=amount)
         cls.add_balance(customer_id=transferred_customer_id, amount=amount)
 
