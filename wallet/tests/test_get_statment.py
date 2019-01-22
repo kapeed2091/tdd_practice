@@ -1,38 +1,16 @@
 from django.test import TestCase
 
 
-class TestTransferBalance(TestCase):
+class TestGetStatement(TestCase):
     customer_id_1 = 'customer1'
     customer_id_2 = 'customer2'
 
     def setUp(self):
         from wallet.models import Account
+
         Account.create_account(self.customer_id_1)
-        customer1_account = Account.get_account(self.customer_id_1)
-        Account.add_balance(account=customer1_account, amount=100)
         Account.create_account(self.customer_id_2)
-        customer2_account = Account.get_account(self.customer_id_2)
-        Account.add_balance(account=customer2_account, amount=10)
 
-    def testcase_transfer_positive_amount(self):
-        from wallet.models import Account
-        Account.transfer_amount(sender_id=self.customer_id_1,
-                                receiver_id=self.customer_id_2, amount=50)
-        customer_1_balance = Account.get_balance(self.customer_id_1)
-        customer_2_balance = Account.get_balance(self.customer_id_2)
-        self.assertEqual(customer_1_balance, 50)
-        self.assertEqual(customer_2_balance, 60)
-
-    def testcase_transfer_negative_amount(self):
-        from wallet.models import Account
-
-        with self.assertRaises(Exception):
-            Account.transfer_amount(sender_id=self.customer_id_1,
-                                    receiver_id=self.customer_id_2, amount=-50)
-
-    def testcase_transfer_insufficient_amount(self):
-        from wallet.models import Account
-
-        with self.assertRaises(Exception):
-            Account.transfer_amount(sender_id=self.customer_id_1,
-                                    receiver_id=self.customer_id_2, amount=500)
+        account = Account.get_account(self.customer_id_1)
+        Account.add_balance(account=account, amount=100)
+        Account.transfer_amount(sender_id=self.customer_id_1, receiver_id=self.customer_id_2, amount=50)
