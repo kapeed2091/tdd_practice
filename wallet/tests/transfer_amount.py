@@ -67,10 +67,15 @@ class TestTransferAmount(TestCase):
                 amount=-100, transferee_customer_id=self.customer_id_1,
                 transferred_customer_id=self.customer_id_2)
 
-    def test_case_no_transferee_account(self):
+    def test_case_invalid_sender_customer_id(self):
         self.setup_customer_2()
 
-        with self.assertRaises(Account.DoesNotExist):
+        from wallet.exceptions.exceptions import \
+            InvalidSenderCustomerId
+        from wallet.constants.exception_constants import \
+            CUSTOMER_DOES_NOT_EXIST
+        with self.assertRaisesMessage(InvalidSenderCustomerId,
+                                      CUSTOMER_DOES_NOT_EXIST):
             Account.transfer_amount(
                 amount=100, transferee_customer_id=self.customer_id_1,
                 transferred_customer_id=self.customer_id_2)
