@@ -89,8 +89,31 @@ class Account(models.Model):
         return cls.objects.get(customer_id=customer_id)
 
     @classmethod
+    def is_balance_sufficient_to_make_transfer(cls, customer_id, amount):
+        balance = cls.get_balance(customer_id=customer_id)
+
+        if balance >= amount:
+            return True
+        else:
+            return False
+
+    @classmethod
+    def raise_exception_for_insufficient_balance(cls, customer_id, amount):
+
+        if cls.is_balance_sufficient_to_make_transfer(
+                customer_id=customer_id, amount=amount):
+            pass
+        else:
+            from wallet.constants.exception_message import \
+                INSUFFICIENT_BALANCE_TO_MAKE_TRANSFER
+            raise Exception(INSUFFICIENT_BALANCE_TO_MAKE_TRANSFER)
+
+    @classmethod
     def transfer_amount(cls, source_customer_id, destination_customer_id,
                         transfer_amount):
+
+        cls.raise_exception_for_insufficient_balance(
+            customer_id=source_customer_id, amount=transfer_amount)
 
         try:
             cls.add_balance(customer_id=destination_customer_id,

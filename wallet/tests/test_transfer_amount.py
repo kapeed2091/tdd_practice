@@ -80,7 +80,7 @@ class TestTransferAmount(TestCase):
 
         with self.assertRaisesMessage(
                 Exception, expected_message=
-                'Insufficient balance to complete the transfer'):
+                'Insufficient balance to make transfer'):
             Account.transfer_amount(source_customer_id=self.customer_id1,
                                     destination_customer_id=self.customer_id2,
                                     transfer_amount=transfer_amount)
