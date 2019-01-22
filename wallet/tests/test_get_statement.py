@@ -48,6 +48,8 @@ class TestGetStatement(TestCase):
 
         from ib_common.date_time_utils.convert_string_to_local_date_time \
             import convert_string_to_local_date_time
+        from ib_common.date_time_utils.convert_datetime_to_local_string \
+            import convert_datetime_to_local_string
         date_time_format = '%Y-%m-%d %H:%M:%S'
 
         date_range = {
@@ -59,12 +61,8 @@ class TestGetStatement(TestCase):
 
         transactions = Statement.get_transactions(date_range=date_range)
 
-        transactions_input = []
-        import copy
-        for each in self.transactions:
-            dict_ = copy.deepcopy(each)
-            dict_["date_time"] = convert_string_to_local_date_time(
+        for each in transactions:
+            each["date_time"] = convert_datetime_to_local_string(
                 each["date_time"], date_time_format)
-            transactions_input.append(dict_)
 
-        self.assertItemsEqual(transactions_input, transactions)
+        self.assertItemsEqual(self.transactions, transactions)
