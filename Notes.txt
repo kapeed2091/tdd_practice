@@ -20,9 +20,14 @@ TDD TODO List (Functionality Layer):
         - account_id, customer_id lengths
     - Get Balance
         - When user has non-zero balance
-    - [Get Statement]
-        - get statement
+    - Add Balance
+        - transaction db state
+    - Transfer Money
+        - transaction db state
+    - Get Statement
+        - [get statement]
         - invalid customer id
+        - transaction type validation at model level
 
 
     Done:

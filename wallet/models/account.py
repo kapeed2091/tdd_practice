@@ -57,7 +57,17 @@ class Account(models.Model):
         else:
             raise Exception(INVALID_AMOUNT_TO_ADD)
 
+        from wallet.models import Transaction
         account = cls.get_account(customer_id)
+
+        transaction_dict = {
+            'account_id': account.account_id,
+            'message': "added the money",
+            'amount': amount,
+            'transaction_type': "CREDIT"
+        }
+        Transaction.add_transaction(transaction_dict=transaction_dict)
+
         account.balance += amount
         account.save()
 
