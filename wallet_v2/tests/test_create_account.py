@@ -17,3 +17,10 @@ class TestCreateAccount(TestCase):
         account_id_2 = Account.create_account(customer_id_2)['account_id']
 
         self.assertNotEqual(account_id_1, account_id_2, 'AccountIds Matched.!')
+
+    def testcase_single_account_for_one_user(self):
+        customer_id = 'customer1'
+        from wallet_v2.models import Account
+        Account.create_account(customer_id=customer_id)
+        with self.assertRaises(Exception):
+            Account.create_account(customer_id)
