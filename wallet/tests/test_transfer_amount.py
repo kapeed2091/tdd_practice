@@ -84,3 +84,17 @@ class TestTransferAmount(TestCase):
             Account.transfer_amount(source_customer_id=self.customer_id1,
                                     destination_customer_id=self.customer_id2,
                                     transfer_amount=transfer_amount)
+
+    def test_case_invalid_receiver_account(self):
+        from wallet.models import Account
+
+        transfer_amount = 10
+        Account.add_balance(customer_id=self.customer_id1, amount=100)
+
+        with self.assertRaisesMessage(
+                Exception, expected_message=
+                'No account exists with the given customer id'):
+            Account.transfer_amount(source_customer_id=self.customer_id1,
+                                    destination_customer_id='customer3',
+                                    transfer_amount=transfer_amount)
+
