@@ -42,11 +42,10 @@ class Account(models.Model):
         return account.balance
 
     @classmethod
-    def add_balance(cls, customer_id, amount):
+    def add_balance(cls, account, amount):
         if cls.invalid_amount(amount):
             raise Exception('Invalid amount')
 
-        account = cls.get_account(customer_id)
         account.balance += amount
         account.save()
 
@@ -80,9 +79,10 @@ class Account(models.Model):
             raise Exception('Invalid sender id')
 
         try:
-            cls.get_account(receiver_id)
+            receiver_account = cls.get_account(receiver_id)
         except cls.DoesNotExist:
             raise Exception('Invalid receiver id')
 
         cls._remove_balance(account=sender_account, amount=amount)
-        cls.add_balance(customer_id=receiver_id, amount=amount)
+        print (receiver_account)
+        cls.add_balance(account=receiver_account, amount=amount)

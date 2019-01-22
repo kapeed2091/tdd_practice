@@ -9,9 +9,11 @@ class TestTransferBalance(TestCase):
     def setUp(self):
         from wallet.models import Account
         Account.create_account(self.customer_id_1)
-        Account.add_balance(customer_id=self.customer_id_1, amount=100)
+        customer1_account = Account.get_account(self.customer_id_1)
+        Account.add_balance(account=customer1_account, amount=100)
         Account.create_account(self.customer_id_2)
-        Account.add_balance(customer_id=self.customer_id_2, amount=10)
+        customer2_account = Account.get_account(self.customer_id_2)
+        Account.add_balance(account=customer2_account, amount=10)
 
     def testcase_transfer_positive_amount(self):
         from wallet.models import Account
