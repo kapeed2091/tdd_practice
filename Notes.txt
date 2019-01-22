@@ -20,7 +20,10 @@ TDD TODO List (Functionality Layer):
         - account_id, customer_id lengths
     - Get Balance
         - When user has non-zero balance
-    - Get Statement
+    - [Get Statement]
+        - get statement
+        - invalid customer id
+
 
     Done:
        - Create Account
