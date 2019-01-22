@@ -30,3 +30,11 @@ class Account(models.Model):
     def generate_account_id(length):
         import uuid
         return str(uuid.uuid4())[0:length]
+
+    @classmethod
+    def add_balance(cls, customer_id, amount):
+        pass
+
+    @classmethod
+    def get_balance(cls, customer_id):
+        return 0

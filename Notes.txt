@@ -29,6 +29,10 @@ TDD TODO List (Functionality Layer):
         - user should have account to transfer
         - beneficiary should have account
     - Add Money
+        - add balance to user
+        - zero balance for new user account
+        - add negative balance to user
+        - user has no account
     - Get Balance
     - Get Statement
     
