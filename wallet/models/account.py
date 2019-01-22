@@ -44,7 +44,7 @@ class Account(models.Model):
     @classmethod
     def add_balance(cls, customer_id, amount):
         if cls.invalid_amount(amount):
-            raise Exception
+            raise Exception('Invalid amount')
 
         account = cls.get_account(customer_id)
         account.balance += amount
@@ -53,12 +53,12 @@ class Account(models.Model):
     @classmethod
     def _remove_balance(cls, customer_id, amount):
         if cls.invalid_amount(amount):
-            raise Exception
+            raise Exception('Invalid amount')
 
         account = cls.get_account(customer_id)
         balance = account.balance
         if amount > balance:
-            raise Exception
+            raise Exception('Insufficient balance')
 
         account.balance = balance - amount
         account.save()
