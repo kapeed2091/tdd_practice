@@ -42,8 +42,9 @@ class TestTransferAmount(TestCase):
 
         transfer_amount = -10
 
-        with self.assertRaisesMessage(Exception,
-                                      expected_message="Invalid amount"):
+        with self.assertRaisesMessage(
+                Exception,
+                expected_message="Invalid amount {}".format(transfer_amount)):
             Account.transfer_amount(source_customer_id=self.customer_id1,
                                     destination_customer_id=self.customer_id2,
                                     transfer_amount=transfer_amount)
@@ -55,7 +56,7 @@ class TestTransferAmount(TestCase):
 
         with self.assertRaisesMessage(
                 Exception,
-                expected_message="Zero amount can not be transfered"):
+                expected_message="Invalid amount {}".format(transfer_amount)):
             Account.transfer_amount(source_customer_id=self.customer_id1,
                                     destination_customer_id=self.customer_id2,
                                     transfer_amount=transfer_amount)
