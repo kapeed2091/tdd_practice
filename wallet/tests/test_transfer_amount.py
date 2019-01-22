@@ -44,7 +44,7 @@ class TestTransferAmount(TestCase):
 
         with self.assertRaisesMessage(
                 Exception,
-                expected_message="Invalid amount {}".format(transfer_amount)):
+                expected_message='Can not transfer the given amount'):
             Account.transfer_amount(source_customer_id=self.customer_id1,
                                     destination_customer_id=self.customer_id2,
                                     transfer_amount=transfer_amount)
@@ -56,7 +56,19 @@ class TestTransferAmount(TestCase):
 
         with self.assertRaisesMessage(
                 Exception,
-                expected_message="Invalid amount {}".format(transfer_amount)):
+                expected_message='Can not transfer the given amount'):
+            Account.transfer_amount(source_customer_id=self.customer_id1,
+                                    destination_customer_id=self.customer_id2,
+                                    transfer_amount=transfer_amount)
+
+    def test_case_transfer_float_balance(self):
+        from wallet.models import Account
+
+        transfer_amount = 0
+
+        with self.assertRaisesMessage(
+                Exception,
+                expected_message='Can not transfer the given amount'):
             Account.transfer_amount(source_customer_id=self.customer_id1,
                                     destination_customer_id=self.customer_id2,
                                     transfer_amount=transfer_amount)

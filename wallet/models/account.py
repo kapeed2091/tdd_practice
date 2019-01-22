@@ -43,28 +43,27 @@ class Account(models.Model):
 
     @classmethod
     def add_balance(cls, customer_id, amount):
+        from wallet.constants.exception_message import \
+            INVALID_AMOUNT_TO_ADD
+
         if cls.is_negative_amount(amount):
-            raise Exception
+            raise Exception(INVALID_AMOUNT_TO_ADD)
+
+        if cls.is_zero_amount(amount):
+            raise Exception(INVALID_AMOUNT_TO_ADD)
 
         if cls.is_amount_type_int(amount):
             pass
         else:
-            raise Exception
+            raise Exception(INVALID_AMOUNT_TO_ADD)
 
         account = cls.get_account(customer_id)
         account.balance += amount
         account.save()
 
     @classmethod
-    def deduct_balance(cls, customer_id, amount):
-        if cls.is_negative_amount(amount):
-            raise Exception
-
-        if cls.is_amount_type_int(amount):
-            pass
-        else:
-            raise Exception
-
+    def _deduct_balance(cls, customer_id, amount):
+        # TODO add exception handling when method is made public
         account = cls.get_account(customer_id)
         account.balance -= amount
         account.save()
@@ -82,17 +81,6 @@ class Account(models.Model):
         return False
 
     @staticmethod
-    def is_invalid_transfer_amount(amount):
-
-        if Account.is_negative_amount(amount=amount):
-            return True
-        if Account.is_zero_amount(amount=amount):
-            return True
-        if Account.is_amount_type_int(amount=amount):
-            return True
-        return False
-
-    @staticmethod
     def is_amount_type_int(amount):
         return type(amount) == int
 
@@ -104,11 +92,14 @@ class Account(models.Model):
     def transfer_amount(cls, source_customer_id, destination_customer_id,
                         transfer_amount):
 
-        if cls.is_invalid_transfer_amount(transfer_amount):
-            raise Exception('Invalid amount {}'.format(transfer_amount))
+        try:
+            cls.add_balance(customer_id=destination_customer_id,
+                            amount=transfer_amount)
 
-        cls.add_balance(customer_id=destination_customer_id,
-                        amount=transfer_amount)
+            cls._deduct_balance(customer_id=source_customer_id,
+                                amount=transfer_amount)
+        except Exception as e:
+            from wallet.constants.exception_message import \
+                INVALID_AMOUNT_TO_TRANSFER
 
-        cls.deduct_balance(customer_id=source_customer_id,
-                           amount=transfer_amount)
+            raise Exception(INVALID_AMOUNT_TO_TRANSFER)
