@@ -72,3 +72,15 @@ class TestTransferAmount(TestCase):
             Account.transfer_amount(source_customer_id=self.customer_id1,
                                     destination_customer_id=self.customer_id2,
                                     transfer_amount=transfer_amount)
+
+    def test_case_insufficient_balance_to_transfer(self):
+        from wallet.models import Account
+
+        transfer_amount = 200
+
+        with self.assertRaisesMessage(
+                Exception, expected_message=
+                'Insufficient balance to complete the transfer'):
+            Account.transfer_amount(source_customer_id=self.customer_id1,
+                                    destination_customer_id=self.customer_id2,
+                                    transfer_amount=transfer_amount)
