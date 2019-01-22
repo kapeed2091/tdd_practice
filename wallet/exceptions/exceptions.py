@@ -8,3 +8,7 @@ class InsufficientFund(Exception):
 
 class NegativeAmountException(Exception):
     pass
+
+
+class NegativeAmountTransferException(Exception):
+    pass

@@ -57,11 +57,12 @@ class TestTransferAmount(TestCase):
     def test_case_negative_amount(self):
         self.setup_both_customers()
 
-        from wallet.exceptions.exceptions import NegativeAmountException
+        from wallet.exceptions.exceptions import \
+            NegativeAmountTransferException
         from wallet.constants.exception_constants import \
-            NEGATIVE_AMOUNT
-        with self.assertRaisesMessage(NegativeAmountException,
-                                      NEGATIVE_AMOUNT):
+            NEGATIVE_AMOUNT_TRANSFER
+        with self.assertRaisesMessage(NegativeAmountTransferException,
+                                      NEGATIVE_AMOUNT_TRANSFER):
             Account.transfer_amount(
                 amount=-100, transferee_customer_id=self.customer_id_1,
                 transferred_customer_id=self.customer_id_2)
