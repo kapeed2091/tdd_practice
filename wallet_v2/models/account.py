@@ -64,6 +64,10 @@ class Account(models.Model):
     @classmethod
     def transfer_balance(
             cls, payee_customer_id, beneficiary_customer_id, amount):
+        if cls.check_if_payee_and_beneficiary_accounts_are_same(
+                payee_customer_id, beneficiary_customer_id):
+            raise Exception("Payee and Beneficiary should not be same")
+
         if cls.check_amount_lte_zero(amount):
             raise Exception("Transfer amount should be greater than zero")
 
@@ -84,6 +88,13 @@ class Account(models.Model):
 
     def check_if_insufficient_balance(self, amount):
         if self.balance < amount:
+            return True
+        return False
+
+    @classmethod
+    def check_if_payee_and_beneficiary_accounts_are_same(
+            cls, payee_customer_id, beneficiary_customer_id):
+        if payee_customer_id == beneficiary_customer_id:
             return True
         return False
 
