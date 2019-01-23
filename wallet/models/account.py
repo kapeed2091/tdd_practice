@@ -12,7 +12,7 @@ class Account(models.Model):
 
     @classmethod
     def create_account(cls, customer_id):
-        if cls._customer_account_exists(customer_id):
+        if cls._is_customer_account_exists(customer_id):
             raise Exception
 
         account_id = cls.generate_account_id(cls.ACCOUNT_ID_LENGTH)
@@ -23,7 +23,7 @@ class Account(models.Model):
                 'account_id': account.account_id}
 
     @classmethod
-    def _customer_account_exists(cls, customer_id):
+    def _is_customer_account_exists(cls, customer_id):
         return cls.objects.filter(customer_id=customer_id).exists()
 
     @classmethod
@@ -44,7 +44,7 @@ class Account(models.Model):
     def add_balance(self, amount):
         from wallet.models import Transaction
 
-        if self.invalid_amount(amount):
+        if self.is_invalid_amount(amount):
             raise Exception('Invalid amount')
 
         self.balance += amount
@@ -54,7 +54,7 @@ class Account(models.Model):
     def _remove_balance(self, amount):
         from wallet.models import Transaction
 
-        if self.invalid_amount(amount):
+        if self.is_invalid_amount(amount):
             raise Exception('Invalid amount')
 
         balance = self.balance
@@ -66,7 +66,7 @@ class Account(models.Model):
         Transaction.create_obj(account=self, amount=-amount)
 
     @staticmethod
-    def invalid_amount(amount):
+    def is_invalid_amount(amount):
         if amount <= 0:
             return True
         return False
