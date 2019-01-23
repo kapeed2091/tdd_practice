@@ -14,14 +14,18 @@ class TestTransferBalance(TestCase):
         Account.add_account_balance(self.receiver_customer_id, 30)
 
     def testcase_transfer_balance(self):
-        sender_old_balance = Account.get_account_balance(self.sender_customer_id)
-        receiver_old_balance = Account.get_account_balance(self.receiver_customer_id)
+        sender_old_balance = Account.get_account_balance(
+            self.sender_customer_id)
+        receiver_old_balance = Account.get_account_balance(
+            self.receiver_customer_id)
 
         Account.transfer_balance(self.sender_customer_id,
                                  self.receiver_customer_id, 10)
 
-        sender_new_balance = Account.get_account_balance(self.sender_customer_id)
-        receiver_new_balance = Account.get_account_balance(self.receiver_customer_id)
+        sender_new_balance = Account.get_account_balance(
+            self.sender_customer_id)
+        receiver_new_balance = Account.get_account_balance(
+            self.receiver_customer_id)
 
         self.assertEquals(sender_old_balance, sender_new_balance+10)
         self.assertEquals(receiver_old_balance, receiver_new_balance-10)

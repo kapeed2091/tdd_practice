@@ -13,7 +13,8 @@ class TestAddBalance(TestCase):
     def testcase_add_balance(self):
         from wallet.models import Account
 
-        prev_balance = Account.get_account_balance(customer_id=self.customer_id)
+        prev_balance = Account.get_account_balance(
+            customer_id=self.customer_id)
         Account.add_account_balance(self.customer_id, 10)
         balance = Account.get_account_balance(self.customer_id)
 

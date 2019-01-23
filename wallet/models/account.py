@@ -79,7 +79,8 @@ class Account(models.Model):
             raise Exception('Customer id doesnot exist')
 
     @classmethod
-    def transfer_balance(cls, sender_customer_id, receiver_customer_id, amount_to_transfer):
+    def transfer_balance(cls, sender_customer_id, receiver_customer_id,
+                         amount_to_transfer):
         if cls.is_zero_or_negative_number(amount_to_transfer):
             raise Exception('Transfer balance cannot be zero or negative')
 

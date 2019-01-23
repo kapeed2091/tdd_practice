@@ -12,7 +12,8 @@ class TestGetStatement(TestCase):
 
     def testcase_get_statement(self):
         from wallet.models import Transaction
-        transactions_list = Transaction.get_customer_statement(self.sender_customer_id)
+        transactions_list = Transaction.get_customer_statement(
+            self.sender_customer_id)
 
         self.assertEquals(transactions_list, [])
 
@@ -20,9 +21,9 @@ class TestGetStatement(TestCase):
         transaction_id = '2019_1'
 
         from wallet.models import Transaction
-        Transaction.assign_transaction_id_to_customer(customer_id=self.sender_customer_id,
-                                                      transaction_id=transaction_id,
-                                                      transaction_amount=50, transaction_type='Credit')
+        Transaction.assign_transaction_id_to_customer(
+            customer_id=self.sender_customer_id, transaction_id=transaction_id,
+            transaction_amount=50, transaction_type='Credit')
 
         sender_transactions_list = Transaction.get_customer_statement(
             self.sender_customer_id)
@@ -36,23 +37,25 @@ class TestGetStatement(TestCase):
         transaction_id = '2019_1'
 
         from wallet.models import Transaction
-        Transaction.assign_transaction_id_to_customer(customer_id=self.sender_customer_id,
-                                                      transaction_id=transaction_id,
-                                                      transaction_amount=50, transaction_type='Credit')
+        Transaction.assign_transaction_id_to_customer(
+            customer_id=self.sender_customer_id, transaction_id=transaction_id,
+            transaction_amount=50, transaction_type='Credit')
 
         with self.assertRaises(Exception):
             Transaction.assign_transaction_id_to_customer(
                 customer_id=self.sender_customer_id,
-                transaction_id=transaction_id, transaction_amount=20, transaction_type='Credit')
+                transaction_id=transaction_id, transaction_amount=20,
+                transaction_type='Credit')
 
     def testcase_get_transaction_type_in_statement(self):
         transaction_id_1 = '2019_1'
         transaction_id_2 = '2019_2'
 
         from wallet.models import Transaction
-        Transaction.assign_transaction_id_to_customer(customer_id=self.sender_customer_id,
-                                                      transaction_id=transaction_id_1,
-                                                      transaction_amount=50, transaction_type='Credit')
+        Transaction.assign_transaction_id_to_customer(
+            customer_id=self.sender_customer_id,
+            transaction_id=transaction_id_1,
+            transaction_amount=50, transaction_type='Credit')
 
         old_sender_transactions_list = Transaction.get_customer_statement(
             self.sender_customer_id)
@@ -61,9 +64,10 @@ class TestGetStatement(TestCase):
             'transaction_id': transaction_id_1,
             'amount': 50, 'type': 'Credit'}])
 
-        Transaction.assign_transaction_id_to_customer(customer_id=self.sender_customer_id,
-                                                      transaction_id=transaction_id_2,
-                                                      transaction_amount=10, transaction_type='Debit')
+        Transaction.assign_transaction_id_to_customer(
+            customer_id=self.sender_customer_id,
+            transaction_id=transaction_id_2,
+            transaction_amount=10, transaction_type='Debit')
 
         new_sender_transactions_list = Transaction.get_customer_statement(
             self.sender_customer_id)
