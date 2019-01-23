@@ -61,13 +61,14 @@ class Account(models.Model):
 
     def credit_amount(self, amount):
         from wallet.models import Transaction
+        from wallet.constants.general import TransactionType
 
         self.raise_exception_for_invalid_amount(account=self, amount=amount)
         transaction_dict = {
             'account_id': self.id,
             'message': "added the money",
             'amount': amount,
-            'transaction_type': "CREDIT"
+            'transaction_type': TransactionType.CREDIT.value
         }
         Transaction.add_transaction(transaction_dict=transaction_dict)
 
@@ -80,12 +81,14 @@ class Account(models.Model):
         account.debit_amount(amount=amount)
 
     def debit_amount(self, amount):
+        from wallet.constants.general import TransactionType
+
         self.raise_exception_for_invalid_amount(account=self, amount=amount)
         transaction_dict = {
             'account_id': self.id,
             'message': "deducted the money",
             'amount': amount,
-            'transaction_type': "DEBIT"
+            'transaction_type': TransactionType.DEBIT.value
         }
         from wallet.models import Transaction
         Transaction.add_transaction(transaction_dict=transaction_dict)
