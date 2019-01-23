@@ -37,6 +37,8 @@ class TestTransferAmount(TestCase):
         self.assertEquals(customer_id2_balance,
                           prev_customer_id2_balance + transfer_amount)
 
+        self._validate_transaction_db_state(transfer_amount=transfer_amount)
+
     def test_case_transfer_negative_amount(self):
         from wallet.models import Account
 
@@ -98,3 +100,23 @@ class TestTransferAmount(TestCase):
                                     destination_customer_id='customer3',
                                     transfer_amount=transfer_amount)
 
+    def _validate_transaction_db_state(self, transfer_amount):
+        from wallet.models import Transaction
+        sender_transactions = \
+            Transaction.objects.filter(account__customer_id=self.customer_id1)
+
+        sender_transaction = sender_transactions[0]
+
+        self.assertEquals(sender_transaction.account.customer_id, self.customer_id1)
+        self.assertEquals(sender_transaction.amount, transfer_amount)
+        self.assertEquals(sender_transaction.transaction_type, "DEBIT")
+
+        receiver_transactions = \
+            Transaction.objects.filter(account__customer_id=self.customer_id1)
+
+        receiver_transaction = receiver_transactions[0]
+
+        self.assertEquals(receiver_transaction.account.customer_id,
+                          self.customer_id2)
+        self.assertEquals(receiver_transaction.amount, transfer_amount)
+        self.assertEquals(receiver_transaction.transaction_type, "CREDIT")

@@ -22,7 +22,7 @@ TDD TODO List (Functionality Layer):
         - When user has non-zero balance
     - Add Balance
     - Transfer Money
-        - transaction db state
+        - [transaction db state]
     - Get Statement
         - transaction type validation at model level
 
