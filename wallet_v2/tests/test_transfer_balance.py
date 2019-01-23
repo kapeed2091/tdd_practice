@@ -37,3 +37,14 @@ class TestTransferBalance(TestCase):
                 Exception, "Transfer amount should be greater than zero"):
             Account.transfer_balance(self.payee_customer_id,
                                      self.beneficiary_customer_id, -2)
+
+    def testcase_payee_should_have_sufficient_balance(self):
+        from wallet_v2.models import Account
+
+        Account.create_account(self.payee_customer_id)
+        Account.create_account(self.beneficiary_customer_id)
+
+        with self.assertRaisesMessage(
+                Exception, "Insufficient balance to transfer money"):
+            Account.transfer_balance(self.payee_customer_id,
+                                     self.beneficiary_customer_id, 100)
