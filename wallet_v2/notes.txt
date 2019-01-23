@@ -39,4 +39,5 @@ TDD TODO:
     - Get Statement
         - customer transactions
         - customer transactions in date range
-        - user should have an account
+        - user should have an account at get customer transactions
+        - user should have an account at get customer transactions in date range
