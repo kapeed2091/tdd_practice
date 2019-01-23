@@ -25,6 +25,7 @@ TDD TODO List (Functionality Layer):
         - transactions messages
     - Get Statement
         - transaction type validation at model level
+        - Date in transaction model
 
 
     Done:
