@@ -11,6 +11,14 @@ class Account(models.Model):
     balance = models.IntegerField(default=DEFAULT_BALANCE)
 
     @classmethod
+    def raise_exception_for_invalid_customer(cls, customer_id):
+        if cls._customer_account_exists(customer_id):
+            pass
+        else:
+            from wallet.constants.exception_message import INVALID_CUSTOMER_ID
+            raise Exception(INVALID_CUSTOMER_ID)
+
+    @classmethod
     def create_account(cls, customer_id):
         cls.raise_exception_for_customer_account_exists(customer_id)
         account_id = cls._generate_account_id()

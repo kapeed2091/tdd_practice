@@ -34,9 +34,14 @@ class Transaction(models.Model):
     def get_statement(cls, customer_id):
         from wallet.models import Account
 
-        Account.get_account(customer_id=customer_id)
+        Account.raise_exception_for_invalid_customer(customer_id=customer_id)
         transactions = cls.get_transactions(customer_id=customer_id)
 
+        statement = cls.form_statement(transactions=transactions)
+        return statement
+
+    @classmethod
+    def form_statement(cls, transactions):
         statement = []
         for transaction in transactions:
             statement.append(transaction.convert_transaction_to_dict())
