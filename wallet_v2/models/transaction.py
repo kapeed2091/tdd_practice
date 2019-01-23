@@ -7,6 +7,7 @@ class Transaction(models.Model):
     account = models.ForeignKey('wallet_v2.Account')
     amount = models.IntegerField()
     transaction_type = models.CharField(max_length=TRANSACTION_TYPE_LENGTH)
+    transaction_date = models.DateField()
 
     @classmethod
     def get_customer_statement(cls, customer_id):
