@@ -7,7 +7,7 @@ class Transaction(models.Model):
 
     @classmethod
     def create_transaction(cls, account, amount):
-        return cls.objects.create(
+        cls.objects.create(
             account=account,
             amount=amount
         )
