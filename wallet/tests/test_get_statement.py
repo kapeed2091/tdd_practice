@@ -59,7 +59,8 @@ class TestGetStatement(TestCase):
                                                          date_time_format)
         }
 
-        transactions = Statement.get_transactions(date_range=date_range)
+        transactions = Statement.get_transactions(
+            customer_id=self.customer_id, date_range=date_range)
 
         for each in transactions:
             each["date_time"] = convert_datetime_to_local_string(
