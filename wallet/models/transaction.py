@@ -6,7 +6,8 @@ class Transaction(models.Model):
     TRANSACTION_ID_LENGTH = 20
 
     customer_id = models.CharField(max_length=CUSTOMER_ID_LENGTH)
-    transaction_id = models.CharField(max_length=TRANSACTION_ID_LENGTH)
+    transaction_id = models.CharField(max_length=TRANSACTION_ID_LENGTH,
+                                      unique=True)
     amount = models.IntegerField()
 
     @classmethod
