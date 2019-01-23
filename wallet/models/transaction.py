@@ -24,7 +24,6 @@ class Transaction(models.Model):
 
     @classmethod
     def add_transaction(cls, transaction_dict):
-        print "transaction_dict----->", transaction_dict
         cls.objects.create(
             account_id=transaction_dict['account_id'],
             message=transaction_dict['message'],
@@ -33,6 +32,9 @@ class Transaction(models.Model):
 
     @classmethod
     def get_statement(cls, customer_id):
+        from wallet.models import Account
+
+        Account.get_account(customer_id=customer_id)
         transactions = cls.get_transactions(customer_id=customer_id)
 
         statement = []
@@ -40,4 +42,3 @@ class Transaction(models.Model):
             statement.append(transaction.convert_transaction_to_dict())
 
         return statement
-

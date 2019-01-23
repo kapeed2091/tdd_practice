@@ -25,7 +25,6 @@ TDD TODO List (Functionality Layer):
     - Transfer Money
         - transaction db state
     - Get Statement
-        - [invalid customer id]
         - transaction type validation at model level
 
 
@@ -51,6 +50,7 @@ TDD TODO List (Functionality Layer):
            - check receiver account valid
        - Get Statement
             - get statement
+            - invalid customer id
 
 #######################################
 // Notes

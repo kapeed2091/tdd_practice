@@ -30,4 +30,4 @@ class TestGetStatement(TestCase):
         with self.assertRaisesMessage(
                 Exception, expected_message=
                 'No account exists with the given customer id'):
-            Transaction.get_statement(customer_id=self.customer_id)
+            Transaction.get_statement(customer_id="customer3")
