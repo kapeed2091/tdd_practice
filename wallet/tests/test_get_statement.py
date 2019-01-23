@@ -56,6 +56,24 @@ class TestGetStatement(TestCase):
 
         return transactions
 
+    @staticmethod
+    def _get_parsed_date_range(date_range):
+        from ib_common.date_time_utils.convert_string_to_local_date_time \
+            import convert_string_to_local_date_time
+
+        date_time_format = '%Y-%m-%d %H:%M:%S'
+
+        date_range = {
+            "from_date": convert_string_to_local_date_time(
+                date_range["from_date"], date_time_format
+            ),
+            "to_date": convert_string_to_local_date_time(
+                date_range["to_date"], date_time_format
+            )
+        }
+
+        return date_range
+
     def test_get_balance_successful(self):
         self.setup_statements_for_both_customers()
 
@@ -100,19 +118,11 @@ class TestGetStatement(TestCase):
             "to_date": to_date
         }
 
-        from ib_common.date_time_utils.convert_string_to_local_date_time \
-            import convert_string_to_local_date_time
         from ib_common.date_time_utils.convert_datetime_to_local_string \
             import convert_datetime_to_local_string
         date_time_format = '%Y-%m-%d %H:%M:%S'
 
-        parsed_date_range = {
-            "from_date": convert_string_to_local_date_time(from_date,
-                                                           date_time_format),
-            "to_date": convert_string_to_local_date_time(to_date,
-                                                         date_time_format)
-        }
-
+        parsed_date_range = self._get_parsed_date_range(date_range=date_range)
         transactions = Statement.get_transactions(
             customer_id=self.no_transactions_customer_id,
             date_range=parsed_date_range
