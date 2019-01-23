@@ -37,7 +37,7 @@ class Account(models.Model):
         return str(uuid.uuid4())[0:length]
 
     @classmethod
-    def get_balance(cls, customer_id):
+    def get_account_balance(cls, customer_id):
         account = cls.objects.get(customer_id=customer_id)
         return account.balance
 
