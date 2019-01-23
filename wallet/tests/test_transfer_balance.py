@@ -78,3 +78,23 @@ class TestTransferBalance(TestCase):
         customer_2_balance = Account.get_balance(self.customer_id_2)
         self.assertEqual(customer_1_balance, 100)
         self.assertEqual(customer_2_balance, 10)
+
+    def testcase_transfer_amount_and_check_transaction_entry(self):
+        from wallet.models import Account, Transaction
+        Account.transfer_amount(sender_id=self.customer_id_1,
+                                receiver_id=self.customer_id_2, amount=50)
+        customer1_transactions = Transaction.get_transactions(self.customer_id_1)
+        self.assertEqual(len(customer1_transactions), 2)
+        expected_customer1_transactions = [
+            {'customer_id': self.customer_id_1, 'amount': 100},
+            {'customer_id': self.customer_id_1, 'amount': -50}
+        ]
+        self.assertItemsEqual(expected_customer1_transactions, customer1_transactions)
+
+        customer2_transactions = Transaction.get_transactions(self.customer_id_2)
+        self.assertEqual(len(customer2_transactions), 2)
+        expected_customer2_transactions = [
+            {'customer_id': self.customer_id_2, 'amount': 10},
+            {'customer_id': self.customer_id_2, 'amount': 50}
+        ]
+        self.assertItemsEqual(expected_customer2_transactions, customer2_transactions)
