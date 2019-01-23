@@ -12,7 +12,7 @@ class TestGetStatement(TestCase):
 
     def testcase_get_statement(self):
         from wallet.models import Transaction
-        transactions_list = Transaction.get_statement(self.sender_customer_id)
+        transactions_list = Transaction.get_customer_statement(self.sender_customer_id)
 
         self.assertEquals(transactions_list, [])
 
@@ -24,7 +24,7 @@ class TestGetStatement(TestCase):
                                           transaction_id=transaction_id,
                                           amount=50, type='Credit')
 
-        sender_transactions_list = Transaction.get_statement(
+        sender_transactions_list = Transaction.get_customer_statement(
             self.sender_customer_id)
 
         self.assertEquals(sender_transactions_list,
@@ -54,7 +54,7 @@ class TestGetStatement(TestCase):
                                           transaction_id=transaction_id_1,
                                           amount=50, type='Credit')
 
-        old_sender_transactions_list = Transaction.get_statement(
+        old_sender_transactions_list = Transaction.get_customer_statement(
             self.sender_customer_id)
         self.assertEquals(old_sender_transactions_list, [{
             'customer_id': self.sender_customer_id,
@@ -65,7 +65,7 @@ class TestGetStatement(TestCase):
                                           transaction_id=transaction_id_2,
                                           amount=10, type='Debit')
 
-        new_sender_transactions_list = Transaction.get_statement(
+        new_sender_transactions_list = Transaction.get_customer_statement(
             self.sender_customer_id)
         self.assertEquals(new_sender_transactions_list, [{
             'customer_id': self.sender_customer_id,

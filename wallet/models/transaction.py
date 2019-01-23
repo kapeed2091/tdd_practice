@@ -14,7 +14,7 @@ class Transaction(models.Model):
         ('Credit', 'Credit'), ('Debit', 'Debit')])
 
     @classmethod
-    def get_statement(cls, customer_id):
+    def get_customer_statement(cls, customer_id):
         transactions =  list(cls.objects.filter(customer_id=customer_id))
         transactions_list = list()
         for transaction in transactions:
