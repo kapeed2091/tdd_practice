@@ -54,6 +54,8 @@ class Account(models.Model):
 
     @classmethod
     def _remove_balance(cls, account, amount):
+        from wallet.models import Transaction
+
         if cls.invalid_amount(amount):
             raise Exception('Invalid amount')
 
@@ -63,6 +65,7 @@ class Account(models.Model):
 
         account.balance = balance - amount
         account.save()
+        Transaction.create_obj(account=account, amount=-amount)
 
     @staticmethod
     def invalid_amount(amount):
@@ -87,5 +90,4 @@ class Account(models.Model):
             raise Exception('Invalid receiver id')
 
         cls._remove_balance(account=sender_account, amount=amount)
-        print (receiver_account)
         cls.add_balance(account=receiver_account, amount=amount)
