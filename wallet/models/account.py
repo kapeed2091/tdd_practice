@@ -79,15 +79,15 @@ class Account(models.Model):
             raise Exception('Customer id doesnot exist')
 
     @classmethod
-    def transfer_balance(cls, sender_customer_id, receiver_customer_id, amount):
-        if cls.is_zero_or_negative_number(amount):
+    def transfer_balance(cls, sender_customer_id, receiver_customer_id, amount_to_transfer):
+        if cls.is_zero_or_negative_number(amount_to_transfer):
             raise Exception('Transfer balance cannot be zero or negative')
 
-        if cls.is_non_int_type(amount):
+        if cls.is_non_int_type(amount_to_transfer):
             raise Exception('Transfer balance must be of type int')
 
         sender_account = cls.get_account(sender_customer_id)
-        if sender_account.balance < amount:
+        if sender_account.balance < amount_to_transfer:
             raise Exception(
                 'Sender Balance should be more than transfer amount')
 
@@ -95,8 +95,8 @@ class Account(models.Model):
         if sender_account.account_id == receiver_account.account_id:
             raise Exception('Cannot transfer balance between same account')
 
-        sender_account._deduct_balance(amount)
-        receiver_account._add_balance(amount)
+        sender_account._deduct_balance(amount_to_transfer)
+        receiver_account._add_balance(amount_to_transfer)
 
     def _deduct_balance(self, amount):
         self.balance -= amount
