@@ -56,5 +56,8 @@ class Account(models.Model):
 
     @classmethod
     def get_account(cls, customer_id):
-        account = cls.objects.get(customer_id=customer_id)
-        return account
+        try:
+            account = cls.objects.get(customer_id=customer_id)
+            return account
+        except cls.DoesNotExist:
+            raise Exception("Customer does not exist")

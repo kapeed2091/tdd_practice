@@ -22,5 +22,5 @@ class TestAddBalance(TestCase):
         from wallet_v2.models import Account
 
         with self.assertRaisesMessage(
-                CustomerDoesNotExist, "Customer does not exist"):
+                Exception, "Customer does not exist"):
             Account.add_balance(self.customer_id, 100)
