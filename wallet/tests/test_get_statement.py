@@ -30,7 +30,7 @@ class TestGetStatement(TestCase):
         }
     ]
 
-    def setUp(self):
+    def setup_statements_for_both_customers(self):
         from wallet.models import Statement
         for each in self.transactions:
             Statement.objects.create(
@@ -41,6 +41,8 @@ class TestGetStatement(TestCase):
             )
 
     def test_get_balance_successful(self):
+        self.setup_statements_for_both_customers()
+
         from wallet.models import Statement
 
         from_date = "2017-12-12 13:00:00"
