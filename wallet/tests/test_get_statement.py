@@ -7,8 +7,8 @@ class TestGetStatement(TestCase):
     receiver_customer_id = 'receiver'
 
     def setUp(self):
-        Account.create_account(self.sender_customer_id)
-        Account.create_account(self.receiver_customer_id)
+        Account.create_and_return_account(self.sender_customer_id)
+        Account.create_and_return_account(self.receiver_customer_id)
 
     def testcase_get_statement(self):
         from wallet.models import Transaction

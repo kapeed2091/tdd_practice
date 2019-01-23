@@ -7,8 +7,8 @@ class TestTransferBalance(TestCase):
     receiver_customer_id = 'receiver'
 
     def setUp(self):
-        Account.create_account(self.sender_customer_id)
-        Account.create_account(self.receiver_customer_id)
+        Account.create_and_return_account(self.sender_customer_id)
+        Account.create_and_return_account(self.receiver_customer_id)
 
         Account.add_balance(self.sender_customer_id, 50)
         Account.add_balance(self.receiver_customer_id, 30)

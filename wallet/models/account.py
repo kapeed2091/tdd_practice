@@ -11,7 +11,7 @@ class Account(models.Model):
     balance = models.IntegerField(default=DEFAULT_BALANCE)
 
     @classmethod
-    def create_account(cls, customer_id):
+    def create_and_return_account(cls, customer_id):
         if cls._customer_account_exists(customer_id):
             raise Exception
 

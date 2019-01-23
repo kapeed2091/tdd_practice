@@ -111,3 +111,7 @@ Test cases shouldn't depend on implementation
 4. Writing testable code - Mocking UUID vs Refactoring Code
 5. If customer doesn't exist - wrote test case - which already has implementation: shoud we do this?
 6.Testcase_transfer_balance passed because get_Account raised the error
+
+Refactoring Doubts
+1. create_account function is doing creation and return, should I change the name?
+

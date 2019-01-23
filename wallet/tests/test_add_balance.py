@@ -7,7 +7,7 @@ class TestAddBalance(TestCase):
 
     def setUp(self):
         from wallet.models import Account
-        account_details = Account.create_account(self.customer_id)
+        account_details = Account.create_and_return_account(self.customer_id)
         self.account_id = account_details['account_id']
 
     def testcase_add_balance(self):
