@@ -27,11 +27,11 @@ class Transaction(models.Model):
         return transactions_list
 
     @classmethod
-    def add_customer_transaction(cls, customer_id, transaction_amount, type):
+    def add_customer_transaction(cls, customer_id, transaction_amount, transaction_type):
         transaction_id = cls.generate_transaction_id(cls.TRANSACTION_ID_LENGTH)
         cls.assign_transaction_id(customer_id=customer_id,
                                   transaction_id=transaction_id, amount=transaction_amount,
-                                  type=type)
+                                  type=transaction_type)
 
     @classmethod
     def assign_transaction_id(cls, customer_id, transaction_id, amount, type):
