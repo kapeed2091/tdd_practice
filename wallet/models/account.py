@@ -12,7 +12,7 @@ class Account(models.Model):
 
     @classmethod
     def create_account(cls, customer_id):
-        if cls._customer_account_exists(customer_id):
+        if cls._check_if_customer_account_exists(customer_id):
             raise Exception
 
         account_id = cls.generate_account_id(cls.ACCOUNT_ID_LENGTH)
@@ -23,7 +23,7 @@ class Account(models.Model):
                 'account_id': account.account_id}
 
     @classmethod
-    def _customer_account_exists(cls, customer_id):
+    def _check_if_customer_account_exists(cls, customer_id):
         return cls.objects.filter(customer_id=customer_id).exists()
 
     @classmethod
