@@ -25,6 +25,9 @@ TDD TODO List (Functionality Layer):
     - Get Statement
         - Should we include available balance also after each transaction?
         - Transactions should be given in which order? - by transaction date?
+        - Transaction id and customer id together should be unique
+        - Should amount field in transaction be non-zero positive integer field?
+        - Account should exist to get statement
 
     Done:
        - Create Account
