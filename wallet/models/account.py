@@ -42,7 +42,7 @@ class Account(models.Model):
         return account.balance
 
     @classmethod
-    def add_balance(cls, customer_id, amount):
+    def add_account_balance(cls, customer_id, amount):
         if cls.is_negative_amount(amount):
             raise Exception
 
