@@ -9,7 +9,7 @@ from django.test import TestCase
 class TestGetStatement(TestCase):
     customer_id = 'Customer1'
 
-    def test_get_statement(self):
+    def test_get_statement_no_transactions(self):
         from wallet.models import Transaction
         statement = Transaction.get_statement(self.customer_id)
         self.assertEquals(statement['total'], 0)
