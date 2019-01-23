@@ -12,6 +12,11 @@ class Statement(models.Model):
         from_date = date_range["from_date"]
         to_date = date_range["to_date"]
 
+        if from_date > to_date:
+            from wallet.exceptions.exceptions import InvalidDateRangeException
+            from wallet.constants.exception_constants import INVALID_DATE_RANGE
+            raise InvalidDateRangeException(INVALID_DATE_RANGE)
+
         query_set = cls.objects.filter(
             customer_id=customer_id, date_time__range=(from_date, to_date)
         )

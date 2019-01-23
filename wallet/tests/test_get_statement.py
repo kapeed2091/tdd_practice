@@ -118,8 +118,6 @@ class TestGetStatement(TestCase):
 
         from ib_common.date_time_utils.convert_string_to_local_date_time \
             import convert_string_to_local_date_time
-        from ib_common.date_time_utils.convert_datetime_to_local_string \
-            import convert_datetime_to_local_string
         date_time_format = '%Y-%m-%d %H:%M:%S'
 
         date_range = {
@@ -129,16 +127,11 @@ class TestGetStatement(TestCase):
                                                          date_time_format)
         }
 
-        transactions = Statement.get_transactions(
-            customer_id=self.customer_id,
-            date_range=date_range
-        )
-
-        for each in transactions:
-            each["date_time"] = convert_datetime_to_local_string(
-                each["date_time"], date_time_format)
-
-        customer_transactions = \
-            [each for each in self.transactions if
-             each["customer_id"] == self.customer_id]
-        self.assertItemsEqual(customer_transactions, transactions)
+        from wallet.exceptions.exceptions import InvalidDateRangeException
+        from wallet.constants.exception_constants import INVALID_DATE_RANGE
+        with self.assertRaisesMessage(InvalidDateRangeException,
+                                      INVALID_DATE_RANGE):
+            Statement.get_transactions(
+                customer_id=self.customer_id,
+                date_range=date_range
+            )

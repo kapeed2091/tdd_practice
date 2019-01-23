@@ -16,3 +16,7 @@ class NegativeAmountTransferException(Exception):
 
 class InvalidSenderCustomerIdException(Exception):
     pass
+
+
+class InvalidDateRangeException(Exception):
+    pass
