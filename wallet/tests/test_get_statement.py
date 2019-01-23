@@ -28,6 +28,12 @@ class TestGetStatement(TestCase):
             "amount": 130,
             "status": "CREDIT",
             "customer_id": 'customer2'
+        },
+        {
+            "date_time": "2017-12-18 13:00:00",
+            "amount": 130,
+            "status": "CREDIT",
+            "customer_id": 'customer3'
         }
     ]
 
