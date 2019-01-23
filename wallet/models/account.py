@@ -49,7 +49,7 @@ class Account(models.Model):
 
         self.balance += amount
         self.save()
-        Transaction.create_obj(account=self, amount=amount)
+        Transaction.create_transaction(account=self, amount=amount)
 
     def _remove_balance(self, amount):
         from wallet.models import Transaction
@@ -63,7 +63,7 @@ class Account(models.Model):
 
         self.balance = balance - amount
         self.save()
-        Transaction.create_obj(account=self, amount=-amount)
+        Transaction.create_transaction(account=self, amount=-amount)
 
     @staticmethod
     def is_invalid_amount(amount):

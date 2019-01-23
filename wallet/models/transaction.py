@@ -6,7 +6,7 @@ class Transaction(models.Model):
     amount = models.IntegerField(default=0)
 
     @classmethod
-    def create_obj(cls, account, amount):
+    def create_transaction(cls, account, amount):
         return cls.objects.create(
             account=account,
             amount=amount

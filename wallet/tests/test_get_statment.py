@@ -11,8 +11,8 @@ class TestGetStatement(TestCase):
 
         Account.create_account(self.customer_id_1)
         account = Account.get_account(self.customer_id_1)
-        Transaction.create_obj(account=account, amount=10)
-        Transaction.create_obj(account=account, amount=-10)
+        Transaction.create_transaction(account=account, amount=10)
+        Transaction.create_transaction(account=account, amount=-10)
         Account.create_account(self.customer_id_2)
 
     def testcase_get_transactions(self):
