@@ -141,19 +141,8 @@ class Account(models.Model):
 
             cls.deduct_balance(customer_id=source_customer_id,
                                amount=transfer_amount)
-        except Exception as e:
-            from wallet.constants.exception_message import \
-                INVALID_AMOUNT_TO_TRANSFER
-            from wallet.constants.exception_message import \
-                INVALID_AMOUNT_TO_ADD
-            from wallet.constants.exception_message import INVALID_CUSTOMER_ID
-
-            error_code = e.message[1]
-            if error_code == INVALID_AMOUNT_TO_ADD[1]:
-                raise Exception(INVALID_AMOUNT_TO_TRANSFER)
-
-            if error_code == INVALID_CUSTOMER_ID[1]:
-                raise Exception(INVALID_CUSTOMER_ID)
+        except Exception as exception:
+            cls._raise_exception_for_failed_transfer_amount(exception)
 
     @classmethod
     def raise_exception_for_insufficient_balance(cls, customer_id, amount):
@@ -179,6 +168,22 @@ class Account(models.Model):
     def get_balance(cls, customer_id):
         account = cls.objects.get(customer_id=customer_id)
         return account.balance
+
+    @classmethod
+    def _raise_exception_for_failed_transfer_amount(cls, exception):
+        from wallet.constants.exception_message import \
+            INVALID_AMOUNT_TO_TRANSFER
+        from wallet.constants.exception_message import \
+            INVALID_AMOUNT_TO_ADD
+        from wallet.constants.exception_message import INVALID_CUSTOMER_ID
+
+        error_code = exception.message[1]
+        if error_code == INVALID_AMOUNT_TO_ADD[1]:
+            raise Exception(INVALID_AMOUNT_TO_TRANSFER)
+
+        if error_code == INVALID_CUSTOMER_ID[1]:
+            raise Exception(INVALID_CUSTOMER_ID)
+
 
 
 
