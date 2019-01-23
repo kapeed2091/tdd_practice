@@ -47,6 +47,15 @@ class TestGetStatement(TestCase):
                 customer_id=each["customer_id"]
             )
 
+    def _get_customer_transactions(self, date_range, customer_id):
+        transactions = []
+        for each in self.transactions:
+            if date_range["from_date"] <= each["date_time"] <= date_range[
+                    "to_date"] and each["customer_id"] == customer_id:
+                transactions.append(each)
+
+        return transactions
+
     def test_get_balance_successful(self):
         self.setup_statements_for_both_customers()
 
@@ -86,6 +95,10 @@ class TestGetStatement(TestCase):
 
         from_date = "2017-12-12 13:00:00"
         to_date = "2017-12-16 13:00:00"
+        date_range = {
+            "from_date": from_date,
+            "to_date": to_date
+        }
 
         from ib_common.date_time_utils.convert_string_to_local_date_time \
             import convert_string_to_local_date_time
@@ -93,7 +106,7 @@ class TestGetStatement(TestCase):
             import convert_datetime_to_local_string
         date_time_format = '%Y-%m-%d %H:%M:%S'
 
-        date_range = {
+        parsed_date_range = {
             "from_date": convert_string_to_local_date_time(from_date,
                                                            date_time_format),
             "to_date": convert_string_to_local_date_time(to_date,
@@ -102,16 +115,18 @@ class TestGetStatement(TestCase):
 
         transactions = Statement.get_transactions(
             customer_id=self.no_transactions_customer_id,
-            date_range=date_range
+            date_range=parsed_date_range
         )
 
         for each in transactions:
             each["date_time"] = convert_datetime_to_local_string(
                 each["date_time"], date_time_format)
 
-        customer_transactions = \
-            [each for each in self.transactions if
-             each["customer_id"] == self.no_transactions_customer_id]
+        customer_transactions = self._get_customer_transactions(
+            date_range=date_range,
+            customer_id=self.no_transactions_customer_id
+        )
+
         self.assertItemsEqual(customer_transactions, transactions)
 
     def test_case_invalid_date_range(self):
