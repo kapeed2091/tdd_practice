@@ -64,4 +64,9 @@ class Account(models.Model):
     @classmethod
     def transfer_balance(
             cls, payee_customer_id, beneficiary_customer_id, amount):
+        payee_account = cls.get_account(payee_customer_id)
+        beneficiary_account = cls.get_account(beneficiary_customer_id)
+        beneficiary_account.credit_balance(amount)
+        payee_account.balance -= amount
+        payee_account.save()
         return
