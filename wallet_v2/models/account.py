@@ -37,6 +37,8 @@ class Account(models.Model):
 
     @classmethod
     def add_balance(cls, customer_id, amount):
+        if amount < 0:
+            raise Exception
         account = cls.get_account(customer_id)
         account.balance += amount
         account.save()
