@@ -2,10 +2,13 @@ from django.db import models
 
 
 class Statement(models.Model):
+    STATUS_MAX_LENGTH = 20
+    CUSTOMER_ID_MAX_LENGTH = 20
+
     date_time = models.DateTimeField()
     amount = models.PositiveIntegerField()
-    status = models.CharField(max_length=20)
-    customer_id = models.CharField(max_length=20)
+    status = models.CharField(max_length=STATUS_MAX_LENGTH)
+    customer_id = models.CharField(max_length=CUSTOMER_ID_MAX_LENGTH)
 
     @classmethod
     def get_transactions_details(cls, customer_id, date_range):
