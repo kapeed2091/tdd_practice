@@ -22,3 +22,12 @@ class TestGetStatement(TestCase):
 
         self.assertEquals(transaction['amount'], self.amount)
         self.assertEquals(transaction['customer_id'], self.customer_id)
+        self.assertEquals(transaction['transaction_type'], "CREDIT")
+
+    def test_case_invalid_customer_id(self):
+        from wallet.models.transaction import Transaction
+
+        with self.assertRaisesMessage(
+                Exception, expected_message=
+                'No account exists with the given customer id'):
+            Transaction.get_statement(customer_id=self.customer_id)

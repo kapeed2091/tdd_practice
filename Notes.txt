@@ -25,7 +25,7 @@ TDD TODO List (Functionality Layer):
     - Transfer Money
         - transaction db state
     - Get Statement
-        - invalid customer id
+        - [invalid customer id]
         - transaction type validation at model level
 
 
