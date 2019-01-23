@@ -23,4 +23,7 @@ TDD TODO:
         - add balance to user
         - add negative balance to user
         - user should have account
-        - balance should be zero for new user
+
+    - Get Balance
+        - get balance for user
+        - user should have account
