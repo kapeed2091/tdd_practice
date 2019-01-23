@@ -22,7 +22,7 @@ class TestGetStatement(TestCase):
         from wallet.models import Transaction
         Transaction.assign_transaction_id(customer_id=self.sender_customer_id,
                                           transaction_id=transaction_id,
-                                          transaction_amount=50, type='Credit')
+                                          transaction_amount=50, transaction_type='Credit')
 
         sender_transactions_list = Transaction.get_customer_statement(
             self.sender_customer_id)
@@ -38,12 +38,12 @@ class TestGetStatement(TestCase):
         from wallet.models import Transaction
         Transaction.assign_transaction_id(customer_id=self.sender_customer_id,
                                           transaction_id=transaction_id,
-                                          transaction_amount=50, type='Credit')
+                                          transaction_amount=50, transaction_type='Credit')
 
         with self.assertRaises(Exception):
             Transaction.assign_transaction_id(
                 customer_id=self.sender_customer_id,
-                transaction_id=transaction_id, transaction_amount=20, type='Credit')
+                transaction_id=transaction_id, transaction_amount=20, transaction_type='Credit')
 
     def testcase_get_transaction_type_in_statement(self):
         transaction_id_1 = '2019_1'
@@ -52,7 +52,7 @@ class TestGetStatement(TestCase):
         from wallet.models import Transaction
         Transaction.assign_transaction_id(customer_id=self.sender_customer_id,
                                           transaction_id=transaction_id_1,
-                                          transaction_amount=50, type='Credit')
+                                          transaction_amount=50, transaction_type='Credit')
 
         old_sender_transactions_list = Transaction.get_customer_statement(
             self.sender_customer_id)
@@ -63,7 +63,7 @@ class TestGetStatement(TestCase):
 
         Transaction.assign_transaction_id(customer_id=self.sender_customer_id,
                                           transaction_id=transaction_id_2,
-                                          transaction_amount=10, type='Debit')
+                                          transaction_amount=10, transaction_type='Debit')
 
         new_sender_transactions_list = Transaction.get_customer_statement(
             self.sender_customer_id)
