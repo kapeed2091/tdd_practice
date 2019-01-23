@@ -11,7 +11,7 @@ class Account(models.Model):
     balance = models.IntegerField(default=DEFAULT_BALANCE)
 
     @classmethod
-    def create_account(cls, customer_id):
+    def create_account_if_does_not_exist(cls, customer_id):
         if cls._is_customer_account_exists(customer_id):
             raise Exception
 
@@ -38,7 +38,7 @@ class Account(models.Model):
         account = cls.objects.get(customer_id=customer_id)
         return account.balance
 
-    def add_balance(self, amount):
+    def add_balance_if_amount_is_valid(self, amount):
         from wallet.models import Transaction
 
         if self.is_invalid_amount(amount):
@@ -48,7 +48,7 @@ class Account(models.Model):
         self.save()
         Transaction.create_transaction(account=self, amount=amount)
 
-    def _remove_balance(self, amount):
+    def _remove_balance_if_amount_is_valid(self, amount):
         from wallet.models import Transaction
 
         if self.is_invalid_amount(amount):
@@ -73,7 +73,7 @@ class Account(models.Model):
         return cls.objects.get(customer_id=customer_id)
 
     @classmethod
-    def transfer_amount(cls, sender_id, receiver_id, amount):
+    def transfer_amount_if_accounts_and_amount_is_valid(cls, sender_id, receiver_id, amount):
         try:
             sender_account = cls.get_account(sender_id)
         except cls.DoesNotExist:
@@ -84,5 +84,5 @@ class Account(models.Model):
         except cls.DoesNotExist:
             raise Exception('Invalid receiver id')
 
-        sender_account._remove_balance(amount=amount)
-        receiver_account.add_balance(amount=amount)
+        sender_account._remove_balance_if_amount_is_valid(amount=amount)
+        receiver_account.add_balance_if_amount_is_valid(amount=amount)

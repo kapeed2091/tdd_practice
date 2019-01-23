@@ -7,7 +7,7 @@ class TestCreateAccount(TestCase):
         from wallet.models import Account
 
         customer_id = 'customer1'
-        Account.create_account(customer_id)
+        Account.create_account_if_does_not_exist(customer_id)
         account_details = Account.get_account(customer_id)
 
         self.assertEquals(account_details.customer_id, customer_id, 'Issue with customer_id')
@@ -18,8 +18,8 @@ class TestCreateAccount(TestCase):
 
         customer_id_1 = 'customer1'
         customer_id_2 = 'customer2'
-        Account.create_account(customer_id_1)
-        Account.create_account(customer_id_2)
+        Account.create_account_if_does_not_exist(customer_id_1)
+        Account.create_account_if_does_not_exist(customer_id_2)
         account_details_1 = Account.get_account(customer_id_1)
         account_details_2 = Account.get_account(customer_id_2)
         
@@ -31,8 +31,8 @@ class TestCreateAccount(TestCase):
         from wallet.models import Account
 
         customer_id = 'customer1'
-        Account.create_account(customer_id)
-        self.assertRaises(Exception, lambda: Account.create_account(customer_id))
+        Account.create_account_if_does_not_exist(customer_id)
+        self.assertRaises(Exception, lambda: Account.create_account_if_does_not_exist(customer_id))
 
     def testcase_joint_account_holder(self):
         from wallet.models import Account
