@@ -27,3 +27,11 @@ TDD TODO:
     - Get Balance
         - get balance for user
         - user should have account
+
+    - Transfer Money
+        - transfer money from payee to beneficiary
+        - can't transfer negative balance
+        - payee should have customer account
+        - beneficiary should have customer account
+        - payee should have sufficient balance
+        - both payee and beneficiary shouldn't be the same customer
