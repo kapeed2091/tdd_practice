@@ -16,11 +16,8 @@ class Account(models.Model):
             raise Exception
 
         account_id = cls.generate_account_id(cls.ACCOUNT_ID_LENGTH)
-        account = cls._assign_account_id_to_customer(
+        cls._assign_account_id_to_customer(
             account_id=account_id, customer_id=customer_id)
-
-        return {'customer_id': account.customer_id,
-                'account_id': account.account_id}
 
     @classmethod
     def _is_customer_account_exists(cls, customer_id):
