@@ -66,4 +66,6 @@ class TestGetStatement(TestCase):
             each["date_time"] = convert_datetime_to_local_string(
                 each["date_time"], date_time_format)
 
-        self.assertItemsEqual(self.transactions, transactions)
+        customer_transactions = [each for each in self.transactions if
+                                 each["customer_id"] == self.customer_id]
+        self.assertItemsEqual(customer_transactions, transactions)
