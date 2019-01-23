@@ -2,7 +2,6 @@ from django.db import models
 
 
 class Transaction(models.Model):
-
     account = models.ForeignKey('account')
     amount = models.IntegerField(default=0)
 
@@ -15,8 +14,14 @@ class Transaction(models.Model):
 
     @classmethod
     def get_transactions(cls, customer_id):
-        transactions = cls.objects.filter(account__customer_id=customer_id)
-        return [each.convert_to_dict() for each in transactions]
+        from wallet.models import Account
+
+        try:
+            account = Account.get_account(customer_id)
+            transactions = cls.objects.filter(account=account)
+            return [each.convert_to_dict() for each in transactions]
+        except Account.DoesNotExist:
+            raise Exception('Invalid Customer Id')
 
     def convert_to_dict(self):
         return {
