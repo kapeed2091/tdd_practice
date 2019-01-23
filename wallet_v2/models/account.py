@@ -64,7 +64,7 @@ class Account(models.Model):
     @classmethod
     def transfer_balance(
             cls, payee_customer_id, beneficiary_customer_id, amount):
-        if cls.check_positive_amount(amount):
+        if cls.check_amount_lte_zero(amount):
             raise Exception("Transfer amount should be greater than zero")
         payee_account = cls.get_account(payee_customer_id)
         beneficiary_account = cls.get_account(beneficiary_customer_id)
@@ -73,8 +73,8 @@ class Account(models.Model):
         return
 
     @staticmethod
-    def check_positive_amount(amount):
-        if amount > 0:
+    def check_amount_lte_zero(amount):
+        if amount <= 0:
             return True
         return False
 
