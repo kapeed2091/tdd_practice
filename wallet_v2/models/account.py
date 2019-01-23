@@ -32,12 +32,17 @@ class Account(models.Model):
 
     @classmethod
     def get_balance(cls, customer_id):
-        account = cls.objects.get(customer_id=customer_id)
+        account = cls.get_account(customer_id)
         return account.balance
 
     @classmethod
     def add_balance(cls, customer_id, amount):
-        account = cls.objects.get(customer_id=customer_id)
+        account = cls.get_account(customer_id)
         account.balance += amount
         account.save()
         return
+
+    @classmethod
+    def get_account(cls, customer_id):
+        account = cls.objects.get(customer_id=customer_id)
+        return account
