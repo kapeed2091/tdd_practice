@@ -75,6 +75,17 @@ class TestGetStatement(TestCase):
 
         return date_range
 
+    @staticmethod
+    def _parse_transactions(transactions):
+        from ib_common.date_time_utils.convert_datetime_to_local_string \
+            import convert_datetime_to_local_string
+        date_time_format = '%Y-%m-%d %H:%M:%S'
+        for each in transactions:
+            each["date_time"] = convert_datetime_to_local_string(
+                each["date_time"], date_time_format)
+
+        return transactions
+
     def test_get_balance_successful(self):
         self.setup_statements_for_both_customers()
 
@@ -89,15 +100,11 @@ class TestGetStatement(TestCase):
         transactions = Statement.get_transactions(
             customer_id=self.customer_id, date_range=parsed_date_range)
 
-        from ib_common.date_time_utils.convert_datetime_to_local_string \
-            import convert_datetime_to_local_string
-        date_time_format = '%Y-%m-%d %H:%M:%S'
-        for each in transactions:
-            each["date_time"] = convert_datetime_to_local_string(
-                each["date_time"], date_time_format)
+        transactions = self._parse_transactions(transactions=transactions)
 
         customer_transactions = self._get_customer_transactions(
-            date_range=date_range, customer_id=self.customer_id)
+            date_range=date_range, customer_id=self.customer_id
+        )
         self.assertItemsEqual(customer_transactions, transactions)
 
     def test_case_no_transactions_for_customer(self):
@@ -116,12 +123,7 @@ class TestGetStatement(TestCase):
             date_range=parsed_date_range
         )
 
-        from ib_common.date_time_utils.convert_datetime_to_local_string \
-            import convert_datetime_to_local_string
-        date_time_format = '%Y-%m-%d %H:%M:%S'
-        for each in transactions:
-            each["date_time"] = convert_datetime_to_local_string(
-                each["date_time"], date_time_format)
+        transactions = self._parse_transactions(transactions=transactions)
 
         customer_transactions = self._get_customer_transactions(
             date_range=date_range,
