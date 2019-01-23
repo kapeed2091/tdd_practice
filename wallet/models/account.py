@@ -66,8 +66,8 @@ class Account(models.Model):
         return False
 
     @staticmethod
-    def is_non_int_type(amount):
-        if type(amount) != int:
+    def is_non_int_type(number):
+        if type(number) != int:
             return True
         return False
 
