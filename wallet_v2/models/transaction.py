@@ -19,3 +19,8 @@ class Transaction(models.Model):
                 'transaction_type': transaction.transaction_type
             } for transaction in customer_transactions
         ]
+
+    @classmethod
+    def get_customer_statement_within_date_range(
+            cls, customer_id, from_date_str, to_date_str):
+        return []
