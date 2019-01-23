@@ -3,6 +3,7 @@ from django.test import TestCase
 
 class TestGetStatement(TestCase):
     customer_id_1 = 'customer1'
+    invalid_customer_id = 'customer'
 
     def setUp(self):
         from wallet.models import Account, Transaction
@@ -22,3 +23,9 @@ class TestGetStatement(TestCase):
             {'customer_id': 'customer1', 'amount': -10}
         ]
         self.assertItemsEqual(expected_transactions, transactions)
+
+    def testcase_invalid_customer_id(self):
+        from wallet.models import Transaction
+
+        with self.assertRaisesMessage(Exception, expected_message='Invalid Customer Id'):
+            Transaction.get_transactions(self.invalid_customer_id)
