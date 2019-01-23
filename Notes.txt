@@ -107,4 +107,12 @@ Test cases shouldn't depend on implementation
 3. Are DB level constraints required? If DB level constraints required, then how do we ensure them?
 4. Writing testable code - Mocking UUID vs Refactoring Code
 5. If customer doesn't exist - wrote test case - which already has implementation: shoud we do this?
-6.Testcase_transfer_balance passed because get_Account raised the error
+6. Can we use actual code for testcase (setup, build & check)
+7. Do we have to check DB State in testcases
+8. When do we split the testcases for a given use case
+
+
+Conclusions
+1. We have to update an existing testcase instead of writing a new one if there is no change in input/setup
+    (total example) & (transaction validation in add balance example)
+2. All checks should be between previous & current state (previous bal - curr bal = add bal) instead of (curr bal = add bal)
