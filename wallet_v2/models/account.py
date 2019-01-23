@@ -66,7 +66,11 @@ class Account(models.Model):
             cls, payee_customer_id, beneficiary_customer_id, amount):
         if cls.check_amount_lte_zero(amount):
             raise Exception("Transfer amount should be greater than zero")
+
         payee_account = cls.get_account(payee_customer_id)
+        if payee_account.check_if_insufficient_balance(amount):
+            raise Exception("Insufficient balance to transfer money")
+
         beneficiary_account = cls.get_account(beneficiary_customer_id)
         beneficiary_account.credit_balance(amount)
         payee_account.debit_balance(amount)
@@ -75,6 +79,11 @@ class Account(models.Model):
     @staticmethod
     def check_amount_lte_zero(amount):
         if amount <= 0:
+            return True
+        return False
+
+    def check_if_insufficient_balance(self, amount):
+        if self.balance < amount:
             return True
         return False
 
