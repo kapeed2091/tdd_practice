@@ -72,17 +72,11 @@ class Account(models.Model):
                 CUSTOMER_DOES_NOT_EXIST
             raise InvalidSenderCustomerIdException(CUSTOMER_DOES_NOT_EXIST)
 
-        if not isinstance(amount, int):
-            from wallet.exceptions.exceptions import InvalidAmountType
-            from wallet.constants.exception_constants import \
-                INVALID_AMOUNT_TYPE
-            raise InvalidAmountType(INVALID_AMOUNT_TYPE)
+        cls._validate_amount_type(amount=amount)
 
-        if sender_balance < amount:
-            from wallet.exceptions.exceptions import InsufficientFund
-            from wallet.constants.exception_constants import \
-                INSUFFICIENT_FUND
-            raise InsufficientFund(INSUFFICIENT_FUND)
+        cls._validate_insufficient_fund(
+            balance=sender_balance, amount_comparator=amount
+        )
 
         from wallet.exceptions.exceptions import NegativeAmountException, \
             NegativeAmountTransferException
@@ -106,3 +100,19 @@ class Account(models.Model):
         account = cls.get_account(customer_id)
         account.balance -= amount
         account.save()
+
+    @staticmethod
+    def _validate_amount_type(amount):
+        if not isinstance(amount, int):
+            from wallet.exceptions.exceptions import InvalidAmountType
+            from wallet.constants.exception_constants import \
+                INVALID_AMOUNT_TYPE
+            raise InvalidAmountType(INVALID_AMOUNT_TYPE)
+
+    @staticmethod
+    def _validate_insufficient_fund(balance, amount_comparator):
+        if balance < amount_comparator:
+            from wallet.exceptions.exceptions import InsufficientFund
+            from wallet.constants.exception_constants import \
+                INSUFFICIENT_FUND
+            raise InsufficientFund(INSUFFICIENT_FUND)
