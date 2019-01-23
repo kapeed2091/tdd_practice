@@ -67,6 +67,10 @@ class Account(models.Model):
         payee_account = cls.get_account(payee_customer_id)
         beneficiary_account = cls.get_account(beneficiary_customer_id)
         beneficiary_account.credit_balance(amount)
-        payee_account.balance -= amount
-        payee_account.save()
+        payee_account.debit_balance(amount)
         return
+
+    def debit_balance(self, amount):
+        self.balance -= amount
+        self.save()
+        return self
