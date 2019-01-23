@@ -112,3 +112,11 @@ class TestGetStatement(TestCase):
         from wallet_v2.models import Transaction
         with self.assertRaisesMessage(Exception, "Customer does not exist"):
             Transaction.get_customer_statement(self.customer_id_1)
+
+    def testcase_customer_should_have_account_to_get_statement_in_date_range(
+            self):
+        from wallet_v2.models import Transaction
+        with self.assertRaisesMessage(Exception, "Customer does not exist"):
+            Transaction.get_customer_statement_within_date_range(
+                self.customer_id_1, from_date_str='2019-01-23 10:00:00',
+                to_date_str='2019-01-23 11:00:00')
