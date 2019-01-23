@@ -61,7 +61,7 @@ class Account(models.Model):
         account = cls.get_account(customer_id)
 
         transaction_dict = {
-            'account_id': account.account_id,
+            'account_id': account.id,
             'message': "added the money",
             'amount': amount,
             'transaction_type': "CREDIT"

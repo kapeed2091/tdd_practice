@@ -24,6 +24,7 @@ class Transaction(models.Model):
 
     @classmethod
     def add_transaction(cls, transaction_dict):
+        print "transaction_dict----->", transaction_dict
         cls.objects.create(
             account_id=transaction_dict['account_id'],
             message=transaction_dict['message'],
