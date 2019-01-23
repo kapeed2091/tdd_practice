@@ -10,4 +10,11 @@ class Transaction(models.Model):
 
     @classmethod
     def get_customer_statement(cls, customer_id):
-        return []
+        customer_transactions = cls.objects.filter(
+            account__customer_id=customer_id)
+        return [
+            {
+                'amount': transaction.amount,
+                'transaction_type': transaction.transaction_type
+            } for transaction in customer_transactions
+        ]
