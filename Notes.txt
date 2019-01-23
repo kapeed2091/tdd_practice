@@ -26,6 +26,7 @@ TDD TODO List (Functionality Layer):
         - Get statement for a customer
             - Statement should include (TransactionId, Date, amount, balance, transaction type)
         - Transaction model checklist (admin panel, Meta class)
+        - get statement should only give requested customer tranactions
 
     Done:
        - Create Account
