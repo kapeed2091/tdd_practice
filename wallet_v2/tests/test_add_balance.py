@@ -17,3 +17,10 @@ class TestAddBalance(TestCase):
         Account.create_account(customer_id=self.customer_id)
         with self.assertRaises(Exception):
             Account.add_balance(self.customer_id, -10)
+
+    def testcase_user_has_no_account(self):
+        from wallet_v2.models import Account
+
+        with self.assertRaisesMessage(
+                CustomerDoesNotExist, "Customer does not exist"):
+            Account.add_balance(self.customer_id, 100)
