@@ -30,7 +30,8 @@ TDD TODO List (Functionality Layer):
     - Get Balance
     - Get Statement
         - no transactions
-        - [from date cannot be greater than to_date]
+        - from date cannot be greater than to_date
+    - Updating successful test case
     - add transaction
     
     Done:
