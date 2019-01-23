@@ -21,7 +21,6 @@ TDD TODO List (Functionality Layer):
     - Get Balance
         - When user has non-zero balance
     - Add Balance
-        - transaction db state
     - Transfer Money
         - transaction db state
     - Get Statement
@@ -41,6 +40,7 @@ TDD TODO List (Functionality Layer):
            - add 10 balance
            - negative balance add?
            - float balance
+           - transaction db state
        - Transfer Money
            - transfer amount
            - can not transfer negative amount
