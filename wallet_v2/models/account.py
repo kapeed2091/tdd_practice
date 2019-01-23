@@ -64,6 +64,8 @@ class Account(models.Model):
     @classmethod
     def transfer_balance(
             cls, payee_customer_id, beneficiary_customer_id, amount):
+        if amount <= 0:
+            raise Exception("Transfer amount should be greater than zero")
         payee_account = cls.get_account(payee_customer_id)
         beneficiary_account = cls.get_account(beneficiary_customer_id)
         beneficiary_account.credit_balance(amount)
