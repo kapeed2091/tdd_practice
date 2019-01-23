@@ -60,3 +60,8 @@ class Account(models.Model):
             return account
         except cls.DoesNotExist:
             raise Exception("Customer does not exist")
+
+    @classmethod
+    def transfer_balance(
+            cls, payee_customer_id, beneficiary_customer_id, amount):
+        return
