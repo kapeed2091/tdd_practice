@@ -61,12 +61,10 @@ class Account(models.Model):
         return cls.objects.get(customer_id=customer_id)
 
     @classmethod
-    def transfer_amount(cls, amount, transferee_customer_id,
-                        transferred_customer_id):
-
+    def transfer_amount(cls, amount, sender_customer_id, receiver_customer_id):
         try:
-            transferee_balance = cls.get_balance(
-                customer_id=transferee_customer_id)
+            sender_balance = cls.get_balance(
+                customer_id=sender_customer_id)
         except cls.DoesNotExist:
             from wallet.exceptions.exceptions import \
                 InvalidSenderCustomerIdException
@@ -80,7 +78,7 @@ class Account(models.Model):
                 INVALID_AMOUNT_TYPE
             raise InvalidAmountType(INVALID_AMOUNT_TYPE)
 
-        if transferee_balance < amount:
+        if sender_balance < amount:
             from wallet.exceptions.exceptions import InsufficientFund
             from wallet.constants.exception_constants import \
                 INSUFFICIENT_FUND
@@ -89,14 +87,14 @@ class Account(models.Model):
         from wallet.exceptions.exceptions import NegativeAmountException, \
             NegativeAmountTransferException
         try:
-            cls.deduct_balance(customer_id=transferee_customer_id,
+            cls.deduct_balance(customer_id=sender_customer_id,
                                amount=amount)
         except NegativeAmountException:
             from wallet.constants.exception_constants import \
                 NEGATIVE_AMOUNT_TRANSFER
             raise NegativeAmountTransferException(NEGATIVE_AMOUNT_TRANSFER)
 
-        cls.add_balance(customer_id=transferred_customer_id, amount=amount)
+        cls.add_balance(customer_id=receiver_customer_id, amount=amount)
 
     @classmethod
     def deduct_balance(cls, customer_id, amount):
