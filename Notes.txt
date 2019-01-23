@@ -30,8 +30,7 @@ TDD TODO List (Functionality Layer):
     - Get Balance
     - Get Statement
         - no transactions
-        - not a valid customer_id
-        - from date cannot be greater than to_date
+        - [from date cannot be greater than to_date]
     - add transaction
     
     Done:
