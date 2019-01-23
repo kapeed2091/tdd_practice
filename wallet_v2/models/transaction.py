@@ -11,8 +11,10 @@ class Transaction(models.Model):
 
     @classmethod
     def get_customer_statement(cls, customer_id):
-        customer_transactions = cls.objects.filter(
-            account__customer_id=customer_id)
+        from wallet_v2.models import Account
+        account = Account.get_account(customer_id)
+
+        customer_transactions = cls.objects.filter(account_id=account.id)
         return [
             {
                 'amount': transaction.amount,
