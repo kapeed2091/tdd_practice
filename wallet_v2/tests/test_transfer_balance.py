@@ -48,3 +48,13 @@ class TestTransferBalance(TestCase):
                 Exception, "Insufficient balance to transfer money"):
             Account.transfer_balance(self.payee_customer_id,
                                      self.beneficiary_customer_id, 100)
+
+    def testcase_payee_and_beneficiary_should_not_be_same(self):
+        from wallet_v2.models import Account
+
+        Account.create_account(self.payee_customer_id)
+
+        with self.assertRaisesMessage(
+                Exception, "Payee and Beneficiary should not be same"):
+            Account.transfer_balance(self.payee_customer_id,
+                                     self.payee_customer_id, 100)
