@@ -17,8 +17,6 @@ class TestGetStatement(TestCase):
         self.assertEquals(transactions_list, [])
 
     def testcase_get_statement_with_single_transaction(self):
-        Account.add_balance(self.sender_customer_id, 50)
-        Account.add_balance(self.receiver_customer_id, 30)
         transaction_id = '2019_1'
 
         from wallet.models import Transaction
@@ -35,8 +33,6 @@ class TestGetStatement(TestCase):
                             'type': 'Credit'}])
 
     def testcase_unique_transaction_id(self):
-        Account.add_balance(self.sender_customer_id, 50)
-        Account.add_balance(self.receiver_customer_id, 30)
         transaction_id = '2019_1'
 
         from wallet.models import Transaction
@@ -44,15 +40,12 @@ class TestGetStatement(TestCase):
                                           transaction_id=transaction_id,
                                           amount=50, type='Credit')
 
-        Account.add_balance(self.sender_customer_id, 20)
         with self.assertRaises(Exception):
             Transaction.assign_transaction_id(
                 customer_id=self.sender_customer_id,
                 transaction_id=transaction_id, amount=20, type='Credit')
 
     def testcase_get_transaction_type_in_statement(self):
-        Account.add_balance(self.sender_customer_id, 50)
-        Account.add_balance(self.receiver_customer_id, 30)
         transaction_id_1 = '2019_1'
         transaction_id_2 = '2019_2'
 
@@ -68,8 +61,6 @@ class TestGetStatement(TestCase):
             'transaction_id': transaction_id_1,
             'amount': 50, 'type': 'Credit'}])
 
-        Account.transfer_balance(self.sender_customer_id,
-                                 self.receiver_customer_id, amount=10)
         Transaction.assign_transaction_id(customer_id=self.sender_customer_id,
                                           transaction_id=transaction_id_2,
                                           amount=10, type='Debit')
