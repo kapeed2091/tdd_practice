@@ -60,8 +60,8 @@ class Account(models.Model):
         return False
 
     @staticmethod
-    def is_zero_or_negative_number(amount):
-        if amount <= 0:
+    def is_zero_or_negative_number(number):
+        if number <= 0:
             return True
         return False
 
