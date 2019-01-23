@@ -64,6 +64,20 @@ class Account(models.Model):
     @classmethod
     def transfer_balance(
             cls, payee_customer_id, beneficiary_customer_id, amount):
+
+        payee_account = cls.get_account(payee_customer_id)
+        cls.validate_balance_transfer(
+            payee_account, beneficiary_customer_id, amount)
+
+        beneficiary_account = cls.get_account(beneficiary_customer_id)
+        beneficiary_account.credit_balance(amount)
+        payee_account.debit_balance(amount)
+        return
+
+    @classmethod
+    def validate_balance_transfer(
+            cls, payee_account, beneficiary_customer_id, amount):
+        payee_customer_id = payee_account.customer_id
         if cls.check_if_payee_and_beneficiary_accounts_are_same(
                 payee_customer_id, beneficiary_customer_id):
             raise Exception("Payee and Beneficiary should not be same")
@@ -71,13 +85,8 @@ class Account(models.Model):
         if cls.check_amount_lte_zero(amount):
             raise Exception("Transfer amount should be greater than zero")
 
-        payee_account = cls.get_account(payee_customer_id)
         if payee_account.check_if_insufficient_balance(amount):
             raise Exception("Insufficient balance to transfer money")
-
-        beneficiary_account = cls.get_account(beneficiary_customer_id)
-        beneficiary_account.credit_balance(amount)
-        payee_account.debit_balance(amount)
         return
 
     @staticmethod
