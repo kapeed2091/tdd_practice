@@ -50,7 +50,7 @@ class TestGetStatement(TestCase):
                 customer_id=self.sender_customer_id,
                 transaction_id=transaction_id, amount=20, type='Credit')
 
-    def testcase_add_debit_transaction(self):
+    def testcase_get_transaction_type_in_statement(self):
         Account.add_balance(self.sender_customer_id, 50)
         Account.add_balance(self.receiver_customer_id, 30)
         transaction_id_1 = '2019_1'
@@ -61,15 +61,22 @@ class TestGetStatement(TestCase):
                                           transaction_id=transaction_id_1,
                                           amount=50, type='Credit')
 
+        old_sender_transactions_list = Transaction.get_statement(
+            self.sender_customer_id)
+        self.assertEquals(old_sender_transactions_list, [{
+            'customer_id': self.sender_customer_id,
+            'transaction_id': transaction_id_1,
+            'amount': 50, 'type': 'Credit'}])
+
         Account.transfer_balance(self.sender_customer_id,
                                  self.receiver_customer_id, amount=10)
         Transaction.assign_transaction_id(customer_id=self.sender_customer_id,
                                           transaction_id=transaction_id_2,
                                           amount=10, type='Debit')
 
-        sender_transactions_list = Transaction.get_statement(
+        new_sender_transactions_list = Transaction.get_statement(
             self.sender_customer_id)
-        self.assertEquals(sender_transactions_list, [{
+        self.assertEquals(new_sender_transactions_list, [{
             'customer_id': self.sender_customer_id,
             'transaction_id': transaction_id_1,
             'amount': 50, 'type': 'Credit'},

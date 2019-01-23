@@ -23,9 +23,8 @@ TDD TODO List (Functionality Layer):
     - Transfer Money
         - Concurrent Transfer of money (Double spending attack)
     - Get Statement
-        - Transaction Date, transaction_type
         - Should we include available balance also after each transaction?
-        - Transactions should be given in which order?
+        - Transactions should be given in which order? - by transaction date?
 
     Done:
        - Create Account
@@ -49,6 +48,7 @@ TDD TODO List (Functionality Layer):
            - transfer account ids should be unique
        - Get Statement
            - Transaction should be uniquely identified - Transaction id
+           - Added Transaction Type
 #######################################
 // Notes
 
