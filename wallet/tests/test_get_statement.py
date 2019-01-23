@@ -41,8 +41,9 @@ class TestGetStatement(TestCase):
         from wallet.models import Transaction
         Transaction.assign_transaction_id(customer_id=self.sender_customer_id,
                                           transaction_id=transaction_id,
-                                          amount=10)
+                                          amount=50)
 
+        Account.add_balance(self.sender_customer_id, 20)
         with self.assertRaises(Exception):
             Transaction.assign_transaction_id(
                 customer_id=self.sender_customer_id,
