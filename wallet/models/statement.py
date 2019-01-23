@@ -8,11 +8,13 @@ class Statement(models.Model):
     customer_id = models.CharField(max_length=20)
 
     @classmethod
-    def get_transactions(cls, date_range):
+    def get_transactions(cls, customer_id, date_range):
         from_date = date_range["from_date"]
         to_date = date_range["to_date"]
 
-        query_set = cls.objects.filter(date_time__range=(from_date, to_date))
+        query_set = cls.objects.filter(
+            customer_id=customer_id, date_time__range=(from_date, to_date)
+        )
 
         transactions = []
 

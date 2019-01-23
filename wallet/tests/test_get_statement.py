@@ -20,13 +20,13 @@ class TestGetStatement(TestCase):
             "date_time": "2017-12-14 13:00:00",
             "amount": 120,
             "status": "DEBIT",
-            "customer_id": 'customer1'
+            "customer_id": 'customer2'
         },
         {
             "date_time": "2017-12-15 13:00:00",
             "amount": 130,
             "status": "CREDIT",
-            "customer_id": 'customer1'
+            "customer_id": 'customer2'
         }
     ]
 
