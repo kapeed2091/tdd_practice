@@ -42,15 +42,15 @@ class Account(models.Model):
         return account.balance
 
     @classmethod
-    def add_account_balance(cls, customer_id, amount):
-        if cls.is_negative_amount(amount):
+    def add_account_balance(cls, customer_id, amount_to_add):
+        if cls.is_negative_amount(amount_to_add):
             raise Exception
 
-        if cls.is_non_int_type(amount):
+        if cls.is_non_int_type(amount_to_add):
             raise Exception
 
         account = cls.get_account(customer_id)
-        account.balance += amount
+        account.balance += amount_to_add
         account.save()
 
     @staticmethod
