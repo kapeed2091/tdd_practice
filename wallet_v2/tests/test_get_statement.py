@@ -107,3 +107,8 @@ class TestGetStatement(TestCase):
             }
         ]
         self.assertItemsEqual(customer_transactions, expected_transactions)
+
+    def testcase_customer_should_have_account_to_get_statement(self):
+        from wallet_v2.models import Transaction
+        with self.assertRaisesMessage(Exception, "Customer does not exist"):
+            Transaction.get_customer_statement(self.customer_id_1)
