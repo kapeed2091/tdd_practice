@@ -109,15 +109,15 @@ class Account(models.Model):
     @staticmethod
     def _validate_amount_type(amount):
         if not isinstance(amount, int):
-            from wallet.exceptions.exceptions import InvalidAmountType
+            from wallet.exceptions.exceptions import InvalidAmountTypeException
             from wallet.constants.exception_constants import \
                 INVALID_AMOUNT_TYPE
-            raise InvalidAmountType(INVALID_AMOUNT_TYPE)
+            raise InvalidAmountTypeException(INVALID_AMOUNT_TYPE)
 
     @staticmethod
     def _validate_insufficient_fund(balance, amount_comparator):
         if balance < amount_comparator:
-            from wallet.exceptions.exceptions import InsufficientFund
+            from wallet.exceptions.exceptions import InsufficientFundException
             from wallet.constants.exception_constants import \
                 INSUFFICIENT_FUND
-            raise InsufficientFund(INSUFFICIENT_FUND)
+            raise InsufficientFundException(INSUFFICIENT_FUND)

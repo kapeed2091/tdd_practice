@@ -1,8 +1,8 @@
-class InvalidAmountType(Exception):
+class InvalidAmountTypeException(Exception):
     pass
 
 
-class InsufficientFund(Exception):
+class InsufficientFundException(Exception):
     pass
 
 
