@@ -35,3 +35,8 @@ TDD TODO:
         - beneficiary should have customer account -- Already handled
         - payee should have sufficient balance
         - both payee and beneficiary shouldn't be the same customer
+
+    - Get Statement
+        - customer transactions
+        - customer transactions in date range
+        - user should have an account
