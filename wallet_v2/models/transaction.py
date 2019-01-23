@@ -30,14 +30,16 @@ class Transaction(models.Model):
         from ib_common.date_time_utils.convert_datetime_to_local_string import \
             convert_datetime_to_local_string
         from wallet_v2.constants.general import DEFAULT_DATE_TIME_FORMAT
+        from wallet_v2.models import Account
 
         from_date = convert_string_to_local_date_time(
             from_date_str, DEFAULT_DATE_TIME_FORMAT)
         to_date = convert_string_to_local_date_time(
             to_date_str, DEFAULT_DATE_TIME_FORMAT)
 
+        account = Account.get_account(customer_id)
         customer_transactions = cls.objects.filter(
-            account__customer_id=customer_id,
+            account_id=account.id,
             transaction_date__gte=from_date, transaction_date__lte=to_date)
         return [
             {
