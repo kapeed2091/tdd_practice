@@ -24,7 +24,8 @@ TDD TODO List (Functionality Layer):
         - Concurrent Transfer of money (Double spending attack)
     - Get Statement
         - Get statement for a customer
-        - Statement should include (TransactionId, Date, amount, balance, transaction type)
+            - Statement should include (TransactionId, Date, amount, balance, transaction type)
+        - Transaction model checklist (admin panel, Meta class)
 
     Done:
        - Create Account
