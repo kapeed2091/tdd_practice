@@ -5,6 +5,7 @@ class Account(models.Model):
     CUSTOMER_ID_LENGTH = 20
     ACCOUNT_ID_LENGTH = 20
     DEFAULT_BALANCE = 0
+    MINIMUM_TRANSACTION_AMOUNT_SHOULD_BE_GREATER_THAN = 0
 
     customer_id = models.CharField(max_length=CUSTOMER_ID_LENGTH, unique=True)
     account_id = models.CharField(max_length=ACCOUNT_ID_LENGTH, unique=True)
@@ -62,9 +63,9 @@ class Account(models.Model):
         self.save()
         Transaction.create_transaction(account=self, amount=-amount)
 
-    @staticmethod
-    def is_invalid_amount(amount):
-        if amount <= 0:
+    @classmethod
+    def is_invalid_amount(cls, amount):
+        if amount <= cls.MINIMUM_TRANSACTION_AMOUNT_SHOULD_BE_GREATER_THAN:
             return True
         return False
 
