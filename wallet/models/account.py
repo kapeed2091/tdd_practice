@@ -43,11 +43,14 @@ class Account(models.Model):
 
     @classmethod
     def add_balance(cls, account, amount):
+        from wallet.models import Transaction
+
         if cls.invalid_amount(amount):
             raise Exception('Invalid amount')
 
         account.balance += amount
         account.save()
+        Transaction.create_obj(account=account, amount=amount)
 
     @classmethod
     def _remove_balance(cls, account, amount):
