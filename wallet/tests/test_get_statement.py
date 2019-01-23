@@ -97,7 +97,7 @@ class TestGetStatement(TestCase):
         }
 
         parsed_date_range = self._get_parsed_date_range(date_range=date_range)
-        transactions = Statement.get_transactions(
+        transactions = Statement.get_transactions_details(
             customer_id=self.customer_id, date_range=parsed_date_range)
 
         transactions = self._parse_transactions(transactions=transactions)
@@ -118,7 +118,7 @@ class TestGetStatement(TestCase):
         }
 
         parsed_date_range = self._get_parsed_date_range(date_range=date_range)
-        transactions = Statement.get_transactions(
+        transactions = Statement.get_transactions_details(
             customer_id=self.no_transactions_customer_id,
             date_range=parsed_date_range
         )
@@ -148,7 +148,7 @@ class TestGetStatement(TestCase):
         from wallet.constants.exception_constants import INVALID_DATE_RANGE
         with self.assertRaisesMessage(InvalidDateRangeException,
                                       INVALID_DATE_RANGE):
-            Statement.get_transactions(
+            Statement.get_transactions_details(
                 customer_id=self.customer_id,
                 date_range=parsed_date_range
             )

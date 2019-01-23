@@ -8,7 +8,7 @@ class Statement(models.Model):
     customer_id = models.CharField(max_length=20)
 
     @classmethod
-    def get_transactions(cls, customer_id, date_range):
+    def get_transactions_details(cls, customer_id, date_range):
         cls._validate_date_range(date_range=date_range)
 
         date_range_tuple = cls._get_date_range_tuple(date_range=date_range)

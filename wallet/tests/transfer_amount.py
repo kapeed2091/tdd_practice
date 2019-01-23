@@ -30,7 +30,7 @@ class TestTransferAmount(TestCase):
         prev_balance_of_customer_2 = Account.get_balance(
             customer_id=self.customer_id_2)
 
-        Account.transfer_amount(
+        Account.transfer_amount_between_customers(
             transaction_customer_details=self.transaction_customer_details,
             amount=10
         )
@@ -55,7 +55,7 @@ class TestTransferAmount(TestCase):
         from wallet.constants.exception_constants import \
             INSUFFICIENT_FUND
         with self.assertRaisesMessage(InsufficientFund, INSUFFICIENT_FUND):
-            Account.transfer_amount(
+            Account.transfer_amount_between_customers(
                 transaction_customer_details=self.transaction_customer_details,
                 amount=1000
             )
@@ -69,7 +69,7 @@ class TestTransferAmount(TestCase):
             NEGATIVE_AMOUNT_TRANSFER
         with self.assertRaisesMessage(NegativeAmountTransferException,
                                       NEGATIVE_AMOUNT_TRANSFER):
-            Account.transfer_amount(
+            Account.transfer_amount_between_customers(
                 transaction_customer_details=self.transaction_customer_details,
                 amount=-100
             )
@@ -83,7 +83,7 @@ class TestTransferAmount(TestCase):
             CUSTOMER_DOES_NOT_EXIST
         with self.assertRaisesMessage(InvalidSenderCustomerIdException,
                                       CUSTOMER_DOES_NOT_EXIST):
-            Account.transfer_amount(
+            Account.transfer_amount_between_customers(
                 transaction_customer_details=self.transaction_customer_details,
                 amount=100
             )
@@ -92,7 +92,7 @@ class TestTransferAmount(TestCase):
         self.setup_customer_1()
 
         with self.assertRaises(Account.DoesNotExist):
-            Account.transfer_amount(
+            Account.transfer_amount_between_customers(
                 transaction_customer_details=self.transaction_customer_details,
                 amount=100
             )
@@ -104,7 +104,7 @@ class TestTransferAmount(TestCase):
         from wallet.constants.exception_constants import \
             INVALID_AMOUNT_TYPE
         with self.assertRaisesMessage(InvalidAmountType, INVALID_AMOUNT_TYPE):
-            Account.transfer_amount(
+            Account.transfer_amount_between_customers(
                 transaction_customer_details=self.transaction_customer_details,
                 amount=100.13
             )

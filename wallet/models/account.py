@@ -61,7 +61,8 @@ class Account(models.Model):
         return cls.objects.get(customer_id=customer_id)
 
     @classmethod
-    def transfer_amount(cls, amount, transaction_customer_details):
+    def transfer_amount_between_customers(cls, transaction_customer_details,
+                                          amount):
         sender_customer_id = transaction_customer_details["sender_customer_id"]
         receiver_customer_id = transaction_customer_details[
             "receiver_customer_id"]
