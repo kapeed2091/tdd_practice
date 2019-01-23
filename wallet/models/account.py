@@ -16,7 +16,7 @@ class Account(models.Model):
             raise Exception
 
         account_id = cls.generate_account_id(cls.ACCOUNT_ID_LENGTH)
-        cls._assign_account_id_to_customer(
+        cls._create_account(
             account_id=account_id, customer_id=customer_id)
 
     @classmethod
@@ -24,7 +24,7 @@ class Account(models.Model):
         return cls.objects.filter(customer_id=customer_id).exists()
 
     @classmethod
-    def _assign_account_id_to_customer(cls, account_id, customer_id):
+    def _create_account(cls, account_id, customer_id):
         return cls.objects.create(
             account_id=account_id, customer_id=customer_id)
 

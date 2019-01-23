@@ -40,7 +40,7 @@ class TestCreateAccount(TestCase):
         customer_id_1 = 'customer1'
         customer_id_2 = 'customer2'
         account_id = '200802022'
-        Account._assign_account_id_to_customer(account_id=account_id,
-                                               customer_id=customer_id_1)
-        self.assertRaises(Exception, lambda: Account._assign_account_id_to_customer(account_id=account_id,
-                                                                                    customer_id=customer_id_2))
+        Account._create_account(account_id=account_id,
+                                customer_id=customer_id_1)
+        self.assertRaises(Exception, lambda: Account._create_account(account_id=account_id,
+                                                                     customer_id=customer_id_2))
