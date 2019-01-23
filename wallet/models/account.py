@@ -75,6 +75,16 @@ class Account(models.Model):
     def _deduct_balance(cls, customer_id, amount):
         # TODO add exception handling when method is made public
         account = cls.get_account(customer_id)
+
+        transaction_dict = {
+            'account_id': account.id,
+            'message': "deducted the money",
+            'amount': amount,
+            'transaction_type': "DEBIT"
+        }
+        from wallet.models import Transaction
+        Transaction.add_transaction(transaction_dict=transaction_dict)
+
         account.balance -= amount
         account.save()
 

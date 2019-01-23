@@ -103,16 +103,19 @@ class TestTransferAmount(TestCase):
     def _validate_transaction_db_state(self, transfer_amount):
         from wallet.models import Transaction
         sender_transactions = \
-            Transaction.objects.filter(account__customer_id=self.customer_id1)
+            Transaction.objects.filter(
+                account__customer_id=self.customer_id1,
+                transaction_type="DEBIT")
 
         sender_transaction = sender_transactions[0]
 
-        self.assertEquals(sender_transaction.account.customer_id, self.customer_id1)
+        self.assertEquals(sender_transaction.account.customer_id,
+                          self.customer_id1)
         self.assertEquals(sender_transaction.amount, transfer_amount)
         self.assertEquals(sender_transaction.transaction_type, "DEBIT")
 
         receiver_transactions = \
-            Transaction.objects.filter(account__customer_id=self.customer_id1)
+            Transaction.objects.filter(account__customer_id=self.customer_id2)
 
         receiver_transaction = receiver_transactions[0]
 

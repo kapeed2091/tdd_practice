@@ -22,7 +22,7 @@ TDD TODO List (Functionality Layer):
         - When user has non-zero balance
     - Add Balance
     - Transfer Money
-        - [transaction db state]
+        - transactions messages
     - Get Statement
         - transaction type validation at model level
 
@@ -48,6 +48,7 @@ TDD TODO List (Functionality Layer):
            - can not transfer float amount
            - check balance before transfer
            - check receiver account valid
+           - transaction db state
        - Get Statement
             - get statement
             - invalid customer id
