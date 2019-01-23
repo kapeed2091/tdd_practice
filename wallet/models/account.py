@@ -54,8 +54,8 @@ class Account(models.Model):
         account.save()
 
     @staticmethod
-    def is_negative_number(amount):
-        if amount < 0:
+    def is_negative_number(number):
+        if number < 0:
             return True
         return False
 
