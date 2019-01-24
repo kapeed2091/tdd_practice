@@ -31,7 +31,7 @@ class TestGetStatement(TestCase):
         self.assertEquals(sender_transactions_list,
                           [{'customer_id': self.sender_customer_id,
                             'transaction_id': transaction_id, 'amount': 50,
-                            'type': 'Credit'}])
+                            'transaction_type': 'Credit'}])
 
     def testcase_unique_transaction_id(self):
         transaction_id = '2019_1'
@@ -62,7 +62,7 @@ class TestGetStatement(TestCase):
         self.assertEquals(old_sender_transactions_list, [{
             'customer_id': self.sender_customer_id,
             'transaction_id': transaction_id_1,
-            'amount': 50, 'type': 'Credit'}])
+            'amount': 50, 'transaction_type': 'Credit'}])
 
         Transaction.assign_transaction_id_to_customer(
             customer_id=self.sender_customer_id,
@@ -74,7 +74,7 @@ class TestGetStatement(TestCase):
         self.assertEquals(new_sender_transactions_list, [{
             'customer_id': self.sender_customer_id,
             'transaction_id': transaction_id_1,
-            'amount': 50, 'type': 'Credit'},
+            'amount': 50, 'transaction_type': 'Credit'},
             {'customer_id': self.sender_customer_id,
              'transaction_id': transaction_id_2,
-             'amount': 10, 'type': 'Debit'}])
+             'amount': 10, 'transaction_type': 'Debit'}])

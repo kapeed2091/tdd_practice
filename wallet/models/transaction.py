@@ -10,7 +10,7 @@ class Transaction(models.Model):
     transaction_id = models.CharField(max_length=TRANSACTION_ID_LENGTH,
                                       unique=True)
     amount = models.IntegerField()
-    type = models.CharField(max_length=CHOICES_MAX_LENGTH, choices=[
+    transaction_type = models.CharField(max_length=CHOICES_MAX_LENGTH, choices=[
         ('Credit', 'Credit'), ('Debit', 'Debit')])
 
     @classmethod
@@ -23,7 +23,7 @@ class Transaction(models.Model):
                 'customer_id': transaction.customer_id,
                 'transaction_id': transaction.transaction_id,
                 'amount': transaction.amount,
-                'type': transaction.type
+                'transaction_type': transaction.transaction_type
             })
         return transactions_list
 
@@ -42,7 +42,7 @@ class Transaction(models.Model):
                                           transaction_type):
         cls.objects.create(customer_id=customer_id,
                            transaction_id=transaction_id,
-                           amount=amount, type=transaction_type)
+                           amount=amount, transaction_type=transaction_type)
 
 
     @staticmethod
