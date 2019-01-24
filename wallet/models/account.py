@@ -46,6 +46,10 @@ class Account(models.Model):
         if cls.is_negative_amount(amount):
             raise Exception
 
+        cls._add_account_balance(customer_id=customer_id, amount=amount)
+
+    @classmethod
+    def _add_account_balance(cls, customer_id, amount):
         account = cls.get_account(customer_id)
         account.balance += amount
         account.save()
@@ -118,6 +122,10 @@ class Account(models.Model):
             from wallet.constants.exception_constants import NEGATIVE_AMOUNT
             raise NegativeAmountException(NEGATIVE_AMOUNT)
 
+        cls._deduct_account_balance(customer_id=customer_id, amount=amount)
+
+    @classmethod
+    def _deduct_account_balance(cls, customer_id, amount):
         account = cls.get_account(customer_id)
-        account.balance -= amount
+        account.balance += amount
         account.save()
