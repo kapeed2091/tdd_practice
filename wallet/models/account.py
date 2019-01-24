@@ -41,27 +41,6 @@ class Account(models.Model):
         )
 
     @classmethod
-    def get_sender_balance(cls, customer_id):
-        try:
-            sender_balance = cls.get_balance(
-                customer_id=customer_id)
-            return sender_balance
-        except cls.DoesNotExist:
-            from wallet.exceptions.exceptions import \
-                InvalidSenderCustomerIdException
-            from wallet.constants.exception_constants import \
-                CUSTOMER_DOES_NOT_EXIST
-            raise InvalidSenderCustomerIdException(CUSTOMER_DOES_NOT_EXIST)
-
-    @classmethod
-    def validate_amount(cls, sender_balance, amount):
-        cls._validate_amount_type(amount=amount)
-
-        cls._validate_insufficient_fund(
-            balance=sender_balance, amount_comparator=amount
-        )
-
-    @classmethod
     def add_balance_for_customer(cls, customer_id, amount):
         if cls.is_negative_amount(amount):
             from wallet.exceptions.exceptions import \
@@ -90,6 +69,11 @@ class Account(models.Model):
             raise NegativeAmountTransferException(NEGATIVE_AMOUNT_TRANSFER)
 
     @classmethod
+    def get_balance(cls, customer_id):
+        account = cls.objects.get(customer_id=customer_id)
+        return account.balance
+
+    @classmethod
     def _check_if_customer_account_exists(cls, customer_id):
         return cls.objects.filter(customer_id=customer_id).exists()
 
@@ -104,12 +88,13 @@ class Account(models.Model):
             account_id=account_id, customer_id=customer_id)
 
     @classmethod
-    def get_balance(cls, customer_id):
-        account = cls.objects.get(customer_id=customer_id)
-        return account.balance
+    def _add_account_balance(cls, customer_id, amount):
+        account = cls.get_account(customer_id)
+        account.balance += amount
+        account.save()
 
     @classmethod
-    def _add_account_balance(cls, customer_id, amount):
+    def _deduct_account_balance(cls, customer_id, amount):
         account = cls.get_account(customer_id)
         account.balance += amount
         account.save()
@@ -121,6 +106,27 @@ class Account(models.Model):
     @classmethod
     def get_account(cls, customer_id):
         return cls.objects.get(customer_id=customer_id)
+
+    @classmethod
+    def get_sender_balance(cls, customer_id):
+        try:
+            sender_balance = cls.get_balance(
+                customer_id=customer_id)
+            return sender_balance
+        except cls.DoesNotExist:
+            from wallet.exceptions.exceptions import \
+                InvalidSenderCustomerIdException
+            from wallet.constants.exception_constants import \
+                CUSTOMER_DOES_NOT_EXIST
+            raise InvalidSenderCustomerIdException(CUSTOMER_DOES_NOT_EXIST)
+
+    @classmethod
+    def validate_amount(cls, sender_balance, amount):
+        cls._validate_amount_type(amount=amount)
+
+        cls._validate_insufficient_fund(
+            balance=sender_balance, amount_comparator=amount
+        )
 
     @staticmethod
     def _validate_amount_type(amount):
@@ -137,9 +143,3 @@ class Account(models.Model):
             from wallet.constants.exception_constants import \
                 INSUFFICIENT_FUND
             raise InsufficientFundException(INSUFFICIENT_FUND)
-
-    @classmethod
-    def _deduct_account_balance(cls, customer_id, amount):
-        account = cls.get_account(customer_id)
-        account.balance += amount
-        account.save()
