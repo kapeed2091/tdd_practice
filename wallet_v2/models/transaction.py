@@ -10,6 +10,25 @@ class Transaction(models.Model):
     transaction_date = models.DateTimeField()
 
     @classmethod
+    def create_transaction(cls, transaction_details):
+        """
+        :param transaction_details:
+        {
+            'account_id': 1,
+            'amount': 100,
+            'transaction_type': 'CREDIT',
+            'transaction_date': date_time object
+        }
+        :return:
+        """
+        cls.objects.create(
+            account_id=transaction_details['account_id'],
+            amount=transaction_details['amount'],
+            transaction_type=transaction_details['transaction_type'],
+            transaction_date=transaction_details['transaction_date'])
+        return
+
+    @classmethod
     def get_customer_statement(cls, customer_id):
         from wallet_v2.models import Account
         account = Account.get_account(customer_id)

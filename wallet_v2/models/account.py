@@ -40,6 +40,8 @@ class Account(models.Model):
             raise Exception
         account = cls.get_account(customer_id)
         account.credit_balance(amount)
+        cls.add_credit_transaction(account_id=account.id, amount=amount,
+                                   transaction_date=cls.get_now())
         return
 
     @staticmethod
@@ -52,6 +54,25 @@ class Account(models.Model):
         self.balance += amount
         self.save()
         return self
+
+    @staticmethod
+    def get_now():
+        from ib_common.date_time_utils.get_current_local_date_time import \
+            get_current_local_date_time
+        return get_current_local_date_time()
+
+    @classmethod
+    def add_credit_transaction(cls, account_id, amount, transaction_date):
+        from wallet_v2.models import Transaction
+        from wallet_v2.constants.general import TransactionType
+        Transaction.create_transaction(
+            transaction_details={
+                'account_id': account_id,
+                'amount': amount,
+                'transaction_type': TransactionType.CREDIT.value,
+                'transaction_date': transaction_date
+            })
+        return
 
     @classmethod
     def get_account(cls, customer_id):
