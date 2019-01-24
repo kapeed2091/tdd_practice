@@ -12,15 +12,13 @@ class Account(models.Model):
 
     @classmethod
     def create_account(cls, customer_id):
-        if cls._customer_account_exists(customer_id):
-            raise Exception
+        cls._validate_account(customer_id=customer_id)
 
         account_id = cls._generate_account_id(cls.ACCOUNT_ID_LENGTH)
         account = cls._assign_account_id_to_customer(
             account_id=account_id, customer_id=customer_id)
 
-        return {'customer_id': account.customer_id,
-                'account_id': account.account_id}
+        return account._convert_to_dict()
 
     @classmethod
     def add_balance(cls, customer_id, amount):
@@ -48,6 +46,15 @@ class Account(models.Model):
     def get_balance(cls, customer_id):
         account = cls.objects.get(customer_id=customer_id)
         return account.balance
+
+    @classmethod
+    def _validate_account(cls, customer_id):
+        if cls._customer_account_exists(customer_id):
+            raise Exception('Customer Account already exists')
+
+    def _convert_to_dict(self):
+        return {'customer_id': self.customer_id,
+                'account_id': self.account_id}
 
     @classmethod
     def _customer_account_exists(cls, customer_id):
