@@ -22,7 +22,9 @@ class TestGetStatement(TestCase):
 
         self.assertEquals(transaction['amount'], self.amount)
         self.assertEquals(transaction['customer_id'], self.customer_id)
-        self.assertEquals(transaction['transaction_type'], "CREDIT")
+        from wallet.constants.general import TransactionType
+        self.assertEquals(transaction['transaction_type'],
+                          TransactionType.CREDIT.value)
 
     def test_case_invalid_customer_id(self):
         from wallet.models.transaction import Transaction

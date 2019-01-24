@@ -1,11 +1,13 @@
 from django.test import TestCase
 
+from wallet.constants.general import TransactionType
+
 
 class TestAddBalance(TestCase):
     customer_id = 'customer1'
     account_id = None
     amount_to_add = 10
-    transaction_type = "CREDIT"
+    transaction_type = TransactionType.CREDIT.value
 
     def setUp(self):
         from wallet.models import Account
