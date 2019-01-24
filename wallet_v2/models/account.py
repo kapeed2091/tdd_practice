@@ -77,6 +77,10 @@ class Account(models.Model):
 
     @classmethod
     def get_account(cls, customer_id):
+        # TODO: DOUBT: G5 Vs G30
+        # possibilities:
+        # 1. rename get_account as validate_and_get_account
+        # 2. return account as None if not exists and then raise exception
         try:
             account = cls.objects.get(customer_id=customer_id)
             return account
@@ -108,30 +112,30 @@ class Account(models.Model):
         # TODO: DOUBT: 3 arguments to function / non-grouping of validations
         # and Inconsistency in arguments: payee_account, beneficiary_customer_id
         payee_customer_id = payee_account.customer_id
-        if cls.check_if_payee_and_beneficiary_accounts_are_same(
+        if cls.check_payee_and_beneficiary_accounts_are_same(
                 payee_customer_id, beneficiary_customer_id):
             raise Exception("Payee and Beneficiary should not be same")
 
-        if cls.check_amount_lte_zero(amount):
+        if cls.check_positive_amount(amount):
             raise Exception("Transfer amount should be greater than zero")
 
-        if payee_account.check_if_insufficient_balance(amount):
+        if payee_account.is_insufficient_balance(amount):
             raise Exception("Insufficient balance to transfer money")
         return
 
     @staticmethod
-    def check_amount_lte_zero(amount):
+    def check_positive_amount(amount):
         if amount <= 0:
             return True
         return False
 
-    def check_if_insufficient_balance(self, amount):
+    def is_insufficient_balance(self, amount):
         if self.balance < amount:
             return True
         return False
 
     @classmethod
-    def check_if_payee_and_beneficiary_accounts_are_same(
+    def check_payee_and_beneficiary_accounts_are_same(
             cls, payee_customer_id, beneficiary_customer_id):
         if payee_customer_id == beneficiary_customer_id:
             return True
