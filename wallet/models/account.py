@@ -37,20 +37,14 @@ class Account(models.Model):
     @classmethod
     def transfer_balance(cls, sender_customer_id, receiver_customer_id,
                          amount):
-        if cls._is_zero_or_negative(amount):
-            raise Exception('Transfer balance cannot be zero or negative')
-
-        if cls._is_non_int_type(amount):
-            raise Exception('Transfer balance must be of type int')
+        cls._validate_amount(amount=amount)
 
         sender_account = cls._get_account(sender_customer_id)
-        if sender_account.balance < amount:
-            raise Exception(
-                'Sender Balance should be more than transfer amount')
+        sender_account._validate_sender_balance(amount=amount)
 
         receiver_account = cls._get_account(receiver_customer_id)
-        if sender_account.account_id == receiver_account.account_id:
-            raise Exception('Cannot transfer balance between same account')
+        sender_account._validate_unique_accounts(
+            receiver_account=receiver_account)
 
         sender_account._deduct_balance(amount)
         receiver_account._add_balance(amount)
@@ -73,6 +67,23 @@ class Account(models.Model):
     def _assign_account_id_to_customer(cls, account_id, customer_id):
         return cls.objects.create(
             account_id=account_id, customer_id=customer_id)
+
+    @classmethod
+    def _validate_amount(cls, amount):
+        if cls._is_zero_or_negative(amount):
+            raise Exception('Transfer balance cannot be zero or negative')
+
+        if cls._is_non_int_type(amount):
+            raise Exception('Transfer balance must be of type int')
+
+    def _validate_sender_balance(self, amount):
+        if self.balance < amount:
+            raise Exception(
+                'Sender Balance should be more than transfer amount')
+
+    def _validate_unique_accounts(self, receiver_account):
+        if self.account_id == receiver_account.account_id:
+            raise Exception('Cannot transfer balance between same account')
 
     @staticmethod
     def _is_negative(amount):
