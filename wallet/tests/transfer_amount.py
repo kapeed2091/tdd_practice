@@ -16,11 +16,13 @@ class TestTransferAmount(TestCase):
 
     def setup_customer_1(self):
         Account.create_account(customer_id=self.customer_id_1)
-        Account.add_balance_for_customer(customer_id=self.customer_id_1, amount=100)
+        Account.add_balance_for_customer(customer_id=self.customer_id_1,
+                                         amount=100)
 
     def setup_customer_2(self):
         Account.create_account(customer_id=self.customer_id_2)
-        Account.add_balance_for_customer(customer_id=self.customer_id_2, amount=100)
+        Account.add_balance_for_customer(customer_id=self.customer_id_2,
+                                         amount=100)
 
     def test_case_successful_transfer(self):
         self.setup_both_customers()
