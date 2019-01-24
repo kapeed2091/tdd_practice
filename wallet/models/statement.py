@@ -19,11 +19,18 @@ class Statement(models.Model):
             customer_id=customer_id, date_time__range=date_range_tuple
         )
 
-        transactions = []
-        for each in query_set:
-            transactions.append(each.convert_to_dict())
+        transaction_details = cls._convert_transaction_objects_to_details(
+            transactions=query_set)
 
-        return transactions
+        return transaction_details
+
+    @staticmethod
+    def _convert_transaction_objects_to_details(transactions):
+        transaction_details = []
+        for each in transactions:
+            transaction_details.append(each.convert_to_dict())
+
+        return transaction_details
 
     @staticmethod
     def _validate_date_range(date_range):
