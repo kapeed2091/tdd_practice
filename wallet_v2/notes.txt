@@ -30,13 +30,13 @@ TDD TODO:
         - user should have account
 
     - Transfer Money
-        - transfer money from payee to beneficiary
+        - transfer money from payer to beneficiary
         - can't transfer negative balance
-        - payee should have customer account -- Already handled
+        - payer should have customer account -- Already handled
         - beneficiary should have customer account -- Already handled
-        - payee should have sufficient balance
-        - both payee and beneficiary shouldn't be the same customer
-        - create transactions for payee and beneficiary
+        - payer should have sufficient balance
+        - both payer and beneficiary shouldn't be the same customer
+        - create transactions for payer and beneficiary
 
     - Get Statement
         - customer transactions
