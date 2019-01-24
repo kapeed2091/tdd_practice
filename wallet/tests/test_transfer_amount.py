@@ -4,17 +4,12 @@ from django.test import TestCase
 class TestTransferAmount(TestCase):
     customer_id1 = 'customer1'
     customer_id2 = 'customer2'
-    account_id1 = None
-    account_id2 = None
 
     def setUp(self):
         from wallet.models import Account
 
-        account_details1 = Account.create_account(self.customer_id1)
-        self.account_id1 = account_details1['account_id']
-
-        account_details2 = Account.create_account(self.customer_id2)
-        self.account_id2 = account_details2['account_id']
+        Account.create_account(self.customer_id1)
+        Account.create_account(self.customer_id2)
 
     def testcase_transfer_amount(self):
         from wallet.models import Account
