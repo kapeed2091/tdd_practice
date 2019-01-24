@@ -64,7 +64,11 @@ class Account(models.Model):
     @classmethod
     def add_balance_for_customer(cls, customer_id, amount):
         if cls.is_negative_amount(amount):
-            raise Exception
+            from wallet.exceptions.exceptions import \
+                NegativeAmountTransferException
+            from wallet.constants.exception_constants import \
+                NEGATIVE_AMOUNT_TRANSFER
+            raise NegativeAmountTransferException(NEGATIVE_AMOUNT_TRANSFER)
 
         cls._add_account_balance(customer_id=customer_id, amount=amount)
 
