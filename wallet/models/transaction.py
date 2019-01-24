@@ -15,17 +15,10 @@ class Transaction(models.Model):
 
     @classmethod
     def get_statement(cls, customer_id):
-        customer_transactions = list(cls.objects.filter(
-            customer_id=customer_id))
-        transactions_list = list()
-        for transaction in customer_transactions:
-            transactions_list.append({
-                'customer_id': transaction.customer_id,
-                'transaction_id': transaction.transaction_id,
-                'amount': transaction.amount,
-                'transaction_type': transaction.transaction_type
-            })
-        return transactions_list
+        customer_transactions = cls._get_transactions(customer_id=customer_id)
+        statement = cls._get_statement_from_transactions(
+            transactions=customer_transactions)
+        return statement
 
     @classmethod
     def add_transaction(cls, customer_id, amount,
@@ -33,8 +26,23 @@ class Transaction(models.Model):
         transaction_id = cls._generate_transaction_id(cls.TRANSACTION_ID_LENGTH)
         cls._assign_transaction_id_to_customer(
             customer_id=customer_id, transaction_id=transaction_id,
-            amount=amount,
-            transaction_type=transaction_type)
+            amount=amount, transaction_type=transaction_type)
+
+    @classmethod
+    def _get_transactions(cls, customer_id):
+        return list(cls.objects.filter(customer_id=customer_id))
+
+    @classmethod
+    def _get_statement_from_transactions(cls, transactions):
+        statement = list()
+        for transaction in transactions:
+            statement.append({
+                'customer_id': transaction.customer_id,
+                'transaction_id': transaction.transaction_id,
+                'amount': transaction.amount,
+                'transaction_type': transaction.transaction_type
+            })
+        return statement
 
     @staticmethod
     def _generate_transaction_id(length):
