@@ -2,13 +2,17 @@ from django.test import TestCase
 
 
 class TestCreateAccount(TestCase):
-    
+
     def testcase_create_account(self):
         customer_id = 'customer1'
         from wallet.models import Account
-        account_details = Account.create_account(customer_id)
-        self.assertEquals(account_details['customer_id'], customer_id, 'Issue with customer_id')
-        self.assertNotEqual(account_details['account_id'], None, 'Issue with account_id')
+        Account.create_account(customer_id)
+
+        account_objects = Account.objects.all()
+        account_object = account_objects[0]
+
+        self.assertEqual(account_objects.count(), 1)
+        self.assertEqual(account_object.customer_id, customer_id)
 
     def testcase_create_multiple_accounts_for_different_users(self):
         customer_id_1 = 'customer1'
