@@ -31,8 +31,7 @@ class Account(models.Model):
             raise Exception
 
         account = cls._get_account(customer_id)
-        account.balance += amount
-        account.save()
+        account._add_balance(amount=amount)
 
     @classmethod
     def transfer_balance(cls, sender_customer_id, receiver_customer_id,
