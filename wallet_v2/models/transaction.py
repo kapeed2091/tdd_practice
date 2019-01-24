@@ -33,12 +33,12 @@ class Transaction(models.Model):
         from wallet_v2.models import Account
         account = Account.get_account(customer_id)
 
-        customer_transactions = cls.objects.filter(account_id=account.id)
+        transactions = cls.objects.filter(account_id=account.id)
         return [
             {
                 'amount': transaction.amount,
                 'transaction_type': transaction.transaction_type
-            } for transaction in customer_transactions
+            } for transaction in transactions
         ]
 
     @classmethod
@@ -49,10 +49,10 @@ class Transaction(models.Model):
         from_date, to_date = cls.get_from_and_to_datetime_objects(
             from_date_str, to_date_str)
         account = Account.get_account(customer_id)
-        customer_transactions = cls.objects.filter(
+        transactions = cls.objects.filter(
             account_id=account.id,
             transaction_date__gte=from_date, transaction_date__lte=to_date)
-        return cls.get_transaction_details_with_date(customer_transactions)
+        return cls.get_transaction_details_with_date(transactions)
 
     @classmethod
     def get_from_and_to_datetime_objects(cls, from_date_str, to_date_str):

@@ -11,13 +11,17 @@ class Account(models.Model):
     @classmethod
     def create_account(cls, customer_id):
         try:
-            cls.objects.get(customer_id=customer_id)
+            cls.query_account_by_customer_id(customer_id)
             raise Exception
         except cls.DoesNotExist:
             account_id = cls.generate_account_id(cls.ACCOUNT_ID_LENGTH)
             account = cls.assign_account(customer_id, account_id)
         return {'customer_id': account.customer_id,
                 'account_id': account.account_id}
+
+    @classmethod
+    def query_account_by_customer_id(cls, customer_id):
+        return cls.objects.get(customer_id=customer_id)
 
     @staticmethod
     def generate_account_id(length):
@@ -82,7 +86,7 @@ class Account(models.Model):
         # 1. rename get_account as validate_and_get_account
         # 2. return account as None if not exists and then raise exception
         try:
-            account = cls.objects.get(customer_id=customer_id)
+            account = cls.query_account_by_customer_id(customer_id)
             return account
         except cls.DoesNotExist:
             raise Exception("Customer does not exist")
