@@ -44,6 +44,8 @@ class Account(models.Model):
         beneficiary_account.credit_balance(amount)
         cls.add_transaction(beneficiary_account.id, amount,
                             TransactionType.CREDIT.value)
+        # TODO: move credit balance and add transaction into one function,
+        # remove redundancy at add_balance
 
         payee_account.debit_balance(amount)
         cls.add_transaction(payee_account.id, amount,
