@@ -33,9 +33,13 @@ class TestCreateAccount(TestCase):
         customer_id = 'customer1'
 
         from wallet.models import Account
-
         Account.create_account(customer_id)
-        self.assertRaises(Exception, lambda: Account.create_account(customer_id))
+
+        from wallet.exceptions.exceptions import MultipleAccountsException
+        from wallet.constants.exception_constants import MULTIPLE_ACCOUNTS
+        with self.assertRaisesMessage(MultipleAccountsException,
+                                      MULTIPLE_ACCOUNTS):
+            Account.create_account(customer_id)
 
     def testcase_joint_account_holder(self):
         customer_id_1 = 'customer1'
