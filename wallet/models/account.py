@@ -24,11 +24,7 @@ class Account(models.Model):
 
     @classmethod
     def add_balance(cls, customer_id, amount):
-        if cls._is_zero_or_negative(amount):
-            raise Exception
-
-        if cls._is_non_int_type(amount):
-            raise Exception
+        cls._validate_amount(amount=amount)
 
         account = cls._get_account(customer_id)
         account._add_balance(amount=amount)
