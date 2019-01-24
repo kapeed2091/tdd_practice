@@ -16,7 +16,7 @@ class Transaction(models.Model):
     @classmethod
     def get_statement(cls, customer_id):
         customer_transactions = cls._get_transactions(customer_id=customer_id)
-        statement = cls._get_statement_from_transactions(
+        statement = cls.get_statement_from_transactions(
             transactions=customer_transactions)
 
         return statement
@@ -25,7 +25,7 @@ class Transaction(models.Model):
     def add_transaction(cls, customer_id, amount,
                         transaction_type):
         transaction_id = cls.generate_transaction_id()
-        cls._assign_transaction_id_to_customer(
+        cls.assign_transaction_id_to_customer(
             customer_id=customer_id, transaction_id=transaction_id,
             amount=amount, transaction_type=transaction_type)
 
@@ -34,7 +34,7 @@ class Transaction(models.Model):
         return list(cls.objects.filter(customer_id=customer_id))
 
     @classmethod
-    def _get_statement_from_transactions(cls, transactions):
+    def get_statement_from_transactions(cls, transactions):
         statement = list()
         for transaction in transactions:
             statement.append({
@@ -52,9 +52,9 @@ class Transaction(models.Model):
         return str(uuid.uuid4())[0:cls.TRANSACTION_ID_LENGTH]
 
     @classmethod
-    def _assign_transaction_id_to_customer(cls, customer_id, transaction_id,
-                                           amount,
-                                           transaction_type):
+    def assign_transaction_id_to_customer(cls, customer_id, transaction_id,
+                                          amount,
+                                          transaction_type):
         cls.objects.create(customer_id=customer_id,
                            transaction_id=transaction_id,
                            amount=amount, transaction_type=transaction_type)

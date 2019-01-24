@@ -12,31 +12,31 @@ class Account(models.Model):
 
     @classmethod
     def create_account(cls, customer_id):
-        cls._validate_account(customer_id=customer_id)
+        cls.validate_account(customer_id=customer_id)
 
         account_id = cls.generate_account_id()
-        account = cls._assign_account_id_to_customer(
+        account = cls.assign_account_id_to_customer(
             account_id=account_id, customer_id=customer_id)
 
         return account._convert_to_dict()
 
     @classmethod
     def add_balance(cls, customer_id, amount):
-        cls._validate_amount(amount=amount)
+        cls.validate_amount(amount=amount)
 
-        account = cls._get_account(customer_id)
+        account = cls.get_account(customer_id)
         account._add_balance(amount=amount)
 
     @classmethod
     def transfer_balance(cls, sender_customer_id, receiver_customer_id,
                          amount):
-        cls._validate_amount(amount=amount)
+        cls.validate_amount(amount=amount)
 
-        sender_account = cls._get_account(sender_customer_id)
+        sender_account = cls.get_account(sender_customer_id)
         sender_account._validate_sender_balance(amount=amount)
 
-        receiver_account = cls._get_account(receiver_customer_id)
-        sender_account._validate_unique_accounts(
+        receiver_account = cls.get_account(receiver_customer_id)
+        sender_account._are_same_accounts(
             receiver_account=receiver_account)
 
         sender_account._deduct_balance(amount)
@@ -48,8 +48,8 @@ class Account(models.Model):
         return account.balance
 
     @classmethod
-    def _validate_account(cls, customer_id):
-        if cls._customer_account_exists(customer_id):
+    def validate_account(cls, customer_id):
+        if cls.customer_account_exists(customer_id):
             raise Exception('Customer Account already exists')
 
     @classmethod
@@ -58,7 +58,7 @@ class Account(models.Model):
         return str(uuid.uuid4())[0:cls.ACCOUNT_ID_LENGTH]
 
     @classmethod
-    def _assign_account_id_to_customer(cls, account_id, customer_id):
+    def assign_account_id_to_customer(cls, account_id, customer_id):
         return cls.objects.create(
             account_id=account_id, customer_id=customer_id)
 
@@ -67,19 +67,19 @@ class Account(models.Model):
                 'account_id': self.account_id}
 
     @classmethod
-    def _customer_account_exists(cls, customer_id):
+    def customer_account_exists(cls, customer_id):
         return cls.objects.filter(customer_id=customer_id).exists()
 
     @classmethod
-    def _validate_amount(cls, amount):
-        if cls._is_zero_or_negative(amount):
+    def validate_amount(cls, amount):
+        if cls.is_zero_or_negative(amount):
             raise Exception('Transfer balance cannot be zero or negative')
 
-        if cls._is_non_int_type(amount):
+        if cls.is_non_int_type(amount):
             raise Exception('Transfer balance must be of type int')
 
     @classmethod
-    def _get_account(cls, customer_id):
+    def get_account(cls, customer_id):
         try:
             return cls.objects.get(customer_id=customer_id)
         except:
@@ -90,7 +90,7 @@ class Account(models.Model):
             raise Exception(
                 'Sender Balance should be more than transfer amount')
 
-    def _validate_unique_accounts(self, receiver_account):
+    def _are_same_accounts(self, receiver_account):
         if self.account_id == receiver_account.account_id:
             raise Exception('Cannot transfer balance between same account')
 
@@ -103,13 +103,13 @@ class Account(models.Model):
         self.save()
 
     @staticmethod
-    def _is_zero_or_negative(amount):
+    def is_zero_or_negative(amount):
         if amount <= 0:
             return True
         return False
 
     @staticmethod
-    def _is_non_int_type(amount):
+    def is_non_int_type(amount):
         if type(amount) != int:
             return True
         return False
