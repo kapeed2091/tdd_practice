@@ -42,26 +42,34 @@ class Account(models.Model):
     def add_balance_if_amount_is_valid(self, amount):
         from wallet.models import Transaction
 
-        if self.is_invalid_amount(amount):
-            raise Exception('Invalid amount')
+        self.validate_amount(amount)
+        self._add_balance(amount)
+        Transaction.create_transaction(account=self, amount=amount)
 
+    def _add_balance(self, amount):
         self.balance += amount
         self.save()
-        Transaction.create_transaction(account=self, amount=amount)
 
     def _remove_balance_if_amount_is_valid(self, amount):
         from wallet.models import Transaction
 
-        if self.is_invalid_amount(amount):
+        self.validate_amount(amount)
+        self.validate_insufficient_balance(amount)
+        self._remove_balance(amount)
+        Transaction.create_transaction(account=self, amount=-amount)
+
+    def _remove_balance(self, amount):
+        self.balance -= amount
+        self.save()
+
+    @classmethod
+    def validate_amount(cls, amount):
+        if cls.is_invalid_amount(amount):
             raise Exception('Invalid amount')
 
-        balance = self.balance
-        if amount > balance:
+    def validate_insufficient_balance(self, amount):
+        if amount > self.balance:
             raise Exception('Insufficient balance')
-
-        self.balance = balance - amount
-        self.save()
-        Transaction.create_transaction(account=self, amount=-amount)
 
     @classmethod
     def is_invalid_amount(cls, amount):
