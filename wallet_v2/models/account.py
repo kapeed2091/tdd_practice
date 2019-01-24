@@ -14,7 +14,7 @@ class Account(models.Model):
             cls.query_account_by_customer_id(customer_id)
             raise Exception
         except cls.DoesNotExist:
-            account_id = cls.generate_account_id(cls.ACCOUNT_ID_LENGTH)
+            account_id = cls.generate_account_id()
             account = cls.assign_account(customer_id, account_id)
         return {'customer_id': account.customer_id,
                 'account_id': account.account_id}
@@ -55,10 +55,10 @@ class Account(models.Model):
     def query_account_by_customer_id(cls, customer_id):
         return cls.objects.get(customer_id=customer_id)
 
-    @staticmethod
-    def generate_account_id(length):
+    @classmethod
+    def generate_account_id(cls):
         import uuid
-        return str(uuid.uuid4())[: length]
+        return str(uuid.uuid4())[: cls.ACCOUNT_ID_LENGTH]
 
     @classmethod
     def assign_account(cls, customer_id, account_id):
