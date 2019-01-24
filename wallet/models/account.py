@@ -52,14 +52,6 @@ class Account(models.Model):
         if cls._customer_account_exists(customer_id):
             raise Exception('Customer Account already exists')
 
-    def _convert_to_dict(self):
-        return {'customer_id': self.customer_id,
-                'account_id': self.account_id}
-
-    @classmethod
-    def _customer_account_exists(cls, customer_id):
-        return cls.objects.filter(customer_id=customer_id).exists()
-
     @staticmethod
     def _generate_account_id(length):
         import uuid
@@ -70,6 +62,14 @@ class Account(models.Model):
         return cls.objects.create(
             account_id=account_id, customer_id=customer_id)
 
+    def _convert_to_dict(self):
+        return {'customer_id': self.customer_id,
+                'account_id': self.account_id}
+
+    @classmethod
+    def _customer_account_exists(cls, customer_id):
+        return cls.objects.filter(customer_id=customer_id).exists()
+
     @classmethod
     def _validate_amount(cls, amount):
         if cls._is_zero_or_negative(amount):
@@ -77,6 +77,13 @@ class Account(models.Model):
 
         if cls._is_non_int_type(amount):
             raise Exception('Transfer balance must be of type int')
+
+    @classmethod
+    def _get_account(cls, customer_id):
+        try:
+            return cls.objects.get(customer_id=customer_id)
+        except:
+            raise Exception('Customer id doesnot exist')
 
     def _validate_sender_balance(self, amount):
         if self.balance < amount:
@@ -87,9 +94,17 @@ class Account(models.Model):
         if self.account_id == receiver_account.account_id:
             raise Exception('Cannot transfer balance between same account')
 
+    def _add_balance(self, amount):
+        self.balance += amount
+        self.save()
+
+    def _deduct_balance(self, amount):
+        self.balance -= amount
+        self.save()
+
     @staticmethod
-    def _is_negative(amount):
-        if amount < 0:
+    def _is_zero_or_negative(amount):
+        if amount <= 0:
             return True
         return False
 
@@ -98,24 +113,3 @@ class Account(models.Model):
         if type(amount) != int:
             return True
         return False
-
-    @classmethod
-    def _get_account(cls, customer_id):
-        try:
-            return cls.objects.get(customer_id=customer_id)
-        except:
-            raise Exception('Customer id doesnot exist')
-
-    @staticmethod
-    def _is_zero_or_negative(amount):
-        if amount <= 0:
-            return True
-        return False
-
-    def _deduct_balance(self, amount):
-        self.balance -= amount
-        self.save()
-
-    def _add_balance(self, amount):
-        self.balance += amount
-        self.save()
