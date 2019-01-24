@@ -15,10 +15,10 @@ class Transaction(models.Model):
 
     @classmethod
     def get_statement(cls, customer_id):
-        filtered_transactions = list(cls.objects.filter(
+        customer_transactions = list(cls.objects.filter(
             customer_id=customer_id))
         transactions_list = list()
-        for transaction in filtered_transactions:
+        for transaction in customer_transactions:
             transactions_list.append({
                 'customer_id': transaction.customer_id,
                 'transaction_id': transaction.transaction_id,
