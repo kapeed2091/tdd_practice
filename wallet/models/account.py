@@ -23,48 +23,6 @@ class Account(models.Model):
                 'account_id': account.account_id}
 
     @classmethod
-    def _check_if_customer_account_exists(cls, customer_id):
-        return cls.objects.filter(customer_id=customer_id).exists()
-
-    @staticmethod
-    def generate_account_id(length):
-        import uuid
-        return str(uuid.uuid4())[0:length]
-
-    @classmethod
-    def _assign_account_id_to_customer(cls, account_id, customer_id):
-        return cls.objects.create(
-            account_id=account_id, customer_id=customer_id)
-
-    @classmethod
-    def get_balance(cls, customer_id):
-        account = cls.objects.get(customer_id=customer_id)
-        return account.balance
-
-    @classmethod
-    def add_balance(cls, customer_id, amount):
-        if cls.is_negative_amount(amount):
-            raise Exception
-
-        cls._add_account_balance(customer_id=customer_id, amount=amount)
-
-    @classmethod
-    def _add_account_balance(cls, customer_id, amount):
-        account = cls.get_account(customer_id)
-        account.balance += amount
-        account.save()
-
-    @staticmethod
-    def is_negative_amount(amount):
-        if amount < 0:
-            return True
-        return False
-
-    @classmethod
-    def get_account(cls, customer_id):
-        return cls.objects.get(customer_id=customer_id)
-
-    @classmethod
     def transfer_amount_between_customers(cls, transaction_customer_details,
                                           amount):
         sender_customer_id = transaction_customer_details["sender_customer_id"]
@@ -99,6 +57,57 @@ class Account(models.Model):
 
         cls.add_balance(customer_id=receiver_customer_id, amount=amount)
 
+    @classmethod
+    def add_balance(cls, customer_id, amount):
+        if cls.is_negative_amount(amount):
+            raise Exception
+
+        cls._add_account_balance(customer_id=customer_id, amount=amount)
+
+    @classmethod
+    def deduct_balance(cls, customer_id, amount):
+        if cls.is_negative_amount(amount):
+            from wallet.exceptions.exceptions import NegativeAmountException
+            from wallet.constants.exception_constants import NEGATIVE_AMOUNT
+            raise NegativeAmountException(NEGATIVE_AMOUNT)
+
+        cls._deduct_account_balance(customer_id=customer_id, amount=amount)
+
+    @classmethod
+    def _check_if_customer_account_exists(cls, customer_id):
+        return cls.objects.filter(customer_id=customer_id).exists()
+
+    @staticmethod
+    def generate_account_id(length):
+        import uuid
+        return str(uuid.uuid4())[0:length]
+
+    @classmethod
+    def _assign_account_id_to_customer(cls, account_id, customer_id):
+        return cls.objects.create(
+            account_id=account_id, customer_id=customer_id)
+
+    @classmethod
+    def get_balance(cls, customer_id):
+        account = cls.objects.get(customer_id=customer_id)
+        return account.balance
+
+    @classmethod
+    def _add_account_balance(cls, customer_id, amount):
+        account = cls.get_account(customer_id)
+        account.balance += amount
+        account.save()
+
+    @staticmethod
+    def is_negative_amount(amount):
+        if amount < 0:
+            return True
+        return False
+
+    @classmethod
+    def get_account(cls, customer_id):
+        return cls.objects.get(customer_id=customer_id)
+
     @staticmethod
     def _validate_amount_type(amount):
         if not isinstance(amount, int):
@@ -114,15 +123,6 @@ class Account(models.Model):
             from wallet.constants.exception_constants import \
                 INSUFFICIENT_FUND
             raise InsufficientFundException(INSUFFICIENT_FUND)
-
-    @classmethod
-    def deduct_balance(cls, customer_id, amount):
-        if cls.is_negative_amount(amount):
-            from wallet.exceptions.exceptions import NegativeAmountException
-            from wallet.constants.exception_constants import NEGATIVE_AMOUNT
-            raise NegativeAmountException(NEGATIVE_AMOUNT)
-
-        cls._deduct_account_balance(customer_id=customer_id, amount=amount)
 
     @classmethod
     def _deduct_account_balance(cls, customer_id, amount):
