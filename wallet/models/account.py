@@ -18,7 +18,7 @@ class Account(models.Model):
 
     @classmethod
     def create_account(cls, customer_id):
-        cls.raise_exception_for_customer_account_exists(customer_id)
+        cls._raise_exception_for_customer_account_exists(customer_id)
 
         account_id = cls._generate_account_id()
         account = cls._assign_account_id_to_customer(
@@ -28,7 +28,7 @@ class Account(models.Model):
                 'account_id': account.account_id}
 
     @classmethod
-    def raise_exception_for_customer_account_exists(cls, customer_id):
+    def _raise_exception_for_customer_account_exists(cls, customer_id):
         if cls._customer_account_exists(customer_id):
             from wallet.constants.exception_message import \
                 ACCOUNT_ALREADY_EXISTS
@@ -55,16 +55,16 @@ class Account(models.Model):
     @classmethod
     def add_balance(cls, customer_id, amount):
 
-        cls.raise_exception_for_invalid_amount(amount=amount)
+        cls._raise_exception_for_invalid_amount(amount=amount)
 
-        account = cls.get_account(customer_id)
+        account = cls._get_account(customer_id)
         account._credit_amount(amount=amount)
         from wallet.constants.general import TransactionType
         account._add_transaction(amount=amount,
                                  transaction_type=TransactionType.CREDIT.value)
 
     @classmethod
-    def get_account(cls, customer_id):
+    def _get_account(cls, customer_id):
         try:
             return cls.objects.get(customer_id=customer_id)
         except cls.DoesNotExist:
@@ -102,10 +102,10 @@ class Account(models.Model):
         self.save()
 
     @classmethod
-    def deduct_balance(cls, customer_id, amount):
-        cls.raise_exception_for_invalid_amount(amount=amount)
+    def _deduct_balance(cls, customer_id, amount):
+        cls._raise_exception_for_invalid_amount(amount=amount)
 
-        account = cls.get_account(customer_id)
+        account = cls._get_account(customer_id)
         from wallet.constants.general import TransactionType
         account._add_transaction(amount=amount,
                                  transaction_type=TransactionType.DEBIT.value)
@@ -116,55 +116,55 @@ class Account(models.Model):
         self.save()
 
     @classmethod
-    def raise_exception_for_invalid_amount(cls, amount):
+    def _raise_exception_for_invalid_amount(cls, amount):
         from wallet.constants.exception_message import \
             INVALID_AMOUNT_TO_ADD
 
-        if cls.is_negative_amount(amount):
+        if cls._is_negative_amount(amount):
             raise Exception(INVALID_AMOUNT_TO_ADD)
 
-        if cls.is_zero_amount(amount):
+        if cls._is_zero_amount(amount):
             raise Exception(INVALID_AMOUNT_TO_ADD)
 
-        if cls.is_amount_type_int(amount):
+        if cls._is_amount_type_int(amount):
             pass
         else:
             raise Exception(INVALID_AMOUNT_TO_ADD)
 
     @staticmethod
-    def is_negative_amount(amount):
+    def _is_negative_amount(amount):
         if amount < 0:
             return True
         return False
 
     @staticmethod
-    def is_zero_amount(amount):
+    def _is_zero_amount(amount):
         if amount == 0:
             return True
         return False
 
     @staticmethod
-    def is_amount_type_int(amount):
+    def _is_amount_type_int(amount):
         return type(amount) == int
 
     @classmethod
     def transfer_amount(cls, source_customer_id, destination_customer_id,
                         transfer_amount):
 
-        cls.raise_exception_for_insufficient_balance(
+        cls._raise_exception_for_insufficient_balance(
             customer_id=source_customer_id, amount=transfer_amount)
 
         try:
             cls.add_balance(customer_id=destination_customer_id,
                             amount=transfer_amount)
 
-            cls.deduct_balance(customer_id=source_customer_id,
-                               amount=transfer_amount)
+            cls._deduct_balance(customer_id=source_customer_id,
+                                amount=transfer_amount)
         except Exception as exception:
             cls._raise_exception_for_failed_transfer_amount(exception)
 
     @classmethod
-    def raise_exception_for_insufficient_balance(cls, customer_id, amount):
+    def _raise_exception_for_insufficient_balance(cls, customer_id, amount):
 
         if cls._is_balance_insufficient_to_make_transfer(
                 customer_id=customer_id, amount=amount):
