@@ -11,7 +11,7 @@ class Account(models.Model):
     balance = models.IntegerField(default=DEFAULT_BALANCE)
 
     @classmethod
-    def create_and_return_account(cls, customer_id):
+    def create_account(cls, customer_id):
         if cls._customer_account_exists(customer_id):
             raise Exception
 
@@ -37,20 +37,20 @@ class Account(models.Model):
         return str(uuid.uuid4())[0:length]
 
     @classmethod
-    def get_account_balance(cls, customer_id):
+    def get_balance(cls, customer_id):
         account = cls.objects.get(customer_id=customer_id)
         return account.balance
 
     @classmethod
-    def add_account_balance(cls, customer_id, amount_to_add):
-        if cls.is_negative_number(amount_to_add):
+    def add_balance(cls, customer_id, amount):
+        if cls.is_negative_number(amount):
             raise Exception
 
-        if cls.is_non_int_type(amount_to_add):
+        if cls.is_non_int_type(amount):
             raise Exception
 
         account = cls.get_account(customer_id)
-        account.balance += amount_to_add
+        account.balance += amount
         account.save()
 
     @staticmethod
@@ -80,15 +80,15 @@ class Account(models.Model):
 
     @classmethod
     def transfer_balance(cls, sender_customer_id, receiver_customer_id,
-                         amount_to_transfer):
-        if cls.is_zero_or_negative_number(amount_to_transfer):
+                         amount):
+        if cls.is_zero_or_negative_number(amount):
             raise Exception('Transfer balance cannot be zero or negative')
 
-        if cls.is_non_int_type(amount_to_transfer):
+        if cls.is_non_int_type(amount):
             raise Exception('Transfer balance must be of type int')
 
         sender_account = cls.get_account(sender_customer_id)
-        if sender_account.balance < amount_to_transfer:
+        if sender_account.balance < amount:
             raise Exception(
                 'Sender Balance should be more than transfer amount')
 
@@ -96,8 +96,8 @@ class Account(models.Model):
         if sender_account.account_id == receiver_account.account_id:
             raise Exception('Cannot transfer balance between same account')
 
-        sender_account._deduct_balance(amount_to_transfer)
-        receiver_account._add_balance(amount_to_transfer)
+        sender_account._deduct_balance(amount)
+        receiver_account._add_balance(amount)
 
     def _deduct_balance(self, amount):
         self.balance -= amount

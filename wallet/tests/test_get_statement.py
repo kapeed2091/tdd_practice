@@ -7,12 +7,12 @@ class TestGetStatement(TestCase):
     receiver_customer_id = 'receiver'
 
     def setUp(self):
-        Account.create_and_return_account(self.sender_customer_id)
-        Account.create_and_return_account(self.receiver_customer_id)
+        Account.create_account(self.sender_customer_id)
+        Account.create_account(self.receiver_customer_id)
 
     def testcase_get_statement(self):
         from wallet.models import Transaction
-        transactions_list = Transaction.get_customer_statement(
+        transactions_list = Transaction.get_statement(
             self.sender_customer_id)
 
         self.assertEquals(transactions_list, [])
@@ -23,9 +23,9 @@ class TestGetStatement(TestCase):
         from wallet.models import Transaction
         Transaction.assign_transaction_id_to_customer(
             customer_id=self.sender_customer_id, transaction_id=transaction_id,
-            transaction_amount=50, transaction_type='Credit')
+            amount=50, transaction_type='Credit')
 
-        sender_transactions_list = Transaction.get_customer_statement(
+        sender_transactions_list = Transaction.get_statement(
             self.sender_customer_id)
 
         self.assertEquals(sender_transactions_list,
@@ -39,12 +39,12 @@ class TestGetStatement(TestCase):
         from wallet.models import Transaction
         Transaction.assign_transaction_id_to_customer(
             customer_id=self.sender_customer_id, transaction_id=transaction_id,
-            transaction_amount=50, transaction_type='Credit')
+            amount=50, transaction_type='Credit')
 
         with self.assertRaises(Exception):
             Transaction.assign_transaction_id_to_customer(
                 customer_id=self.sender_customer_id,
-                transaction_id=transaction_id, transaction_amount=20,
+                transaction_id=transaction_id, amount=20,
                 transaction_type='Credit')
 
     def testcase_get_transaction_type_in_statement(self):
@@ -55,9 +55,9 @@ class TestGetStatement(TestCase):
         Transaction.assign_transaction_id_to_customer(
             customer_id=self.sender_customer_id,
             transaction_id=transaction_id_1,
-            transaction_amount=50, transaction_type='Credit')
+            amount=50, transaction_type='Credit')
 
-        old_sender_transactions_list = Transaction.get_customer_statement(
+        old_sender_transactions_list = Transaction.get_statement(
             self.sender_customer_id)
         self.assertEquals(old_sender_transactions_list, [{
             'customer_id': self.sender_customer_id,
@@ -67,9 +67,9 @@ class TestGetStatement(TestCase):
         Transaction.assign_transaction_id_to_customer(
             customer_id=self.sender_customer_id,
             transaction_id=transaction_id_2,
-            transaction_amount=10, transaction_type='Debit')
+            amount=10, transaction_type='Debit')
 
-        new_sender_transactions_list = Transaction.get_customer_statement(
+        new_sender_transactions_list = Transaction.get_statement(
             self.sender_customer_id)
         self.assertEquals(new_sender_transactions_list, [{
             'customer_id': self.sender_customer_id,
