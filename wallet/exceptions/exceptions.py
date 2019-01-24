@@ -20,3 +20,7 @@ class InvalidSenderCustomerIdException(Exception):
 
 class InvalidDateRangeException(Exception):
     pass
+
+
+class MultipleAccountsException(Exception):
+    pass

@@ -9,3 +9,5 @@ NEGATIVE_AMOUNT_TRANSFER = "Negative amount cannot be transferred"
 CUSTOMER_DOES_NOT_EXIST = "Customer does not exist for the given customer_id"
 
 INVALID_DATE_RANGE = "from date cannot be greater than to_date"
+
+MULTIPLE_ACCOUNTS = "More than one account is not possible"
