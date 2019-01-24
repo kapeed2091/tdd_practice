@@ -13,7 +13,9 @@ class Account(models.Model):
     @classmethod
     def create_account(cls, customer_id):
         if cls._check_if_customer_account_exists(customer_id):
-            raise Exception
+            from wallet.exceptions.exceptions import MultipleAccountsException
+            from wallet.constants.exception_constants import MULTIPLE_ACCOUNTS
+            raise MultipleAccountsException(MULTIPLE_ACCOUNTS)
 
         account_id = cls.generate_account_id(cls.ACCOUNT_ID_LENGTH)
         account = cls._assign_account_id_to_customer(
