@@ -23,6 +23,7 @@ TDD TODO:
         - add balance to user
         - add negative balance to user
         - user should have account
+        - create transaction
 
     - Get Balance
         - get balance for user
@@ -35,6 +36,7 @@ TDD TODO:
         - beneficiary should have customer account -- Already handled
         - payee should have sufficient balance
         - both payee and beneficiary shouldn't be the same customer
+        - create transactions for payee and beneficiary
 
     - Get Statement
         - customer transactions
