@@ -16,9 +16,15 @@ class TestAddBalance(TestCase):
         Account.add_balance_for_customer(self.customer_id, 10)
         balance = Account.get_balance(self.customer_id)
 
-        self.assertEquals(balance, prev_balance+10)
+        self.assertEquals(balance, prev_balance + 10)
 
     def testcase_add_negative_balance(self):
         from wallet.models import Account
-        with self.assertRaises(Exception):
+
+        from wallet.exceptions.exceptions import \
+            NegativeAmountTransferException
+        from wallet.constants.exception_constants import \
+            NEGATIVE_AMOUNT_TRANSFER
+        with self.assertRaisesMessage(NegativeAmountTransferException,
+                                      NEGATIVE_AMOUNT_TRANSFER):
             Account.add_balance_for_customer(self.customer_id, -10)
