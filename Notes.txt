@@ -18,6 +18,8 @@ Architecture/Design: Should we fix the architechture? - task division/teams - to
 TDD TODO List (Functionality Layer):
     - Create Account
         - account_id, customer_id lengths
+    - Add Balance
+        - Add balance amount should not be zero
     - Get Balance
         - When user has non-zero balance
     - Transfer Money
