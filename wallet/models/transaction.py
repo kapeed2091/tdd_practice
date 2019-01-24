@@ -44,7 +44,6 @@ class Transaction(models.Model):
                            transaction_id=transaction_id,
                            amount=amount, transaction_type=transaction_type)
 
-
     @staticmethod
     def generate_transaction_id(length):
         import uuid

@@ -43,7 +43,7 @@ class Account(models.Model):
 
     @classmethod
     def add_balance(cls, customer_id, amount):
-        if cls.is_negative_number(amount):
+        if cls.is_negative(amount):
             raise Exception
 
         if cls.is_non_int_type(amount):
@@ -54,20 +54,20 @@ class Account(models.Model):
         account.save()
 
     @staticmethod
-    def is_negative_number(number):
-        if number < 0:
+    def is_negative(amount):
+        if amount < 0:
             return True
         return False
 
     @staticmethod
-    def is_zero_or_negative_number(number):
-        if number <= 0:
+    def is_zero_or_negative(amount):
+        if amount <= 0:
             return True
         return False
 
     @staticmethod
-    def is_non_int_type(number):
-        if type(number) != int:
+    def is_non_int_type(amount):
+        if type(amount) != int:
             return True
         return False
 
@@ -81,7 +81,7 @@ class Account(models.Model):
     @classmethod
     def transfer_balance(cls, sender_customer_id, receiver_customer_id,
                          amount):
-        if cls.is_zero_or_negative_number(amount):
+        if cls.is_zero_or_negative(amount):
             raise Exception('Transfer balance cannot be zero or negative')
 
         if cls.is_non_int_type(amount):
