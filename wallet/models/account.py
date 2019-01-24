@@ -116,9 +116,7 @@ class Account(models.Model):
 
     @staticmethod
     def is_negative_amount(amount):
-        if amount < 0:
-            return True
-        return False
+        return amount < 0
 
     @classmethod
     def get_account(cls, customer_id):
