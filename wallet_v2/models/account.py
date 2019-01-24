@@ -56,7 +56,6 @@ class Account(models.Model):
     def credit_balance(self, amount):
         self.balance += amount
         self.save()
-        return self
 
     @staticmethod
     def get_now():
@@ -106,6 +105,8 @@ class Account(models.Model):
     @classmethod
     def validate_balance_transfer(
             cls, payee_account, beneficiary_customer_id, amount):
+        # TODO: DOUBT: 3 arguments to function / non-grouping of validations
+        # and Inconsistency in arguments: payee_account, beneficiary_customer_id
         payee_customer_id = payee_account.customer_id
         if cls.check_if_payee_and_beneficiary_accounts_are_same(
                 payee_customer_id, beneficiary_customer_id):
@@ -139,4 +140,3 @@ class Account(models.Model):
     def debit_balance(self, amount):
         self.balance -= amount
         self.save()
-        return self
