@@ -59,7 +59,9 @@ class Account(models.Model):
 
         account = cls.get_account(customer_id)
         account._credit_amount(amount=amount)
-        account._add_credit_transaction(amount=amount)
+        from wallet.constants.general import TransactionType
+        account._add_transaction(amount=amount,
+                                 transaction_type=TransactionType.CREDIT.value)
 
     @classmethod
     def get_account(cls, customer_id):
@@ -68,17 +70,27 @@ class Account(models.Model):
         except cls.DoesNotExist:
             cls._raise_exception_for_invalid_customer_id()
 
-    def _add_credit_transaction(self, amount):
+    def _add_transaction(self, amount, transaction_type):
         from wallet.models import Transaction
-        from wallet.constants.general import TransactionType
 
+        message = \
+            self._get_transaction_message(transaction_type=transaction_type)
         transaction_dict = {
             'account_id': self.id,
-            'message': "added the money",
+            'message': message,
             'amount': amount,
-            'transaction_type': TransactionType.CREDIT.value
+            'transaction_type': transaction_type
         }
         Transaction.add_transaction(transaction_dict=transaction_dict)
+
+    @classmethod
+    def _get_transaction_message(cls, transaction_type):
+        from wallet.constants.general import TransactionType
+
+        if transaction_type == TransactionType.DEBIT.value:
+            return "Deducted the money"
+        else:
+            return "Added the money"
 
     @staticmethod
     def _raise_exception_for_invalid_customer_id():
@@ -94,20 +106,10 @@ class Account(models.Model):
         cls.raise_exception_for_invalid_amount(amount=amount)
 
         account = cls.get_account(customer_id)
-        account._add_debit_transaction(amount=amount)
-        account._debit_amount(amount=amount)
-
-    def _add_debit_transaction(self, amount):
         from wallet.constants.general import TransactionType
-
-        transaction_dict = {
-            'account_id': self.id,
-            'message': "deducted the money",
-            'amount': amount,
-            'transaction_type': TransactionType.DEBIT.value
-        }
-        from wallet.models import Transaction
-        Transaction.add_transaction(transaction_dict=transaction_dict)
+        account._add_transaction(amount=amount,
+                                 transaction_type=TransactionType.DEBIT.value)
+        account._debit_amount(amount=amount)
 
     def _debit_amount(self, amount):
         self.balance -= amount
