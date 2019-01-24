@@ -12,9 +12,7 @@ class Account(models.Model):
 
     @classmethod
     def raise_exception_for_invalid_customer(cls, customer_id):
-        if cls._customer_account_exists(customer_id):
-            pass
-        else:
+        if cls._customer_does_not_exist(customer_id):
             from wallet.constants.exception_message import INVALID_CUSTOMER_ID
             raise Exception(INVALID_CUSTOMER_ID)
 
@@ -38,6 +36,10 @@ class Account(models.Model):
     @classmethod
     def _customer_account_exists(cls, customer_id):
         return cls.objects.filter(customer_id=customer_id).exists()
+
+    @classmethod
+    def _customer_does_not_exist(cls, customer_id):
+        return not cls._customer_account_exists(customer_id=customer_id)
 
     @classmethod
     def _generate_account_id(cls):
@@ -155,22 +157,20 @@ class Account(models.Model):
     @classmethod
     def raise_exception_for_insufficient_balance(cls, customer_id, amount):
 
-        if cls.is_balance_sufficient_to_make_transfer(
+        if cls._is_balance_insufficient_to_make_transfer(
                 customer_id=customer_id, amount=amount):
-            pass
-        else:
             from wallet.constants.exception_message import \
                 INSUFFICIENT_BALANCE_TO_MAKE_TRANSFER
             raise Exception(INSUFFICIENT_BALANCE_TO_MAKE_TRANSFER)
 
     @classmethod
-    def is_balance_sufficient_to_make_transfer(cls, customer_id, amount):
+    def _is_balance_insufficient_to_make_transfer(cls, customer_id, amount):
         balance = cls.get_balance(customer_id=customer_id)
 
         if balance >= amount:
-            return True
-        else:
             return False
+        else:
+            return True
 
     @classmethod
     def get_balance(cls, customer_id):
