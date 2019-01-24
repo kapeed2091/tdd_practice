@@ -55,8 +55,11 @@ class Account(models.Model):
     @classmethod
     def add_balance(cls, customer_id, amount):
 
+        cls.raise_exception_for_invalid_amount(amount=amount)
+
         account = cls.get_account(customer_id)
-        account.credit_amount(amount=amount)
+        account._credit_amount(amount=amount)
+        account._add_credit_transaction(amount=amount)
 
     @classmethod
     def get_account(cls, customer_id):
@@ -65,16 +68,9 @@ class Account(models.Model):
         except cls.DoesNotExist:
             cls._raise_exception_for_invalid_customer_id()
 
-    @staticmethod
-    def _raise_exception_for_invalid_customer_id():
-        from wallet.constants.exception_message import INVALID_CUSTOMER_ID
-        raise Exception(INVALID_CUSTOMER_ID)
-
-    def credit_amount(self, amount):
+    def _add_credit_transaction(self, amount):
         from wallet.models import Transaction
         from wallet.constants.general import TransactionType
-
-        self.raise_exception_for_invalid_amount(account=self, amount=amount)
 
         transaction_dict = {
             'account_id': self.id,
@@ -84,18 +80,25 @@ class Account(models.Model):
         }
         Transaction.add_transaction(transaction_dict=transaction_dict)
 
+    @staticmethod
+    def _raise_exception_for_invalid_customer_id():
+        from wallet.constants.exception_message import INVALID_CUSTOMER_ID
+        raise Exception(INVALID_CUSTOMER_ID)
+
+    def _credit_amount(self, amount):
         self.balance += amount
         self.save()
 
     @classmethod
     def deduct_balance(cls, customer_id, amount):
+        cls.raise_exception_for_invalid_amount(amount=amount)
+
         account = cls.get_account(customer_id)
-        account.debit_amount(amount=amount)
+        account._add_debit_transaction(amount=amount)
+        account._debit_amount(amount=amount)
 
-    def debit_amount(self, amount):
+    def _add_debit_transaction(self, amount):
         from wallet.constants.general import TransactionType
-
-        self.raise_exception_for_invalid_amount(account=self, amount=amount)
 
         transaction_dict = {
             'account_id': self.id,
@@ -106,21 +109,22 @@ class Account(models.Model):
         from wallet.models import Transaction
         Transaction.add_transaction(transaction_dict=transaction_dict)
 
+    def _debit_amount(self, amount):
         self.balance -= amount
         self.save()
 
     @classmethod
-    def raise_exception_for_invalid_amount(cls, account, amount):
+    def raise_exception_for_invalid_amount(cls, amount):
         from wallet.constants.exception_message import \
             INVALID_AMOUNT_TO_ADD
 
-        if account.is_negative_amount(amount):
+        if cls.is_negative_amount(amount):
             raise Exception(INVALID_AMOUNT_TO_ADD)
 
-        if account.is_zero_amount(amount):
+        if cls.is_zero_amount(amount):
             raise Exception(INVALID_AMOUNT_TO_ADD)
 
-        if account.is_amount_type_int(amount):
+        if cls.is_amount_type_int(amount):
             pass
         else:
             raise Exception(INVALID_AMOUNT_TO_ADD)
