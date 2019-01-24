@@ -21,7 +21,7 @@ class TestGetStatement(TestCase):
         transaction_id = '2019_1'
 
         from wallet.models import Transaction
-        Transaction.assign_transaction_id_to_customer(
+        Transaction._assign_transaction_id_to_customer(
             customer_id=self.sender_customer_id, transaction_id=transaction_id,
             amount=50, transaction_type='Credit')
 
@@ -37,12 +37,12 @@ class TestGetStatement(TestCase):
         transaction_id = '2019_1'
 
         from wallet.models import Transaction
-        Transaction.assign_transaction_id_to_customer(
+        Transaction._assign_transaction_id_to_customer(
             customer_id=self.sender_customer_id, transaction_id=transaction_id,
             amount=50, transaction_type='Credit')
 
         with self.assertRaises(Exception):
-            Transaction.assign_transaction_id_to_customer(
+            Transaction._assign_transaction_id_to_customer(
                 customer_id=self.sender_customer_id,
                 transaction_id=transaction_id, amount=20,
                 transaction_type='Credit')
@@ -52,7 +52,7 @@ class TestGetStatement(TestCase):
         transaction_id_2 = '2019_2'
 
         from wallet.models import Transaction
-        Transaction.assign_transaction_id_to_customer(
+        Transaction._assign_transaction_id_to_customer(
             customer_id=self.sender_customer_id,
             transaction_id=transaction_id_1,
             amount=50, transaction_type='Credit')
@@ -64,7 +64,7 @@ class TestGetStatement(TestCase):
             'transaction_id': transaction_id_1,
             'amount': 50, 'transaction_type': 'Credit'}])
 
-        Transaction.assign_transaction_id_to_customer(
+        Transaction._assign_transaction_id_to_customer(
             customer_id=self.sender_customer_id,
             transaction_id=transaction_id_2,
             amount=10, transaction_type='Debit')

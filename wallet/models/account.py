@@ -15,7 +15,7 @@ class Account(models.Model):
         if cls._customer_account_exists(customer_id):
             raise Exception
 
-        account_id = cls.generate_account_id(cls.ACCOUNT_ID_LENGTH)
+        account_id = cls._generate_account_id(cls.ACCOUNT_ID_LENGTH)
         account = cls._assign_account_id_to_customer(
             account_id=account_id, customer_id=customer_id)
 
@@ -32,7 +32,7 @@ class Account(models.Model):
             account_id=account_id, customer_id=customer_id)
 
     @staticmethod
-    def generate_account_id(length):
+    def _generate_account_id(length):
         import uuid
         return str(uuid.uuid4())[0:length]
 
@@ -43,36 +43,36 @@ class Account(models.Model):
 
     @classmethod
     def add_balance(cls, customer_id, amount):
-        if cls.is_negative(amount):
+        if cls._is_negative(amount):
             raise Exception
 
-        if cls.is_non_int_type(amount):
+        if cls._is_non_int_type(amount):
             raise Exception
 
-        account = cls.get_account(customer_id)
+        account = cls._get_account(customer_id)
         account.balance += amount
         account.save()
 
     @staticmethod
-    def is_negative(amount):
+    def _is_negative(amount):
         if amount < 0:
             return True
         return False
 
     @staticmethod
-    def is_zero_or_negative(amount):
+    def _is_zero_or_negative(amount):
         if amount <= 0:
             return True
         return False
 
     @staticmethod
-    def is_non_int_type(amount):
+    def _is_non_int_type(amount):
         if type(amount) != int:
             return True
         return False
 
     @classmethod
-    def get_account(cls, customer_id):
+    def _get_account(cls, customer_id):
         try:
             return cls.objects.get(customer_id=customer_id)
         except:
@@ -81,18 +81,18 @@ class Account(models.Model):
     @classmethod
     def transfer_balance(cls, sender_customer_id, receiver_customer_id,
                          amount):
-        if cls.is_zero_or_negative(amount):
+        if cls._is_zero_or_negative(amount):
             raise Exception('Transfer balance cannot be zero or negative')
 
-        if cls.is_non_int_type(amount):
+        if cls._is_non_int_type(amount):
             raise Exception('Transfer balance must be of type int')
 
-        sender_account = cls.get_account(sender_customer_id)
+        sender_account = cls._get_account(sender_customer_id)
         if sender_account.balance < amount:
             raise Exception(
                 'Sender Balance should be more than transfer amount')
 
-        receiver_account = cls.get_account(receiver_customer_id)
+        receiver_account = cls._get_account(receiver_customer_id)
         if sender_account.account_id == receiver_account.account_id:
             raise Exception('Cannot transfer balance between same account')
 

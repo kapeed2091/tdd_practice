@@ -30,21 +30,21 @@ class Transaction(models.Model):
     @classmethod
     def add_transaction(cls, customer_id, amount,
                         transaction_type):
-        transaction_id = cls.generate_transaction_id(cls.TRANSACTION_ID_LENGTH)
-        cls.assign_transaction_id_to_customer(
+        transaction_id = cls._generate_transaction_id(cls.TRANSACTION_ID_LENGTH)
+        cls._assign_transaction_id_to_customer(
             customer_id=customer_id, transaction_id=transaction_id,
             amount=amount,
             transaction_type=transaction_type)
 
     @classmethod
-    def assign_transaction_id_to_customer(cls, customer_id, transaction_id,
-                                          amount,
-                                          transaction_type):
+    def _assign_transaction_id_to_customer(cls, customer_id, transaction_id,
+                                           amount,
+                                           transaction_type):
         cls.objects.create(customer_id=customer_id,
                            transaction_id=transaction_id,
                            amount=amount, transaction_type=transaction_type)
 
     @staticmethod
-    def generate_transaction_id(length):
+    def _generate_transaction_id(length):
         import uuid
         return str(uuid.uuid4())[0:length]
