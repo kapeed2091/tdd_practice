@@ -48,7 +48,7 @@ class Account(models.Model):
         except cls.DoesNotExist:
             raise Exception('Invalid receiver id')
 
-        sender_account._remove_balance_if_amount_is_valid(amount=amount)
+        cls._remove_balance_if_amount_is_valid(account=sender_account, amount=amount)
         receiver_account.add_balance_if_amount_is_valid(amount=amount)
 
     @classmethod
@@ -69,13 +69,14 @@ class Account(models.Model):
         self.balance += amount
         self.save()
 
-    def _remove_balance_if_amount_is_valid(self, amount):
+    @classmethod
+    def _remove_balance_if_amount_is_valid(cls, account, amount):
         from wallet.models import Transaction
 
-        self._validate_amount(amount)
-        self._validate_insufficient_balance(amount)
-        self._remove_balance(amount)
-        Transaction.create_transaction(account=self, amount=-amount)
+        cls._validate_amount(amount)
+        cls._validate_insufficient_balance(account=account, amount=amount)
+        cls._remove_balance(account=account, amount=amount)
+        Transaction.create_transaction(account=account, amount=-amount)
 
     @classmethod
     def _validate_amount(cls, amount):
@@ -88,10 +89,12 @@ class Account(models.Model):
             return True
         return False
 
-    def _validate_insufficient_balance(self, amount):
-        if amount > self.balance:
+    @classmethod
+    def _validate_insufficient_balance(cls, account, amount):
+        if amount > account.balance:
             raise Exception('Insufficient balance')
 
-    def _remove_balance(self, amount):
-        self.balance -= amount
-        self.save()
+    @classmethod
+    def _remove_balance(cls, account, amount):
+        account.balance -= amount
+        account.save()
