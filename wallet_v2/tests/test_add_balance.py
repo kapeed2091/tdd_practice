@@ -24,3 +24,12 @@ class TestAddBalance(TestCase):
         with self.assertRaisesMessage(
                 Exception, "Customer does not exist"):
             Account.add_balance(self.customer_id, 100)
+
+    def testcase_create_transaction(self):
+        from wallet_v2.models import Account, Transaction
+        Account.create_account(self.customer_id)
+
+        Account.add_balance(self.customer_id, 1000)
+        transactions_count = Transaction.objects.filter(
+            account__customer_id=self.customer_id).count()
+        self.assertEqual(transactions_count, 1)
