@@ -20,25 +20,6 @@ class Account(models.Model):
                 'account_id': account.account_id}
 
     @classmethod
-    def query_account_by_customer_id(cls, customer_id):
-        return cls.objects.get(customer_id=customer_id)
-
-    @staticmethod
-    def generate_account_id(length):
-        import uuid
-        return str(uuid.uuid4())[: length]
-
-    @classmethod
-    def assign_account(cls, customer_id, account_id):
-        return cls.objects.create(customer_id=customer_id,
-                                  account_id=account_id)
-
-    @classmethod
-    def get_balance(cls, customer_id):
-        account = cls.get_account(customer_id)
-        return account.balance
-
-    @classmethod
     def add_balance(cls, customer_id, amount):
         from wallet_v2.constants.general import TransactionType
 
@@ -50,46 +31,6 @@ class Account(models.Model):
         cls.add_transaction(account_id=account.id, amount=amount,
                             transaction_type=TransactionType.CREDIT.value)
         return
-
-    @staticmethod
-    def check_negative_amount(amount):
-        if amount < 0:
-            return True
-        return False
-
-    def credit_balance(self, amount):
-        self.balance += amount
-        self.save()
-
-    @staticmethod
-    def get_now():
-        from ib_common.date_time_utils.get_current_local_date_time import \
-            get_current_local_date_time
-        return get_current_local_date_time()
-
-    @classmethod
-    def add_transaction(cls, account_id, amount, transaction_type):
-        from wallet_v2.models import Transaction
-        Transaction.create_transaction(
-            transaction_details={
-                'account_id': account_id,
-                'amount': amount,
-                'transaction_type': transaction_type,
-                'transaction_date': cls.get_now()
-            })
-        return
-
-    @classmethod
-    def get_account(cls, customer_id):
-        # TODO: DOUBT: G5 Vs G30
-        # possibilities:
-        # 1. rename get_account as validate_and_get_account
-        # 2. return account as None if not exists and then raise exception
-        try:
-            account = cls.query_account_by_customer_id(customer_id)
-            return account
-        except cls.DoesNotExist:
-            raise Exception("Customer does not exist")
 
     @classmethod
     def transfer_balance(
@@ -111,6 +52,60 @@ class Account(models.Model):
         return
 
     @classmethod
+    def query_account_by_customer_id(cls, customer_id):
+        return cls.objects.get(customer_id=customer_id)
+
+    @staticmethod
+    def generate_account_id(length):
+        import uuid
+        return str(uuid.uuid4())[: length]
+
+    @classmethod
+    def assign_account(cls, customer_id, account_id):
+        return cls.objects.create(customer_id=customer_id,
+                                  account_id=account_id)
+
+    @staticmethod
+    def check_negative_amount(amount):
+        if amount < 0:
+            return True
+        return False
+
+    @classmethod
+    def get_account(cls, customer_id):
+        # TODO: DOUBT: G5 Vs G30
+        # possibilities:
+        # 1. rename get_account as validate_and_get_account
+        # 2. return account as None if not exists and then raise exception
+        try:
+            account = cls.query_account_by_customer_id(customer_id)
+            return account
+        except cls.DoesNotExist:
+            raise Exception("Customer does not exist")
+
+    def credit_balance(self, amount):
+        self.balance += amount
+        self.save()
+
+    @classmethod
+    def add_transaction(cls, account_id, amount, transaction_type):
+        from wallet_v2.models import Transaction
+        Transaction.create_transaction(
+            transaction_details={
+                'account_id': account_id,
+                'amount': amount,
+                'transaction_type': transaction_type,
+                'transaction_date': cls.get_now()
+            })
+        return
+
+    @staticmethod
+    def get_now():
+        from ib_common.date_time_utils.get_current_local_date_time import \
+            get_current_local_date_time
+        return get_current_local_date_time()
+
+    @classmethod
     def validate_balance_transfer(
             cls, payee_account, beneficiary_customer_id, amount):
         # TODO: DOUBT: 3 arguments to function / non-grouping of validations
@@ -127,6 +122,13 @@ class Account(models.Model):
             raise Exception("Insufficient balance to transfer money")
         return
 
+    @classmethod
+    def check_payee_and_beneficiary_accounts_are_same(
+            cls, payee_customer_id, beneficiary_customer_id):
+        if payee_customer_id == beneficiary_customer_id:
+            return True
+        return False
+
     @staticmethod
     def check_positive_amount(amount):
         if amount <= 0:
@@ -138,13 +140,11 @@ class Account(models.Model):
             return True
         return False
 
-    @classmethod
-    def check_payee_and_beneficiary_accounts_are_same(
-            cls, payee_customer_id, beneficiary_customer_id):
-        if payee_customer_id == beneficiary_customer_id:
-            return True
-        return False
-
     def debit_balance(self, amount):
         self.balance -= amount
         self.save()
+
+    @classmethod
+    def get_balance(cls, customer_id):
+        account = cls.get_account(customer_id)
+        return account.balance
