@@ -102,7 +102,7 @@ class Account(models.Model):
                 'account_id': account_id,
                 'amount': amount,
                 'transaction_type': transaction_type,
-                'transaction_date': cls.get_now()
+                'transaction_date_time': cls.get_now()
             })
         return
 

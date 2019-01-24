@@ -7,7 +7,7 @@ class Transaction(models.Model):
     account = models.ForeignKey('wallet_v2.Account')
     amount = models.IntegerField()
     transaction_type = models.CharField(max_length=TRANSACTION_TYPE_LENGTH)
-    transaction_date = models.DateTimeField()
+    transaction_date_time = models.DateTimeField()
 
     @classmethod
     def create_transaction(cls, transaction_details):
@@ -17,7 +17,7 @@ class Transaction(models.Model):
             'account_id': 1,
             'amount': 100,
             'transaction_type': 'CREDIT',
-            'transaction_date': date_time object
+            'transaction_date_time': date_time object
         }
         :return:
         """
@@ -25,7 +25,7 @@ class Transaction(models.Model):
             account_id=transaction_details['account_id'],
             amount=transaction_details['amount'],
             transaction_type=transaction_details['transaction_type'],
-            transaction_date=transaction_details['transaction_date'])
+            transaction_date_time=transaction_details['transaction_date_time'])
         return
 
     @classmethod
@@ -65,7 +65,8 @@ class Transaction(models.Model):
             cls, account_id, from_date, to_date):
         return cls.objects.filter(
             account_id=account_id,
-            transaction_date__gte=from_date, transaction_date__lte=to_date)
+            transaction_date_time__gte=from_date,
+            transaction_date_time__lte=to_date)
 
     @classmethod
     def get_from_and_to_datetime_objects(cls, from_date_str, to_date_str):
@@ -89,7 +90,7 @@ class Transaction(models.Model):
             {
                 'amount': transaction.amount,
                 'transaction_type': transaction.transaction_type,
-                'date': convert_datetime_to_local_string(
-                    transaction.transaction_date, DEFAULT_DATE_TIME_FORMAT)
+                'date_time': convert_datetime_to_local_string(
+                    transaction.transaction_date_time, DEFAULT_DATE_TIME_FORMAT)
             } for transaction in transactions
         ]

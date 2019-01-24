@@ -62,13 +62,13 @@ class TestGetStatement(TestCase):
 
         account = Account.get_account(customer_id=customer_id)
         for transaction in transactions_list:
-            transaction_date = convert_string_to_local_date_time(
+            transaction_date_time = convert_string_to_local_date_time(
                 transaction['date'], DEFAULT_DATE_TIME_FORMAT)
             Transaction.objects.create(
                 account_id=account.id,
                 amount=transaction['amount'],
                 transaction_type=transaction['transaction_type'],
-                transaction_date=transaction_date)
+                transaction_date_time=transaction_date_time)
 
     def testcase_get_customer_statement(self):
         from wallet_v2.models import Account, Transaction
@@ -103,7 +103,7 @@ class TestGetStatement(TestCase):
             {
                 'amount': 100,
                 'transaction_type': 'CREDIT',
-                'date': '2019-01-23 10:00:00'
+                'date_time': '2019-01-23 10:00:00'
             }
         ]
         self.assertItemsEqual(customer_transactions, expected_transactions)
