@@ -23,25 +23,6 @@ class Account(models.Model):
                 'account_id': account.account_id}
 
     @classmethod
-    def _customer_account_exists(cls, customer_id):
-        return cls.objects.filter(customer_id=customer_id).exists()
-
-    @classmethod
-    def _assign_account_id_to_customer(cls, account_id, customer_id):
-        return cls.objects.create(
-            account_id=account_id, customer_id=customer_id)
-
-    @staticmethod
-    def _generate_account_id(length):
-        import uuid
-        return str(uuid.uuid4())[0:length]
-
-    @classmethod
-    def get_balance(cls, customer_id):
-        account = cls.objects.get(customer_id=customer_id)
-        return account.balance
-
-    @classmethod
     def add_balance(cls, customer_id, amount):
         if cls._is_negative(amount):
             raise Exception
@@ -52,31 +33,6 @@ class Account(models.Model):
         account = cls._get_account(customer_id)
         account.balance += amount
         account.save()
-
-    @staticmethod
-    def _is_negative(amount):
-        if amount < 0:
-            return True
-        return False
-
-    @staticmethod
-    def _is_zero_or_negative(amount):
-        if amount <= 0:
-            return True
-        return False
-
-    @staticmethod
-    def _is_non_int_type(amount):
-        if type(amount) != int:
-            return True
-        return False
-
-    @classmethod
-    def _get_account(cls, customer_id):
-        try:
-            return cls.objects.get(customer_id=customer_id)
-        except:
-            raise Exception('Customer id doesnot exist')
 
     @classmethod
     def transfer_balance(cls, sender_customer_id, receiver_customer_id,
@@ -98,6 +54,50 @@ class Account(models.Model):
 
         sender_account._deduct_balance(amount)
         receiver_account._add_balance(amount)
+
+    @classmethod
+    def get_balance(cls, customer_id):
+        account = cls.objects.get(customer_id=customer_id)
+        return account.balance
+
+    @classmethod
+    def _customer_account_exists(cls, customer_id):
+        return cls.objects.filter(customer_id=customer_id).exists()
+
+    @staticmethod
+    def _generate_account_id(length):
+        import uuid
+        return str(uuid.uuid4())[0:length]
+
+    @classmethod
+    def _assign_account_id_to_customer(cls, account_id, customer_id):
+        return cls.objects.create(
+            account_id=account_id, customer_id=customer_id)
+
+    @staticmethod
+    def _is_negative(amount):
+        if amount < 0:
+            return True
+        return False
+
+    @staticmethod
+    def _is_non_int_type(amount):
+        if type(amount) != int:
+            return True
+        return False
+
+    @classmethod
+    def _get_account(cls, customer_id):
+        try:
+            return cls.objects.get(customer_id=customer_id)
+        except:
+            raise Exception('Customer id doesnot exist')
+
+    @staticmethod
+    def _is_zero_or_negative(amount):
+        if amount <= 0:
+            return True
+        return False
 
     def _deduct_balance(self, amount):
         self.balance -= amount

@@ -36,6 +36,11 @@ class Transaction(models.Model):
             amount=amount,
             transaction_type=transaction_type)
 
+    @staticmethod
+    def _generate_transaction_id(length):
+        import uuid
+        return str(uuid.uuid4())[0:length]
+
     @classmethod
     def _assign_transaction_id_to_customer(cls, customer_id, transaction_id,
                                            amount,
@@ -43,8 +48,3 @@ class Transaction(models.Model):
         cls.objects.create(customer_id=customer_id,
                            transaction_id=transaction_id,
                            amount=amount, transaction_type=transaction_type)
-
-    @staticmethod
-    def _generate_transaction_id(length):
-        import uuid
-        return str(uuid.uuid4())[0:length]
