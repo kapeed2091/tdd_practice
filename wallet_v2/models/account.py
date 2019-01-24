@@ -75,6 +75,19 @@ class Account(models.Model):
         return
 
     @classmethod
+    def add_debit_transaction(cls, account_id, amount, transaction_date):
+        from wallet_v2.models import Transaction
+        from wallet_v2.constants.general import TransactionType
+        Transaction.create_transaction(
+            transaction_details={
+                'account_id': account_id,
+                'amount': amount,
+                'transaction_type': TransactionType.DEBIT.value,
+                'transaction_date': transaction_date
+            })
+        return
+
+    @classmethod
     def get_account(cls, customer_id):
         try:
             account = cls.objects.get(customer_id=customer_id)
@@ -92,7 +105,10 @@ class Account(models.Model):
 
         beneficiary_account = cls.get_account(beneficiary_customer_id)
         beneficiary_account.credit_balance(amount)
+        cls.add_credit_transaction(
+            beneficiary_account.id, amount, cls.get_now())
         payee_account.debit_balance(amount)
+        cls.add_debit_transaction(payee_account.id, amount, cls.get_now())
         return
 
     @classmethod
