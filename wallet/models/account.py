@@ -18,11 +18,8 @@ class Account(models.Model):
             raise MultipleAccountsException(MULTIPLE_ACCOUNTS)
 
         account_id = cls.generate_account_id(cls.ACCOUNT_ID_LENGTH)
-        account = cls._assign_account_id_to_customer(
+        cls._assign_account_id_to_customer(
             account_id=account_id, customer_id=customer_id)
-
-        return {'customer_id': account.customer_id,
-                'account_id': account.account_id}
 
     @classmethod
     def transfer_amount_between_customers(cls, transaction_customer_details,
