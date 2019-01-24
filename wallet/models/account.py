@@ -19,6 +19,7 @@ class Account(models.Model):
     @classmethod
     def create_account(cls, customer_id):
         cls.raise_exception_for_customer_account_exists(customer_id)
+
         account_id = cls._generate_account_id()
         account = cls._assign_account_id_to_customer(
             account_id=account_id, customer_id=customer_id)
@@ -74,6 +75,7 @@ class Account(models.Model):
         from wallet.constants.general import TransactionType
 
         self.raise_exception_for_invalid_amount(account=self, amount=amount)
+
         transaction_dict = {
             'account_id': self.id,
             'message': "added the money",
@@ -94,6 +96,7 @@ class Account(models.Model):
         from wallet.constants.general import TransactionType
 
         self.raise_exception_for_invalid_amount(account=self, amount=amount)
+
         transaction_dict = {
             'account_id': self.id,
             'message': "deducted the money",
