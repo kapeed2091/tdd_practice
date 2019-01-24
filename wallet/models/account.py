@@ -14,7 +14,7 @@ class Account(models.Model):
     def create_account(cls, customer_id):
         cls._validate_account(customer_id=customer_id)
 
-        account_id = cls._generate_account_id(cls.ACCOUNT_ID_LENGTH)
+        account_id = cls.generate_account_id()
         account = cls._assign_account_id_to_customer(
             account_id=account_id, customer_id=customer_id)
 
@@ -52,10 +52,10 @@ class Account(models.Model):
         if cls._customer_account_exists(customer_id):
             raise Exception('Customer Account already exists')
 
-    @staticmethod
-    def _generate_account_id(length):
+    @classmethod
+    def generate_account_id(cls):
         import uuid
-        return str(uuid.uuid4())[0:length]
+        return str(uuid.uuid4())[0:cls.ACCOUNT_ID_LENGTH]
 
     @classmethod
     def _assign_account_id_to_customer(cls, account_id, customer_id):
