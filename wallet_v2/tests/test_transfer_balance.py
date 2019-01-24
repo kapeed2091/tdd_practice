@@ -58,3 +58,21 @@ class TestTransferBalance(TestCase):
                 Exception, "Payee and Beneficiary should not be same"):
             Account.transfer_balance(self.payee_customer_id,
                                      self.payee_customer_id, 100)
+
+    def testcase_create_transactions_for_credit_and_debit_amount(self):
+        from wallet_v2.models import Account, Transaction
+
+        Account.create_account(self.payee_customer_id)
+        Account.create_account(self.beneficiary_customer_id)
+        Account.add_balance(self.payee_customer_id, 1000)
+
+        Account.transfer_balance(
+            self.payee_customer_id, self.beneficiary_customer_id, 100)
+
+        payee_transactions_count = Transaction.objects.filter(
+            account__customer_id=self.payee_customer_id).count()
+        beneficiary_transactions_count = Transaction.objects.filter(
+            account__customer_id=self.beneficiary_customer_id).count()
+
+        self.assertEqual(payee_transactions_count, 2)
+        self.assertEqual(beneficiary_transactions_count, 1)
