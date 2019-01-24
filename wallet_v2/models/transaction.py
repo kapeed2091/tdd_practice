@@ -32,14 +32,8 @@ class Transaction(models.Model):
     def get_statement(cls, customer_id):
         from wallet_v2.models import Account
         account = Account.get_account(customer_id)
-
-        transactions = cls.objects.filter(account_id=account.id)
-        return [
-            {
-                'amount': transaction.amount,
-                'transaction_type': transaction.transaction_type
-            } for transaction in transactions
-        ]
+        transactions = cls.query_transactions_with_account_id(account.id)
+        return cls.get_transaction_details(transactions)
 
     @classmethod
     def get_statement_within_date_range(
@@ -49,10 +43,29 @@ class Transaction(models.Model):
         from_date, to_date = cls.get_from_and_to_datetime_objects(
             from_date_str, to_date_str)
         account = Account.get_account(customer_id)
-        transactions = cls.objects.filter(
-            account_id=account.id,
-            transaction_date__gte=from_date, transaction_date__lte=to_date)
+        transactions = cls.query_account_transactions_within_date_range(
+            account.id, from_date, to_date)
         return cls.get_transaction_details_with_date(transactions)
+
+    @classmethod
+    def query_transactions_with_account_id(cls, account_id):
+        return cls.objects.filter(account_id=account_id)
+
+    @classmethod
+    def get_transaction_details(cls, transactions):
+        return [
+            {
+                'amount': transaction.amount,
+                'transaction_type': transaction.transaction_type
+            } for transaction in transactions
+        ]
+
+    @classmethod
+    def query_account_transactions_within_date_range(
+            cls, account_id, from_date, to_date):
+        return cls.objects.filter(
+            account_id=account_id,
+            transaction_date__gte=from_date, transaction_date__lte=to_date)
 
     @classmethod
     def get_from_and_to_datetime_objects(cls, from_date_str, to_date_str):

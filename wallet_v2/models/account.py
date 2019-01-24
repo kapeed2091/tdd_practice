@@ -16,8 +16,7 @@ class Account(models.Model):
         except cls.DoesNotExist:
             account_id = cls.generate_account_id()
             account = cls.assign_account(customer_id, account_id)
-        return {'customer_id': account.customer_id,
-                'account_id': account.account_id}
+        return account.get_account_dict()
 
     @classmethod
     def add_balance(cls, customer_id, amount):
@@ -65,6 +64,14 @@ class Account(models.Model):
         return cls.objects.create(customer_id=customer_id,
                                   account_id=account_id)
 
+    def get_account_dict(self):
+        # TODO: DOUBT: how to arrive at function name
+        # when multiple formats aer expected
+        return {
+            'account_id': self.account_id,
+            'customer_id': self.customer_id
+        }
+
     @staticmethod
     def check_negative_amount(amount):
         if amount < 0:
@@ -110,6 +117,7 @@ class Account(models.Model):
             cls, payee_account, beneficiary_customer_id, amount):
         # TODO: DOUBT: 3 arguments to function / non-grouping of validations
         # and Inconsistency in arguments: payee_account, beneficiary_customer_id
+        # TODO: DOUBT: will accessing payee_customer_id violate G34?
         payee_customer_id = payee_account.customer_id
         if cls.check_payee_and_beneficiary_accounts_are_same(
                 payee_customer_id, beneficiary_customer_id):
