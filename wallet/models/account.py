@@ -122,10 +122,10 @@ class Account(models.Model):
         cls._raise_exception_for_invalid_amount(amount=amount)
 
         account = cls._get_account(customer_id)
+        account._debit_amount(amount=amount)
         from wallet.constants.general import TransactionType
         account._add_transaction(amount=amount,
                                  transaction_type=TransactionType.DEBIT.value)
-        account._debit_amount(amount=amount)
 
     def _add_transaction(self, amount, transaction_type):
         from wallet.models import Transaction
