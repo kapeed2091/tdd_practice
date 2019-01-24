@@ -35,8 +35,8 @@ class Transaction(models.Model):
         from wallet.models import Account
 
         Account.raise_exception_for_invalid_customer(customer_id=customer_id)
-        transactions = cls.get_transactions(customer_id=customer_id)
 
+        transactions = cls.get_transactions(customer_id=customer_id)
         statement = cls.form_statement(transactions=transactions)
         return statement
 
