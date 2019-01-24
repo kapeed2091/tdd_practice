@@ -10,17 +10,13 @@ class Transaction(models.Model):
     amount = models.IntegerField()
     transaction_type = models.CharField(max_length=TRANSACTION_TYPE_LENGTH)
 
-    def convert_transaction_to_dict(self):
+    def _convert_transaction_to_dict(self):
         return {
             "customer_id": self.account.customer_id,
             "message": self.message,
             "amount": self.amount,
             "transaction_type": self.transaction_type
         }
-
-    @classmethod
-    def get_transactions(cls, customer_id):
-        return cls.objects.filter(account__customer_id=customer_id)
 
     @classmethod
     def create_transaction(cls, transaction_dict):
@@ -36,14 +32,18 @@ class Transaction(models.Model):
 
         Account.raise_exception_for_invalid_customer(customer_id=customer_id)
 
-        transactions = cls.get_transactions(customer_id=customer_id)
-        statement = cls.form_statement(transactions=transactions)
+        transactions = cls._get_transactions(customer_id=customer_id)
+        statement = cls._form_statement(transactions=transactions)
         return statement
 
     @classmethod
-    def form_statement(cls, transactions):
+    def _get_transactions(cls, customer_id):
+        return cls.objects.filter(account__customer_id=customer_id)
+
+    @classmethod
+    def _form_statement(cls, transactions):
         statement = []
         for transaction in transactions:
-            statement.append(transaction.convert_transaction_to_dict())
+            statement.append(transaction._convert_transaction_to_dict())
 
         return statement
