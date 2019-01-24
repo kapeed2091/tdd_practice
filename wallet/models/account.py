@@ -138,7 +138,7 @@ class Account(models.Model):
             'amount': amount,
             'transaction_type': transaction_type
         }
-        Transaction.add_transaction(transaction_dict=transaction_dict)
+        Transaction.create_transaction(transaction_dict=transaction_dict)
 
     @classmethod
     def _get_transaction_message(cls, transaction_type):
@@ -199,7 +199,3 @@ class Account(models.Model):
 
         if error_code == INVALID_CUSTOMER_ID[1]:
             raise Exception(INVALID_CUSTOMER_ID)
-
-
-
-

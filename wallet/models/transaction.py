@@ -23,7 +23,7 @@ class Transaction(models.Model):
         return cls.objects.filter(account__customer_id=customer_id)
 
     @classmethod
-    def add_transaction(cls, transaction_dict):
+    def create_transaction(cls, transaction_dict):
         cls.objects.create(
             account_id=transaction_dict['account_id'],
             message=transaction_dict['message'],
