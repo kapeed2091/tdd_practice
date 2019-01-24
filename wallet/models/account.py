@@ -16,7 +16,7 @@ class Account(models.Model):
         if cls._is_customer_account_exists(customer_id):
             raise Exception
 
-        account_id = cls.generate_account_id(cls.ACCOUNT_ID_LENGTH)
+        account_id = cls._generate_account_id(cls.ACCOUNT_ID_LENGTH)
         cls._create_account(
             account_id=account_id, customer_id=customer_id)
 
@@ -30,7 +30,7 @@ class Account(models.Model):
             account_id=account_id, customer_id=customer_id)
 
     @staticmethod
-    def generate_account_id(length):
+    def _generate_account_id(length):
         import uuid
         return str(uuid.uuid4())[0:length]
 
@@ -42,7 +42,7 @@ class Account(models.Model):
     def add_balance_if_amount_is_valid(self, amount):
         from wallet.models import Transaction
 
-        self.validate_amount(amount)
+        self._validate_amount(amount)
         self._add_balance(amount)
         Transaction.create_transaction(account=self, amount=amount)
 
@@ -53,8 +53,8 @@ class Account(models.Model):
     def _remove_balance_if_amount_is_valid(self, amount):
         from wallet.models import Transaction
 
-        self.validate_amount(amount)
-        self.validate_insufficient_balance(amount)
+        self._validate_amount(amount)
+        self._validate_insufficient_balance(amount)
         self._remove_balance(amount)
         Transaction.create_transaction(account=self, amount=-amount)
 
@@ -63,16 +63,16 @@ class Account(models.Model):
         self.save()
 
     @classmethod
-    def validate_amount(cls, amount):
-        if cls.is_invalid_amount(amount):
+    def _validate_amount(cls, amount):
+        if cls._is_invalid_amount(amount):
             raise Exception('Invalid amount')
 
-    def validate_insufficient_balance(self, amount):
+    def _validate_insufficient_balance(self, amount):
         if amount > self.balance:
             raise Exception('Insufficient balance')
 
     @classmethod
-    def is_invalid_amount(cls, amount):
+    def _is_invalid_amount(cls, amount):
         if amount <= cls.MINIMUM_TRANSACTION_AMOUNT_SHOULD_BE_GREATER_THAN:
             return True
         return False
