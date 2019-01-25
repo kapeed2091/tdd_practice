@@ -14,5 +14,4 @@ class TestGetBalance(TestCase):
     def testcase_get_balance_without_customer_account(self):
         from wallet.models import Account
         self.assertRaises(Account.DoesNotExist,
-                          lambda : Account.get_balance(self.customer_id))
-
+                          lambda: Account.get_balance(self.customer_id))
