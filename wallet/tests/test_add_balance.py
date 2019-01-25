@@ -46,3 +46,9 @@ class TestAddBalance(TestCase):
         Account.add_amount_with_customer_id(self.customer_id, amount=10)
         balance = Account.get_balance(self.customer_id)
         self.assertEqual(balance, prev_balance + 10)
+
+    def testcase_add_balance_with_invalid_customer_id(self):
+        from wallet.models import Account
+
+        with self.assertRaisesMessage(Exception, 'Invalid Customer Id'):
+            Account.add_amount_with_customer_id(self.customer_id, amount=10)
