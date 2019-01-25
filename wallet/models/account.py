@@ -34,12 +34,13 @@ class Account(models.Model):
 
         cls.validate_amount(sender_balance=sender_balance, amount=amount)
 
-        cls._deduct_account_balance(customer_id=sender_customer_id,
-                                    amount=amount)
+        cls._deduct_account_balance(
+            customer_id=sender_customer_id, amount=amount
+        )
 
         receiver_customer_id = transaction_customer_details[
             "receiver_customer_id"]
-        cls.add_balance_for_customer(
+        cls._add_account_balance(
             customer_id=receiver_customer_id, amount=amount
         )
 
