@@ -30,9 +30,6 @@ class Account(models.Model):
         )
 
         sender_customer_id = transaction_customer_details["sender_customer_id"]
-        receiver_customer_id = transaction_customer_details[
-            "receiver_customer_id"]
-
         sender_balance = cls.get_balance(customer_id=sender_customer_id)
 
         cls.validate_amount(sender_balance=sender_balance, amount=amount)
@@ -40,6 +37,8 @@ class Account(models.Model):
         cls._deduct_account_balance(customer_id=sender_customer_id,
                                     amount=amount)
 
+        receiver_customer_id = transaction_customer_details[
+            "receiver_customer_id"]
         cls.add_balance_for_customer(
             customer_id=receiver_customer_id, amount=amount
         )
