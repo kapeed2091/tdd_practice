@@ -24,3 +24,7 @@ class InvalidDateRangeException(Exception):
 
 class MultipleAccountsException(Exception):
     pass
+
+
+class InvalidReceiverCustomerIdException(Exception):
+    pass
