@@ -48,44 +48,6 @@ class TestGetStatement(TestCase):
                 customer_id=each["customer_id"]
             )
 
-    def _get_customer_transactions(self, date_range, customer_id):
-        transactions = []
-        for each in self.transactions:
-            if date_range["from_date"] <= each["date_time"] <= date_range[
-                    "to_date"] and each["customer_id"] == customer_id:
-                transactions.append(each)
-
-        return transactions
-
-    @staticmethod
-    def _get_parsed_date_range(date_range):
-        from ib_common.date_time_utils.convert_string_to_local_date_time \
-            import convert_string_to_local_date_time
-
-        date_time_format = '%Y-%m-%d %H:%M:%S'
-
-        date_range = {
-            "from_date": convert_string_to_local_date_time(
-                date_range["from_date"], date_time_format
-            ),
-            "to_date": convert_string_to_local_date_time(
-                date_range["to_date"], date_time_format
-            )
-        }
-
-        return date_range
-
-    @staticmethod
-    def _parse_transactions(transactions):
-        from ib_common.date_time_utils.convert_datetime_to_local_string \
-            import convert_datetime_to_local_string
-        date_time_format = '%Y-%m-%d %H:%M:%S'
-        for each in transactions:
-            each["date_time"] = convert_datetime_to_local_string(
-                each["date_time"], date_time_format)
-
-        return transactions
-
     def test_get_balance_successful(self):
         self.setup_statements_for_both_customers()
 
@@ -152,3 +114,41 @@ class TestGetStatement(TestCase):
                 customer_id=self.customer_id,
                 date_range=parsed_date_range
             )
+
+    def _get_customer_transactions(self, date_range, customer_id):
+        transactions = []
+        for each in self.transactions:
+            if date_range["from_date"] <= each["date_time"] <= date_range[
+                    "to_date"] and each["customer_id"] == customer_id:
+                transactions.append(each)
+
+        return transactions
+
+    @staticmethod
+    def _get_parsed_date_range(date_range):
+        from ib_common.date_time_utils.convert_string_to_local_date_time \
+            import convert_string_to_local_date_time
+
+        date_time_format = '%Y-%m-%d %H:%M:%S'
+
+        date_range = {
+            "from_date": convert_string_to_local_date_time(
+                date_range["from_date"], date_time_format
+            ),
+            "to_date": convert_string_to_local_date_time(
+                date_range["to_date"], date_time_format
+            )
+        }
+
+        return date_range
+
+    @staticmethod
+    def _parse_transactions(transactions):
+        from ib_common.date_time_utils.convert_datetime_to_local_string \
+            import convert_datetime_to_local_string
+        date_time_format = '%Y-%m-%d %H:%M:%S'
+        for each in transactions:
+            each["date_time"] = convert_datetime_to_local_string(
+                each["date_time"], date_time_format)
+
+        return transactions
