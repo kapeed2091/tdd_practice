@@ -9,11 +9,11 @@ class TestGetStatement(TestCase):
     def setUp(self):
         from wallet.models import Account, Transaction
 
-        Account.create_account_if_does_not_exist(self.customer_id_1)
+        Account.create_account(self.customer_id_1)
         account = Account.get_account(self.customer_id_1)
         Transaction.create_transaction(account=account, amount=10)
         Transaction.create_transaction(account=account, amount=-10)
-        Account.create_account_if_does_not_exist(self.customer_id_2)
+        Account.create_account(self.customer_id_2)
 
     def testcase_get_transactions(self):
         from wallet.models import Transaction
