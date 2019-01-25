@@ -18,14 +18,14 @@ class Account(models.Model):
         account = cls.assign_account_id_to_customer(
             account_id=account_id, customer_id=customer_id)
 
-        return account._convert_to_dict()
+        return account.convert_to_dict()
 
     @classmethod
     def add_balance(cls, customer_id, amount):
         cls.validate_amount(amount=amount)
 
         account = cls.get_account(customer_id)
-        account._add_balance(amount=amount)
+        account.credit_balance(amount=amount)
 
     @classmethod
     def transfer_balance(cls, sender_customer_id, receiver_customer_id,
@@ -33,14 +33,14 @@ class Account(models.Model):
         cls.validate_amount(amount=amount)
 
         sender_account = cls.get_account(sender_customer_id)
-        sender_account._validate_sender_balance(amount=amount)
+        sender_account.validate_sender_balance(amount=amount)
 
         receiver_account = cls.get_account(receiver_customer_id)
-        sender_account._are_same_accounts(
+        sender_account.are_same_accounts(
             receiver_account=receiver_account)
 
-        sender_account._deduct_balance(amount)
-        receiver_account._add_balance(amount)
+        sender_account.debit_balance(amount)
+        receiver_account.credit_balance(amount)
 
     @classmethod
     def get_balance(cls, customer_id):
@@ -62,7 +62,7 @@ class Account(models.Model):
         return cls.objects.create(
             account_id=account_id, customer_id=customer_id)
 
-    def _convert_to_dict(self):
+    def convert_to_dict(self):
         return {'customer_id': self.customer_id,
                 'account_id': self.account_id}
 
@@ -85,20 +85,20 @@ class Account(models.Model):
         except:
             raise Exception('Customer id doesnot exist')
 
-    def _validate_sender_balance(self, amount):
+    def validate_sender_balance(self, amount):
         if self.balance < amount:
             raise Exception(
                 'Sender Balance should be more than transfer amount')
 
-    def _are_same_accounts(self, receiver_account):
+    def are_same_accounts(self, receiver_account):
         if self.account_id == receiver_account.account_id:
             raise Exception('Cannot transfer balance between same account')
 
-    def _add_balance(self, amount):
+    def credit_balance(self, amount):
         self.balance += amount
         self.save()
 
-    def _deduct_balance(self, amount):
+    def debit_balance(self, amount):
         self.balance -= amount
         self.save()
 
