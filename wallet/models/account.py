@@ -26,7 +26,7 @@ class Account(models.Model):
 
     @classmethod
     def add_amount_with_customer_id(cls, customer_id, amount):
-        account = cls.get_account(customer_id)
+        account = cls._get_customer_account(customer_id)
         account.add_amount(amount)
 
     @classmethod
@@ -122,3 +122,11 @@ class Account(models.Model):
     def _credit_amount(cls, account, amount):
         account.balance += amount
         account.save()
+
+    @classmethod
+    def _get_customer_account(cls, customer_id):
+        try:
+            return cls.get_account(customer_id)
+        except cls.DoesNotExist:
+            raise Exception('Invalid Customer Id')
+
