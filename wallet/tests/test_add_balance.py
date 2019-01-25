@@ -3,6 +3,7 @@ from django.test import TestCase
 
 class TestAddBalance(TestCase):
     customer_id = 'customer1'
+    invalid_customer_id = 'customer'
     account_id = None
 
     def setUp(self):
@@ -51,4 +52,4 @@ class TestAddBalance(TestCase):
         from wallet.models import Account
 
         with self.assertRaisesMessage(Exception, 'Invalid Customer Id'):
-            Account.add_amount_with_customer_id(self.customer_id, amount=10)
+            Account.add_amount_with_customer_id(self.invalid_customer_id, amount=10)
