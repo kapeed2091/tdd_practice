@@ -24,6 +24,11 @@ class Account(models.Model):
     @classmethod
     def transfer_amount_between_customers(cls, transaction_customer_details,
                                           amount):
+
+        cls._validate_transaction_customer_details(
+            transaction_customer_details=transaction_customer_details
+        )
+
         sender_customer_id = transaction_customer_details["sender_customer_id"]
         receiver_customer_id = transaction_customer_details[
             "receiver_customer_id"]
@@ -38,6 +43,32 @@ class Account(models.Model):
         cls._add_balance_to_receiver(
             customer_id=receiver_customer_id, amount=amount
         )
+
+    @classmethod
+    def _validate_transaction_customer_details(
+            cls, transaction_customer_details):
+        sender_customer_id = transaction_customer_details["sender_customer_id"]
+        receiver_customer_id = transaction_customer_details[
+            "receiver_customer_id"]
+
+        check_customer_ids_list = [sender_customer_id, receiver_customer_id]
+        customer_ids_in_db = cls.objects.filter(
+            customer_id__in=check_customer_ids_list).\
+            values_list('customer_id', flat=True)
+
+        if sender_customer_id not in customer_ids_in_db:
+            from wallet.exceptions.exceptions import \
+                InvalidSenderCustomerIdException
+            from wallet.constants.exception_constants import \
+                CUSTOMER_DOES_NOT_EXIST
+            raise InvalidSenderCustomerIdException(CUSTOMER_DOES_NOT_EXIST)
+
+        if receiver_customer_id not in customer_ids_in_db:
+            from wallet.exceptions.exceptions import \
+                InvalidReceiverCustomerIdException
+            from wallet.constants.exception_constants import \
+                INVALID_RECEIVER_ID
+            raise InvalidReceiverCustomerIdException(INVALID_RECEIVER_ID)
 
     @classmethod
     def add_balance_for_customer(cls, customer_id, amount):
