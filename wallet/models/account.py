@@ -149,7 +149,6 @@ class Account(models.Model):
                 NEGATIVE_AMOUNT_TRANSFER
             raise NegativeAmountTransferException(NEGATIVE_AMOUNT_TRANSFER)
 
-
     @classmethod
     def _validate_negative_amount(cls, amount):
         if cls.is_negative_amount(amount):
