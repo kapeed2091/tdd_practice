@@ -33,7 +33,7 @@ TDD TODO List (Functionality Layer):
         - from date cannot be greater than to_date
     - Updating successful test case
     - add transaction
-    - [test case successful transfer in transfer amount]
+    - test case successful transfer in transfer amount
     - test case invalid sender customer id in transfer amount
     
     Done:

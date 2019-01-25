@@ -128,6 +128,13 @@ class Account(models.Model):
             balance=sender_balance, amount_comparator=amount
         )
 
+        if cls.is_negative_amount(amount):
+            from wallet.exceptions.exceptions import \
+                NegativeAmountTransferException
+            from wallet.constants.exception_constants import \
+                NEGATIVE_AMOUNT_TRANSFER
+            raise NegativeAmountTransferException(NEGATIVE_AMOUNT_TRANSFER)
+
     @staticmethod
     def _validate_amount_type(amount):
         if not isinstance(amount, int):
