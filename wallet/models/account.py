@@ -33,7 +33,7 @@ class Account(models.Model):
         receiver_customer_id = transaction_customer_details[
             "receiver_customer_id"]
 
-        sender_balance = cls.get_sender_balance(customer_id=sender_customer_id)
+        sender_balance = cls.get_balance(customer_id=sender_customer_id)
 
         cls.validate_amount(sender_balance=sender_balance, amount=amount)
 
@@ -114,19 +114,6 @@ class Account(models.Model):
     @classmethod
     def get_account(cls, customer_id):
         return cls.objects.get(customer_id=customer_id)
-
-    @classmethod
-    def get_sender_balance(cls, customer_id):
-        try:
-            sender_balance = cls.get_balance(
-                customer_id=customer_id)
-            return sender_balance
-        except cls.DoesNotExist:
-            from wallet.exceptions.exceptions import \
-                InvalidSenderCustomerIdException
-            from wallet.constants.exception_constants import \
-                CUSTOMER_DOES_NOT_EXIST
-            raise InvalidSenderCustomerIdException(CUSTOMER_DOES_NOT_EXIST)
 
     @classmethod
     def validate_amount(cls, sender_balance, amount):
