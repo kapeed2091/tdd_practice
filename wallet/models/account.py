@@ -26,7 +26,8 @@ class Account(models.Model):
 
     @classmethod
     def add_amount_with_customer_id(cls, customer_id, amount):
-        pass
+        account = cls.get_account(customer_id)
+        account.add_amount(amount)
 
     @classmethod
     def transfer_amount(cls, sender_id, receiver_id, amount):
