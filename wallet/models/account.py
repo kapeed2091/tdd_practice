@@ -46,20 +46,6 @@ class Account(models.Model):
         cls._add_account_balance(customer_id=customer_id, amount=amount)
 
     @classmethod
-    def _deduct_balance_from_sender(cls, customer_id, amount):
-        cls._validate_negative_amount(amount=amount)
-
-        from wallet.exceptions.exceptions import NegativeAmountException, \
-            NegativeAmountTransferException
-        try:
-            cls._deduct_account_balance(customer_id=customer_id,
-                                        amount=amount)
-        except NegativeAmountException:
-            from wallet.constants.exception_constants import \
-                NEGATIVE_AMOUNT_TRANSFER
-            raise NegativeAmountTransferException(NEGATIVE_AMOUNT_TRANSFER)
-
-    @classmethod
     def _add_balance_to_receiver(cls, customer_id, amount):
         try:
             cls.add_balance_for_customer(
