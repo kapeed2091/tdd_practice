@@ -42,15 +42,7 @@ class Account(models.Model):
 
     @classmethod
     def add_balance_for_customer(cls, customer_id, amount):
-        from wallet.exceptions.exceptions import NegativeAmountException, \
-            NegativeAmountTransferException
-
-        try:
-            cls._validate_negative_amount(amount=amount)
-        except NegativeAmountException:
-            from wallet.constants.exception_constants import \
-                NEGATIVE_AMOUNT_TRANSFER
-            raise NegativeAmountTransferException(NEGATIVE_AMOUNT_TRANSFER)
+        cls._validate_negative_amount_transfer(amount=amount)
 
         cls._add_account_balance(customer_id=customer_id, amount=amount)
 
@@ -128,15 +120,7 @@ class Account(models.Model):
             balance=sender_balance, amount_comparator=amount
         )
 
-        from wallet.exceptions.exceptions import NegativeAmountException, \
-            NegativeAmountTransferException
-
-        try:
-            cls._validate_negative_amount(amount=amount)
-        except NegativeAmountException:
-            from wallet.constants.exception_constants import \
-                NEGATIVE_AMOUNT_TRANSFER
-            raise NegativeAmountTransferException(NEGATIVE_AMOUNT_TRANSFER)
+        cls._validate_negative_amount_transfer(amount=amount)
 
     @staticmethod
     def _validate_amount_type(amount):
@@ -153,6 +137,18 @@ class Account(models.Model):
             from wallet.constants.exception_constants import \
                 INSUFFICIENT_FUND
             raise InsufficientFundException(INSUFFICIENT_FUND)
+
+    @classmethod
+    def _validate_negative_amount_transfer(cls, amount):
+        from wallet.exceptions.exceptions import NegativeAmountException, \
+            NegativeAmountTransferException
+        try:
+            cls._validate_negative_amount(amount=amount)
+        except NegativeAmountException:
+            from wallet.constants.exception_constants import \
+                NEGATIVE_AMOUNT_TRANSFER
+            raise NegativeAmountTransferException(NEGATIVE_AMOUNT_TRANSFER)
+
 
     @classmethod
     def _validate_negative_amount(cls, amount):
