@@ -44,32 +44,6 @@ class Account(models.Model):
         )
 
     @classmethod
-    def _validate_transaction_customer_details(
-            cls, transaction_customer_details):
-        sender_customer_id = transaction_customer_details["sender_customer_id"]
-        receiver_customer_id = transaction_customer_details[
-            "receiver_customer_id"]
-
-        check_customer_ids_list = [sender_customer_id, receiver_customer_id]
-        customer_ids_in_db = cls.objects.filter(
-            customer_id__in=check_customer_ids_list).\
-            values_list('customer_id', flat=True)
-
-        if sender_customer_id not in customer_ids_in_db:
-            from wallet.exceptions.exceptions import \
-                InvalidSenderCustomerIdException
-            from wallet.constants.exception_constants import \
-                CUSTOMER_DOES_NOT_EXIST
-            raise InvalidSenderCustomerIdException(CUSTOMER_DOES_NOT_EXIST)
-
-        if receiver_customer_id not in customer_ids_in_db:
-            from wallet.exceptions.exceptions import \
-                InvalidReceiverCustomerIdException
-            from wallet.constants.exception_constants import \
-                INVALID_RECEIVER_ID
-            raise InvalidReceiverCustomerIdException(INVALID_RECEIVER_ID)
-
-    @classmethod
     def add_balance_for_customer(cls, customer_id, amount):
         cls._validate_negative_amount_transfer(amount=amount)
 
@@ -157,3 +131,29 @@ class Account(models.Model):
             from wallet.exceptions.exceptions import NegativeAmountException
             from wallet.constants.exception_constants import NEGATIVE_AMOUNT
             raise NegativeAmountException(NEGATIVE_AMOUNT)
+
+    @classmethod
+    def _validate_transaction_customer_details(
+            cls, transaction_customer_details):
+        sender_customer_id = transaction_customer_details["sender_customer_id"]
+        receiver_customer_id = transaction_customer_details[
+            "receiver_customer_id"]
+
+        check_customer_ids_list = [sender_customer_id, receiver_customer_id]
+        customer_ids_in_db = cls.objects.filter(
+            customer_id__in=check_customer_ids_list). \
+            values_list('customer_id', flat=True)
+
+        if sender_customer_id not in customer_ids_in_db:
+            from wallet.exceptions.exceptions import \
+                InvalidSenderCustomerIdException
+            from wallet.constants.exception_constants import \
+                CUSTOMER_DOES_NOT_EXIST
+            raise InvalidSenderCustomerIdException(CUSTOMER_DOES_NOT_EXIST)
+
+        if receiver_customer_id not in customer_ids_in_db:
+            from wallet.exceptions.exceptions import \
+                InvalidReceiverCustomerIdException
+            from wallet.constants.exception_constants import \
+                INVALID_RECEIVER_ID
+            raise InvalidReceiverCustomerIdException(INVALID_RECEIVER_ID)
