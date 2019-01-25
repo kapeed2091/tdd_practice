@@ -53,10 +53,7 @@ class Account(models.Model):
 
     @classmethod
     def _deduct_balance_from_sender(cls, customer_id, amount):
-        if cls.is_negative_amount(amount):
-            from wallet.exceptions.exceptions import NegativeAmountException
-            from wallet.constants.exception_constants import NEGATIVE_AMOUNT
-            raise NegativeAmountException(NEGATIVE_AMOUNT)
+        cls._validate_negative_amount(amount=amount)
 
         from wallet.exceptions.exceptions import NegativeAmountException, \
             NegativeAmountTransferException
@@ -150,3 +147,10 @@ class Account(models.Model):
             from wallet.constants.exception_constants import \
                 INSUFFICIENT_FUND
             raise InsufficientFundException(INSUFFICIENT_FUND)
+
+    @classmethod
+    def _validate_negative_amount(cls, amount):
+        if cls.is_negative_amount(amount):
+            from wallet.exceptions.exceptions import NegativeAmountException
+            from wallet.constants.exception_constants import NEGATIVE_AMOUNT
+            raise NegativeAmountException(NEGATIVE_AMOUNT)
