@@ -25,6 +25,10 @@ class Account(models.Model):
         self._process_credit_amount(account=self, amount=amount)
 
     @classmethod
+    def add_amount_with_customer_id(cls, customer_id, amount):
+        pass
+
+    @classmethod
     def transfer_amount(cls, sender_id, receiver_id, amount):
         sender_account = cls._get_sender_account(sender_id)
         receiver_account = cls._get_receiver_account(receiver_id)
