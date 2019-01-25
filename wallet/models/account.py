@@ -40,7 +40,7 @@ class Account(models.Model):
         cls._deduct_account_balance(customer_id=sender_customer_id,
                                     amount=amount)
 
-        cls._add_balance_to_receiver(
+        cls.add_balance_for_customer(
             customer_id=receiver_customer_id, amount=amount
         )
 
@@ -75,19 +75,6 @@ class Account(models.Model):
         cls._validate_negative_amount_transfer(amount=amount)
 
         cls._add_account_balance(customer_id=customer_id, amount=amount)
-
-    @classmethod
-    def _add_balance_to_receiver(cls, customer_id, amount):
-        try:
-            cls.add_balance_for_customer(
-                customer_id=customer_id, amount=amount
-            )
-        except cls.DoesNotExist:
-            from wallet.exceptions.exceptions import \
-                InvalidReceiverCustomerIdException
-            from wallet.constants.exception_constants import \
-                INVALID_RECEIVER_ID
-            raise InvalidReceiverCustomerIdException(INVALID_RECEIVER_ID)
 
     @classmethod
     def get_balance(cls, customer_id):
