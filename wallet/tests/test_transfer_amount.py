@@ -94,7 +94,12 @@ class TestTransferAmount(TestCase):
     def test_case_no_transferred_account(self):
         self.setup_customer_1()
 
-        with self.assertRaises(Account.DoesNotExist):
+        from wallet.exceptions.exceptions import \
+            InvalidReceiverCustomerIdException
+        from wallet.constants.exception_constants import \
+            INVALID_RECEIVER_ID
+        with self.assertRaisesMessage(InvalidReceiverCustomerIdException,
+                                      INVALID_RECEIVER_ID):
             Account.transfer_amount_between_customers(
                 transaction_customer_details=self.transaction_customer_details,
                 amount=100
