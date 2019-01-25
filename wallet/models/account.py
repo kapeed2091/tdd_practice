@@ -32,7 +32,7 @@ class Account(models.Model):
 
         cls.validate_amount(sender_balance=sender_balance, amount=amount)
 
-        cls.deduct_balance_for_customer(
+        cls.deduct_balance_for_sender(
             customer_id=sender_customer_id, amount=amount
         )
 
@@ -52,7 +52,7 @@ class Account(models.Model):
         cls._add_account_balance(customer_id=customer_id, amount=amount)
 
     @classmethod
-    def deduct_balance_for_customer(cls, customer_id, amount):
+    def deduct_balance_for_sender(cls, customer_id, amount):
         if cls.is_negative_amount(amount):
             from wallet.exceptions.exceptions import NegativeAmountException
             from wallet.constants.exception_constants import NEGATIVE_AMOUNT
