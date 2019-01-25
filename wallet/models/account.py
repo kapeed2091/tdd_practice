@@ -96,7 +96,7 @@ class Account(models.Model):
     @classmethod
     def _deduct_account_balance(cls, customer_id, amount):
         account = cls.get_account(customer_id)
-        account.balance += amount
+        account.balance -= amount
         account.save()
 
     @staticmethod
