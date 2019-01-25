@@ -32,7 +32,7 @@ class Account(models.Model):
         sender_customer_id = transaction_customer_details["sender_customer_id"]
         sender_balance = cls.get_balance(customer_id=sender_customer_id)
 
-        cls.validate_amount(sender_balance=sender_balance, amount=amount)
+        cls._validate_amount(sender_balance=sender_balance, amount=amount)
 
         cls._deduct_account_balance(
             customer_id=sender_customer_id, amount=amount
@@ -71,13 +71,13 @@ class Account(models.Model):
 
     @classmethod
     def _add_account_balance(cls, customer_id, amount):
-        account = cls.get_account(customer_id)
+        account = cls._get_account(customer_id)
         account.balance += amount
         account.save()
 
     @classmethod
     def _deduct_account_balance(cls, customer_id, amount):
-        account = cls.get_account(customer_id)
+        account = cls._get_account(customer_id)
         account.balance -= amount
         account.save()
 
@@ -86,11 +86,11 @@ class Account(models.Model):
         return amount < 0
 
     @classmethod
-    def get_account(cls, customer_id):
+    def _get_account(cls, customer_id):
         return cls.objects.get(customer_id=customer_id)
 
     @classmethod
-    def validate_amount(cls, sender_balance, amount):
+    def _validate_amount(cls, sender_balance, amount):
         cls._validate_amount_type(amount=amount)
 
         cls._validate_insufficient_fund(
