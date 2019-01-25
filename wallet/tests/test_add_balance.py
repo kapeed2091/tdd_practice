@@ -12,11 +12,15 @@ class TestAddBalance(TestCase):
     def testcase_add_balance(self):
         from wallet.models import Account
 
-        prev_balance = Account.get_balance(customer_id=self.customer_id)
-        Account.add_balance_for_customer(self.customer_id, 10)
-        balance = Account.get_balance(self.customer_id)
+        pre_account_obj = Account.objects.get(customer_id=self.customer_id)
+        prev_balance = pre_account_obj.balance
 
-        self.assertEquals(balance, prev_balance + 10)
+        Account.add_balance_for_customer(self.customer_id, 10)
+
+        post_account_obj = Account.objects.get(customer_id=self.customer_id)
+        post_balance = post_account_obj.balance
+
+        self.assertEquals(post_balance - prev_balance, 10)
 
     def testcase_add_negative_balance(self):
         from wallet.models import Account
