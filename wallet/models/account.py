@@ -72,7 +72,7 @@ class Account(models.Model):
 
     @classmethod
     def validate_amount(cls, amount):
-        if cls.is_zero_or_negative(amount):
+        if cls.is_non_positive(amount):
             raise Exception('Transfer balance cannot be zero or negative')
 
         if cls.is_non_int_type(amount):
@@ -103,7 +103,7 @@ class Account(models.Model):
         self.save()
 
     @staticmethod
-    def is_zero_or_negative(amount):
+    def is_non_positive(amount):
         if amount <= 0:
             return True
         return False
