@@ -1,4 +1,5 @@
 from django.db import models
+from wallet import entities
 
 
 class Transaction(models.Model):
@@ -11,6 +12,10 @@ class Transaction(models.Model):
             account=account,
             amount=amount
         )
+
+    def to_entity(self):
+        return entities.Transaction(
+            id=self.id, account_id=self.account_id, amount=self.amount)
 
     @classmethod
     def get_transactions(cls, customer_id):

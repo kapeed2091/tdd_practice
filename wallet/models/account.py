@@ -1,4 +1,5 @@
 from django.db import models
+from wallet import entities
 
 
 class Account(models.Model):
@@ -10,6 +11,11 @@ class Account(models.Model):
     customer_id = models.CharField(max_length=CUSTOMER_ID_LENGTH, unique=True)
     account_id = models.CharField(max_length=ACCOUNT_ID_LENGTH, unique=True)
     balance = models.IntegerField(default=DEFAULT_BALANCE)
+
+    def to_entity(self):
+        return entities.Account(
+            id=self.id, account_id=self.account_id,
+            customer_id=self.customer_id, balance=self.balance)
 
     @classmethod
     def create_account_if_does_not_exist(cls, customer_id):
