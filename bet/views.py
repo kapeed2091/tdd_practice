@@ -1,7 +1,3 @@
-from bet.usecases import BetUseCase
-from tdd_practice.common.django_storage import DjangoStorage
-
-storage = DjangoStorage()
 
 
 def validate_amount(amount):
@@ -27,11 +23,14 @@ def create_bet(**kwargs):
     validate_participant_ids(participant_ids=request_data['participant_ids'])
     validate_amount(amount=request_data['amount'])
 
-    from bet.presenters.create_bet_usecase_presenter import \
-        CreateBetUseCasePresenter
-    presenter = CreateBetUseCasePresenter()
+    from bet.storages.rdb_storage import RDBStorage
+    storage = RDBStorage()
 
+    from bet.presenters.json_presenter import JSONPresenter
+    presenter = JSONPresenter()
+
+    from bet.usecases import BetUseCase
     bet_usecase = BetUseCase(storage=storage, presenter=presenter)
-    bet_usecase.create_bet(request_data=request_data)
+    response = bet_usecase.create_bet(request_data=request_data)
 
-    return
+    return response

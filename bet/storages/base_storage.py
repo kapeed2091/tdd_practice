@@ -14,6 +14,22 @@ class Storage(abc.ABC):
     """Base class for storage adapters."""
     DoesNotExist = DoesNotExist
 
+    @classmethod
     @abc.abstractmethod
-    def create_bet(self, *args, **kwargs):
+    def create_bet(cls, *args, **kwargs):
+        pass
+
+    @classmethod
+    @abc.abstractmethod
+    def create_bet_participants(cls, *args, **kwargs):
+        pass
+
+    @classmethod
+    @abc.abstractmethod
+    def get_bet(cls, *args, **kwargs):
+        pass
+
+    @classmethod
+    @abc.abstractmethod
+    def get_bet_participants(cls, *args, **kwargs):
         pass
